@@ -1,0 +1,17 @@
+% \section{2015 - Liam Nguyen}
+    \section{Drug Encyclopedia – Linked Data Application for Physicians}
+    % \url{http://iswc2015.semanticweb.org/sites/iswc2015.semanticweb.org/files/93670033.pdf}
+    % \bigskip 
+
+    Information about drugs is scattered among various sources and changes rapidly. The need to aggregate all information into a single source is critical for physicians to update their knowledge quickly and accurately.
+    Drug Encyclopedia is a web application for physicians to search and explore the clinically relevant information about the medical product and drugs in general. The underlying technology is RDF and Linked Data (LD) Principles. 
+    Semantic technologies make the process of integrating various publicly available data sources much more flexible and easier. 
+
+    \section{Building and Using a Knowledge Graph to
+    Combat Human Trafficking}
+
+    % \url{https://usc-isi-i2.github.io/papers/szekely15-iswc.pdf}
+    % \bigskip 
+    This paper utilizes the huge amount of data on the web to combat human traffickers and help victims by building a knowledge graph from  heterogeneous sources.
+    There are 4 main steps to build a knowledge graph: data acquisition, mapping data to ontology, resolving entities, generating graph.In data acquisition, web crawler by Apache Nutch perform at scale and “landmark extractor” to identify elements using landmarks defined with regular expressions. Then, the extracted data is mapped to JSON-LD, a Linked Data representation by Karma project by USC. The next step is to form potential links between data items. This is done by Minhash/LSH algorithms in O(n * log(n)) time. When the association between entities are established, the graph is generated and contains a query interface.
+    The system is initially deployed in six law agencies with the potential to roll out to 200 agencies. It has successfully identify several victims of human trafficking. With constant stream of 162,000 ads per day, this technology rebuilds the knowledge graph under 24 hours. Future application includes research trends, autonomous system, etc....
