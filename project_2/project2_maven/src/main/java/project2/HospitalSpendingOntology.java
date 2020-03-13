@@ -14,16 +14,17 @@ import project2.utils.US_States;
 public class HospitalSpendingOntology {
     private static String source = "https://data.medicare.gov/d/nrth-mfg3";
     private static String NS = source + "#";
-    public static enum Classes {Hospital, Place, State, Nation, placeDealsWithMedicare}
-    public static enum Props {hasID, hasFacilityName, hasAverageSpending, hasLocation}
-    private static final String hasLocationURI = "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation";
+    public enum Classes {Hospital, Place, State, Nation, placeDealsWithMedicare}
+    public enum Props {hasID, hasFacilityName, hasAverageSpending}
+    private static final String duURI = "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#";
 
     private OntModel model;
 
     private HospitalSpendingOntology() {
         model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules
         model.setNsPrefix("ds", NS); // set namespace prefix
-        model.setNsPrefix("du", hasLocationURI);
+        model.setNsPrefix("du", duURI);
+
         populateModel();
     }
 
@@ -58,7 +59,7 @@ public class HospitalSpendingOntology {
         hasFacilityName.addComment("has a average spending per Beneficiary (MSPB) episodes in USD", "EN");
         hasAverageSpending.addDomain(placeDealsWithMedicare);
         hasAverageSpending.addRange(XSD.decimal);
-        ObjectProperty hasLocation = model.createObjectProperty(hasLocationURI);
+        ObjectProperty hasLocation = model.createObjectProperty(duURI + "hasLocation");
         hasLocation.addDomain(hospital);
         hasLocation.addRange(place);
     }
@@ -78,7 +79,7 @@ public class HospitalSpendingOntology {
         }
         Property hasID = model.getProperty(NS + Props.hasID);
         Property hasFacilityName = model.getProperty(NS + Props.hasFacilityName);
-        Property hasLocation = model.getProperty(hasLocationURI);
+        Property hasLocation = model.getProperty(duURI + "hasLocation");
         Property hasAverageSpending = model.getProperty(NS + Props.hasAverageSpending);
 
         // Add to model
