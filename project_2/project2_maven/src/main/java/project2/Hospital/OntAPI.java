@@ -1,115 +1,37 @@
 package project2.Hospital;
 
+import project2.Hospital.utils.Hospital;
+import project2.Hospital.utils.State;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class gathers data to build a model
  */
 public class OntAPI {
     public org.apache.jena.ontology.OntModel model;
+    List<Hospital> hospitals;
+    List<State> states;
+    String nationAmount = "-1";
 
     public OntAPI() {
         model = new OntModel().getModel();
+        hospitals = new ArrayList<>();
+        states = new ArrayList<>();
     }
 
-    private static class Hospital {
-         String ID, name, score = "-1", rating = "-1", ownershipName, type;
-         String zipcode, address, state, country = "USA", city;
-         String medicareAmount = "-1";
-         boolean hasEmergency;
-
-        private Hospital(String ID) {
-            this.ID = ID;
-        }
-
-        public static Hospital create(String ID) {
-            return new Hospital(ID);
-        }
-
-        public Hospital name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Hospital hasEmergency(boolean b) {
-            this.hasEmergency = b;
-            return this;
-        }
-
-        public Hospital zipCode(String zipcode) {
-            this.zipcode = zipcode;
-            return this;
-        }
-
-        public Hospital address(String address) {
-            this.address = address;
-            return this;
-        }
-
-        public Hospital state(String state) {
-            this.state = state;
-            return this;
-        }
-
-        public Hospital country(String country) {
-            this.country = country;
-            return this;
-        }
-
-        public Hospital city(String city) {
-            this.city = city;
-            return this;
-        }
-
-        public Hospital medicareSpending(String amount) {
-            this.medicareAmount = amount;
-            return this;
-        }
-
-        public Hospital score(String score) {
-            this.score = score;
-            return this;
-        }
-
-        public Hospital rating(String rating) {
-            this.rating = rating;
-            return this;
-        }
-
-        public Hospital type(String type) {
-            this.type = type;
-            return this;
-        }
-
-        public Hospital ownership(String ownershipName) {
-            this.ownershipName = ownershipName;
-            return this;
-        }
-
-        public Hospital validate() {
-            return this;
-        }
-
-        @Override
-        public String toString() {
-            return "Hospital{" +
-                    "ID='" + ID + '\'' +
-                    ", name='" + name + '\'' +
-                    ", score='" + score + '\'' +
-                    ", rating='" + rating + '\'' +
-                    ", ownershipName='" + ownershipName + '\'' +
-                    ", type='" + type + '\'' +
-                    ", zipcode='" + zipcode + '\'' +
-                    ", address='" + address + '\'' +
-                    ", state='" + state + '\'' +
-                    ", country='" + country + '\'' +
-                    ", city='" + city + '\'' +
-                    ", medicareAmount='" + medicareAmount + '\'' +
-                    ", hasEmergency=" + hasEmergency +
-                    '}';
-        }
+    public void addHospital(Hospital h) {
+        hospitals.add(h);
     }
 
-    public void addStateMedicareSpending(String stateName, String amount) {}
-    public void addNationMedicareSpending(String country, String amount) {}
+    public void addState(State s) {
+        states.add(s);
+    }
+
+    public void addNationMedicareSpending(String amount) {
+        nationAmount = amount;
+    }
 
 //    public void addHospitalName(String ID, String name ) {
 //        if (Integer.parseInt(ID) < 0) throw new IllegalArgumentException("Only positive ID");
@@ -166,7 +88,7 @@ public class OntAPI {
 //        OntAPI ont = new OntAPI();
 //        ont.display();
 
-        Hospital A = OntAPI.Hospital.create("1234").name("Liam").ownership("Self").validate();
+        Hospital A = Hospital.create("1234").name("Liam").ownership("Self").validate();
         System.out.println(A);
     }
 }
