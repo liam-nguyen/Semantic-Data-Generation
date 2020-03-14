@@ -1,7 +1,7 @@
 package project2.Hospital.utils;
 
 public class Hospital {
-        String ID, name, score = "-1", rating = "-1", ownershipName, type;
+        String ID, hospitalName, score = "-1", rating = "-1", ownershipName, type;
         String zipcode, address, state, country = "USA", city;
         String medicareAmount = "-1";
         boolean hasEmergency;
@@ -14,8 +14,8 @@ public class Hospital {
             return new Hospital(ID);
         }
 
-        public Hospital name(String name) {
-            this.name = name;
+        public Hospital name(String n) {
+            this.hospitalName = n;
             return this;
         }
 
@@ -82,7 +82,7 @@ public class Hospital {
         public String toString() {
             return "Hospital{" +
                     "ID='" + ID + '\'' +
-                    ", name='" + name + '\'' +
+                    ", name='" + hospitalName + '\'' +
                     ", score='" + score + '\'' +
                     ", rating='" + rating + '\'' +
                     ", ownershipName='" + ownershipName + '\'' +
