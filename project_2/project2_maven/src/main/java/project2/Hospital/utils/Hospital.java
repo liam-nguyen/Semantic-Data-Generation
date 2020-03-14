@@ -1,8 +1,8 @@
 package project2.Hospital.utils;
 
 public class Hospital {
-        String ID, hospitalName, score = "-1", rating = "-1", ownershipName, type;
-        String zipcode, address, state, country = "USA", city;
+        String ID, hospitalName, score = "-1", rating = "-1", sampleSize = "-1", ownershipName, type;
+        String zipcode, address, state, country = "USA", city, phoneNumber;
         String medicareAmount = "-1";
         boolean hasEmergency;
 
@@ -73,6 +73,17 @@ public class Hospital {
             this.ownershipName = ownershipName;
             return this;
         }
+
+        public Hospital phoneNumber(String number) {
+            this.phoneNumber = number;
+            return this;
+        }
+
+        public Hospital sample(String size) {
+            this.sampleSize = size;
+            return this;
+        }
+
 
         public Hospital validate() {
             return this;

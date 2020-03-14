@@ -13,7 +13,7 @@ public class OntAPI {
     public org.apache.jena.ontology.OntModel model;
     List<Hospital> hospitals;
     List<State> states;
-    String nationAmount = "-1";
+    String nationAverage = "-1";
 
     public OntAPI() {
         model = new OntModel().getModel();
@@ -30,7 +30,7 @@ public class OntAPI {
     }
 
     public void addNationMedicareSpending(String amount) {
-        nationAmount = amount;
+        nationAverage = amount;
     }
 
 //    public void addHospitalName(String ID, String name ) {
