@@ -1,4 +1,4 @@
-package project2.utils;
+package project2.Hospital.utils;
 
 import java.util.HashMap;
 import java.util.Map;
