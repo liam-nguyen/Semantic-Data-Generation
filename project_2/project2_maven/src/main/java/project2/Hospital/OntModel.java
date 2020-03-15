@@ -49,8 +49,8 @@ public class OntModel {
         ObjectProperty isIDOf = model.createObjectProperty(NS + Props.isIDOf);
         isIDOf.addInverseOf(hasID);
         isIDOf.addComment("is facility ID of", "EN");
-        isIDOf.addDomain(XSD.positiveInteger);
-        isIDOf.addRange(hospital);
+//        isIDOf.addDomain(XSD.positiveInteger);
+//        isIDOf.addRange(hospital);
         isIDOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasFacilityName = model.createObjectProperty(NS + Props.hasFacilityName);
@@ -61,8 +61,8 @@ public class OntModel {
         ObjectProperty isFacilityNameOf = model.createObjectProperty(NS + Props.isFacilityNameOf);
         isFacilityNameOf.addInverseOf(hasFacilityName);
         isFacilityNameOf.addComment("is facility's name of", "EN");
-        isFacilityNameOf.addDomain(XSD.xstring);
-        isFacilityNameOf.addRange(hospital);
+//        isFacilityNameOf.addDomain(XSD.xstring);
+//        isFacilityNameOf.addRange(hospital);
         isFacilityNameOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasEmergencyService = model.createObjectProperty(NS + Props.hasEmergencyService);
@@ -73,8 +73,8 @@ public class OntModel {
         ObjectProperty isEmergencyServiceOf = model.createObjectProperty(NS + Props.isEmergencyServiceOf);
         isEmergencyServiceOf.addInverseOf(hasFacilityName);
         isEmergencyServiceOf.addComment("is a boolean whether a facility has emergency service", "EN");
-        isEmergencyServiceOf.addDomain(XSD.xboolean);
-        isEmergencyServiceOf.addRange(hospital);
+//        isEmergencyServiceOf.addDomain(XSD.xboolean);
+//        isEmergencyServiceOf.addRange(hospital);
 
         ObjectProperty hasPhoneNumber = model.createObjectProperty(NS + Props.hasPhoneNumber);
         hasPhoneNumber.addComment("A phone number of a facility", "EN");
@@ -84,8 +84,8 @@ public class OntModel {
         ObjectProperty isPhoneNumberOf = model.createObjectProperty(NS + Props.isFacilityNameOf);
         isPhoneNumberOf.addInverseOf(hasFacilityName);
         isPhoneNumberOf.addComment("is a boolean whether a facility has emergency service", "EN");
-        isPhoneNumberOf.addDomain(XSD.xstring);
-        isPhoneNumberOf.addRange(hospital);
+//        isPhoneNumberOf.addDomain(XSD.xstring);
+//        isPhoneNumberOf.addRange(hospital);
         isPhoneNumberOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasHospitalAverageSpending = model.createObjectProperty(NS + Props.hasHospitalAverageSpending);
@@ -94,8 +94,8 @@ public class OntModel {
         hasHospitalAverageSpending.addDomain(statistics2018);
         ObjectProperty isHospitalAverageSpendingOf = model.createObjectProperty(NS + Props.isHospitalAverageSpendingOf);
         isHospitalAverageSpendingOf.addComment("is a hospital's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
-        isHospitalAverageSpendingOf.addDomain(XSD.decimal);
-        isHospitalAverageSpendingOf.addRange(statistics2018);
+//        isHospitalAverageSpendingOf.addDomain(XSD.decimal);
+//        isHospitalAverageSpendingOf.addRange(statistics2018);
 
         ObjectProperty hasScore = model.createObjectProperty(NS + Props.hasScore);
         hasScore.addComment("has a hospital's score", "EN");
@@ -103,8 +103,8 @@ public class OntModel {
         hasScore.addDomain(statistics2018);
         ObjectProperty isScoreOf = model.createObjectProperty(NS + Props.isScoreOf);
         isScoreOf.addComment("is a hospital's score", "EN");
-        isScoreOf.addDomain(statistics2018);
-        isScoreOf.addRange(XSD.integer);
+//        isScoreOf.addDomain(statistics2018);
+//        isScoreOf.addRange(XSD.integer);
 
         ObjectProperty hasRating = model.createObjectProperty(NS + Props.hasRating);
         hasRating.addComment("has a hospital's rating from 1-5", "EN");
@@ -115,8 +115,8 @@ public class OntModel {
         hasRating.addDomain(statistics2018);
         ObjectProperty isRatingOf = model.createObjectProperty(NS + Props.isRatingOf);
         isRatingOf.addComment("is a hospital's rating from 1-5", "EN");
-        isRatingOf.addDomain(ratingRange);
-        isRatingOf.addRange(statistics2018);
+//        isRatingOf.addDomain(ratingRange);
+//        isRatingOf.addRange(statistics2018);
     }
 
     public static void main(String[] args) {
