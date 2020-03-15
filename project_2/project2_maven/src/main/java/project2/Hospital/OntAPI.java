@@ -34,13 +34,13 @@ public class OntAPI {
     // public void addHospital(Hospital h) {
     //    hospitals.add(h);
     // }
+//    Test Commit
     public void addState(State s) {
         states.add(s);
     }
     public void addNationMedicareSpending(String amount) {
         nationAverage = amount;
     }
-//TestCommit
 
     public static void addHospitalToModel(List<Hospital> hospitals)  {
         try {
