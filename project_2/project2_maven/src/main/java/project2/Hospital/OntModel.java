@@ -62,6 +62,7 @@ public class OntModel {
         medicaremetadata.addSubClass(state);
         medicaremetadata.addSubClass(country);
         
+        
         // Comments
 //        nation.addComment("", "EN");
         state.addComment("One of 50 states in US", "EN");

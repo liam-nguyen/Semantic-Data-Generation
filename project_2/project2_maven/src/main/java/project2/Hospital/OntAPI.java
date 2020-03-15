@@ -10,16 +10,7 @@ import org.apache.jena.vocabulary.RDFS;
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
 import project2.Hospital.utils.US_States;
-
-<<<<<<< HEAD
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-=======
 import java.io.*;
->>>>>>> f7ce70e14eb5ca9dacfaa26f556b9737298dedf0
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -58,13 +49,13 @@ public class OntAPI {
             // h=hospitals.get(0);
             OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
             Individual instance = hospital.createIndividual(OntModel.NS +h.getHospitalName() );
-            Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasID);
+            Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityID);
             Property hasFacilityName = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityName);
             Property hasEmergencyService=model.getProperty(OntModel.NS+OntModel.Props.hasEmergencyService);
             Property hasPhoneNumber=model.getProperty(OntModel.NS+OntModel.Props.hasPhoneNumber);
             Property hasScore=model.getProperty(OntModel.NS+OntModel.Props.hasScore);
             Property hasRating=model.getProperty(OntModel.NS+OntModel.Props.hasRating);
-            Property hasMedicareSpending=model.getProperty(OntModel.NS+OntModel.Props.hasHospitalAverageSpending);
+            Property hasMedicareSpending=model.getProperty(OntModel.NS+OntModel.Props.hasAverageMedicareSpending);
             //  RDFNode phoneNumberRange=model.createTypedLiteral(h.getPhoneNumber(), XSDDatatype.XSDstring);
             // hasPhoneNumber.addProperty(RDFS.range,instance);
 
