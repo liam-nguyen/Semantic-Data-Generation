@@ -11,10 +11,12 @@ import org.apache.jena.vocabulary.XSD;
  */
 public class OntModel {
     private static final String duURI = "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#";
-    public enum Classes {Hospital, State, Nation, Statistics2018}
+    public enum Classes {MedicareMetadata, Hospital, State, Nation, Statistics2018, Location, Country}
     public enum Props {hasID, hasFacilityName, hasHospitalAverageSpending, isIDOf,
         isFacilityNameOf, hasEmergencyService, isEmergencyServiceOf, hasPhoneNumber, isHospitalAverageSpendingOf,
-        hasScore, isScoreOf, hasRating, isRatingOf}
+        hasScore, isScoreOf, hasRating, isRatingOf, hasLocation, isLocationOf, hasAddress, isAddressOf, hasZipcode,
+        isZipcodeOf, hasCity, isCityOf, hasState, isStateOf, hasCountry, isCountryOf, hasType, isTypeOf, hasOwnership, 
+        isOwnershipOf}
 
     public static String source = "https://data.medicare.gov/d/nrth-mfg3";
     public static String NS = source + "#";
@@ -35,6 +37,21 @@ public class OntModel {
         OntClass state = model.createClass(NS + Classes.State);
         OntClass nation = model.createClass(NS + Classes.Nation);
         OntClass statistics2018 = model.createClass(NS + Classes.Statistics2018);
+        OntClass location = model.createClass(NS + Classes.Location);
+        OntClass country = model.createClass(NS + Classes.Country);
+        
+        // D.Phuc's
+        OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
+        // Subclass relationship
+        medicaremetadata.addSubClass(hospital);
+        hospital.addSuperClass(medicaremetadata);
+        
+        medicaremetadata.addSubClass(state);
+        state.addSuperClass(medicaremetadata);
+        
+        medicaremetadata.addSubClass(country);
+        country.addSuperClass(medicaremetadata);
+        
 
         // Comments
         nation.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
@@ -117,6 +134,79 @@ public class OntModel {
         isRatingOf.addComment("is a hospital's rating from 1-5", "EN");
         isRatingOf.addDomain(ratingRange);
         isRatingOf.addRange(statistics2018);
+        
+        // D.Phuc's
+        ObjectProperty hasLocation = model.createObjectProperty(NS + Props.hasLocation);
+        hasLocation.addComment("has a hospital's location", "EN");
+        hasLocation.addRange(location);
+        hasLocation.addDomain(hospital);
+        ObjectProperty isLocationOf = model.createObjectProperty(NS + Props.isLocationOf);
+        isLocationOf.addComment("is a hospital's location", "EN");
+        isLocationOf.addRange(hospital);
+        isLocationOf.addDomain(location);
+        
+        ObjectProperty hasAddress = model.createObjectProperty(NS + Props.hasAddress);
+        hasAddress.addComment("has a location's address", "EN");
+        hasAddress.addRange(XSD.xstring);
+        hasAddress.addDomain(location);
+        ObjectProperty isAddressOf = model.createObjectProperty(NS + Props.isAddressOf);
+        isAddressOf.addComment("is a location's address", "EN");
+        isAddressOf.addRange(location);
+        isAddressOf.addDomain(XSD.xstring);
+        
+        ObjectProperty hasZipcode = model.createObjectProperty(NS + Props.hasZipcode);
+        hasZipcode.addComment("has a location's Zipcode", "EN");
+        hasZipcode.addRange(XSD.xstring);
+        hasZipcode.addDomain(location);
+        ObjectProperty isZipcodeOf = model.createObjectProperty(NS + Props.isZipcodeOf);
+        isZipcodeOf.addComment("is a location's Zipcode", "EN");
+        isZipcodeOf.addRange(location);
+        isZipcodeOf.addDomain(XSD.xstring);
+        
+        ObjectProperty hasCity = model.createObjectProperty(NS + Props.hasCity);
+        hasCity.addComment("has a location's city", "EN");
+        hasCity.addRange(XSD.xstring);
+        hasCity.addDomain(location);
+        ObjectProperty isCityOf = model.createObjectProperty(NS + Props.isCityOf);
+        isCityOf.addComment("is a location's city", "EN");
+        isCityOf.addRange(location);
+        isCityOf.addDomain(XSD.xstring);
+        
+        ObjectProperty hasCountry = model.createObjectProperty(NS + Props.hasCountry);
+        hasCountry.addComment("has a location's country", "EN");
+        hasCountry.addRange(country);
+        hasCountry.addDomain(location);
+        ObjectProperty isCountryOf = model.createObjectProperty(NS + Props.isCountryOf);
+        isCountryOf.addComment("is a location's country", "EN");
+        isCountryOf.addRange(location);
+        isCountryOf.addDomain(country);
+        
+        ObjectProperty hasState = model.createObjectProperty(NS + Props.hasState);
+        hasState.addComment("has a location's state", "EN");
+        hasState.addRange(state);
+        hasState.addDomain(location);
+        ObjectProperty isStateOf = model.createObjectProperty(NS + Props.isStateOf);
+        isStateOf.addComment("is a location's state", "EN");
+        isStateOf.addRange(location);
+        isStateOf.addDomain(state);
+        
+        ObjectProperty hasType = model.createObjectProperty(NS + Props.hasType);
+        hasType.addComment("has a hospital's type", "EN");
+        hasType.addRange(XSD.xstring);
+        hasType.addDomain(hospital);
+        ObjectProperty isTypeOf = model.createObjectProperty(NS + Props.isTypeOf);
+        isTypeOf.addComment("is a hospital's type", "EN");
+        isTypeOf.addRange(hospital);
+        isTypeOf.addDomain(XSD.xstring);
+        
+        ObjectProperty hasOwnership = model.createObjectProperty(NS + Props.hasOwnership);
+        hasOwnership.addComment("has a hospital's type", "EN");
+        hasOwnership.addRange(XSD.xstring);
+        hasOwnership.addDomain(hospital);
+        ObjectProperty isOwnershipOf = model.createObjectProperty(NS + Props.isOwnershipOf);
+        isOwnershipOf.addComment("is a hospital's type", "EN");
+        isOwnershipOf.addRange(hospital);
+        isOwnershipOf.addDomain(XSD.xstring);
     }
 
     public static void main(String[] args) {
