@@ -14,8 +14,8 @@ public class OntModel {
     public enum Classes {MedicareMetadata, Hospital, State, Nation, Statistics, Location, Country, Address,
     	Zipcode, City, Type, Ownership, PhoneNumber, FacilityID, FacilityName, EmergencyServices, AverageMedicareSpending,
     	Score, Rating, Year} // Remove Nation
-    public enum Props {hasID, hasFacilityName, hasHospitalAverageSpending, isIDOf,
-        isFacilityNameOf, hasEmergencyService, isEmergencyServiceOf, hasPhoneNumber, isHospitalAverageSpendingOf,
+    public enum Props {hasFacilityID, hasFacilityName, hasAverageMedicareSpending, isFacilityIDOf,
+        isFacilityNameOf, hasEmergencyService, isEmergencyServiceOf, hasPhoneNumber, isAverageMedicareSpendingOf,
         hasScore, isScoreOf, hasRating, isRatingOf, hasLocation, isLocationOf, hasAddress, isAddressOf, hasZipcode,
         isZipcodeOf, hasCity, isCityOf, hasState, isStateOf, hasCountry, isCountryOf, hasType, isTypeOf, hasOwnership, 
         isOwnershipOf, hasYear, isYearOf, hasStatistics, isStatisticsOf}
@@ -53,7 +53,7 @@ public class OntModel {
         OntClass averagemedicarespending = model.createClass(NS + Classes.AverageMedicareSpending);
         OntClass score = model.createClass(NS + Classes.Score);
         OntClass rating = model.createClass(NS + Classes.Rating);
-        OntClass year = model.createClass(NS + Classes.Year);
+        OntClass year = model.createClass(NS + Classes.Year);	
         
         // D.Phuc's
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
@@ -69,18 +69,18 @@ public class OntModel {
         statistics.addComment("Various statistics for the hospital", "EN");
         location.addComment("A collection of information regarding the hospital's location", "EN");
         country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
-        medicaremetadata.addComment("", "EN");
+        medicaremetadata.addComment("A collection of the hospital's statistical data", "EN");
 
         /* Create properties */
-        ObjectProperty hasID = model.createObjectProperty(NS + Props.hasID);
-        hasID.addComment("has a particular facility ID", "EN");
-        hasID.addDomain(hospital);
-        hasID.setRDFType(OWL.FunctionalProperty);
-        hasID.addRange(XSD.positiveInteger);
-        ObjectProperty isIDOf = model.createObjectProperty(NS + Props.isIDOf);
-        isIDOf.addInverseOf(hasID);
-        isIDOf.addComment("is facility ID of", "EN");
-        isIDOf.setRDFType(OWL.InverseFunctionalProperty);
+        ObjectProperty hasFacilityID = model.createObjectProperty(NS + Props.hasFacilityID);
+        hasFacilityID.addComment("has a particular facility ID", "EN");
+        hasFacilityID.addDomain(hospital);
+        hasFacilityID.setRDFType(OWL.FunctionalProperty);
+        hasFacilityID.addRange(XSD.positiveInteger);
+        ObjectProperty isFacilityIDOf = model.createObjectProperty(NS + Props.isFacilityIDOf);
+        isFacilityIDOf.addInverseOf(hasFacilityID);
+        isFacilityIDOf.addComment("is facility ID of", "EN");
+        isFacilityIDOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasFacilityName = model.createObjectProperty(NS + Props.hasFacilityName);
         hasFacilityName.addComment("has the facility's name", "EN");
@@ -111,13 +111,13 @@ public class OntModel {
         isPhoneNumberOf.addComment("is a boolean whether a facility has emergency service", "EN");
         isPhoneNumberOf.setRDFType(OWL.InverseFunctionalProperty);
 
-        ObjectProperty hasHospitalAverageSpending = model.createObjectProperty(NS + Props.hasHospitalAverageSpending);
-        hasHospitalAverageSpending.addComment("has a hospital's average spending per Beneficiary (MSPB) episodes in USD", "EN");
-        hasHospitalAverageSpending.addRange(XSD.decimal);
-        hasHospitalAverageSpending.addDomain(statistics);
-        ObjectProperty isHospitalAverageSpendingOf = model.createObjectProperty(NS + Props.isHospitalAverageSpendingOf);
+        ObjectProperty hasAverageMedicareSpending = model.createObjectProperty(NS + Props.hasAverageMedicareSpending);
+        hasAverageMedicareSpending.addComment("has a hospital's average spending per Beneficiary (MSPB) episodes in USD", "EN");
+        hasAverageMedicareSpending.addRange(XSD.decimal);
+        hasAverageMedicareSpending.addDomain(statistics);
+        ObjectProperty isHospitalAverageSpendingOf = model.createObjectProperty(NS + Props.isAverageMedicareSpendingOf);
         isHospitalAverageSpendingOf.addComment("is a hospital's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
-        isHospitalAverageSpendingOf.addInverseOf(hasHospitalAverageSpending);
+        isHospitalAverageSpendingOf.addInverseOf(hasAverageMedicareSpending);
 
         ObjectProperty hasScore = model.createObjectProperty(NS + Props.hasScore);
         hasScore.addComment("has a hospital's score", "EN");
@@ -141,7 +141,7 @@ public class OntModel {
         // D.Phuc's
         ObjectProperty hasYear = model.createObjectProperty(NS + Props.hasYear);
         hasYear.addComment("has a statistic's year", "EN");
-        hasYear.addRange(XSD.xstring);
+        hasYear.addRange(year);
         hasYear.addDomain(statistics);
         ObjectProperty isYearOf = model.createObjectProperty(NS + Props.isYearOf);
         isYearOf.addComment("is a statistic's year", "EN");
@@ -157,7 +157,7 @@ public class OntModel {
         
         ObjectProperty hasAddress = model.createObjectProperty(NS + Props.hasAddress);
         hasAddress.addComment("has a hospital location's address", "EN");
-        hasAddress.addRange(XSD.xstring);
+        hasAddress.addRange(address);
         hasAddress.addDomain(location);
         ObjectProperty isAddressOf = model.createObjectProperty(NS + Props.isAddressOf);
         isAddressOf.addComment("is a hospital location's address", "EN");
@@ -165,7 +165,7 @@ public class OntModel {
         
         ObjectProperty hasZipcode = model.createObjectProperty(NS + Props.hasZipcode);
         hasZipcode.addComment("has a hospital location's Zipcode", "EN");
-        hasZipcode.addRange(XSD.xstring);
+        hasZipcode.addRange(zipcode);
         hasZipcode.addDomain(location);
         ObjectProperty isZipcodeOf = model.createObjectProperty(NS + Props.isZipcodeOf);
         isZipcodeOf.addComment("is a hospital location's Zipcode", "EN");
@@ -173,7 +173,7 @@ public class OntModel {
         
         ObjectProperty hasCity = model.createObjectProperty(NS + Props.hasCity);
         hasCity.addComment("has a hospital location's city", "EN");
-        hasCity.addRange(XSD.xstring);
+        hasCity.addRange(city);
         hasCity.addDomain(location);
         ObjectProperty isCityOf = model.createObjectProperty(NS + Props.isCityOf);
         isCityOf.addComment("is a hospital location's city", "EN");
@@ -197,7 +197,7 @@ public class OntModel {
         
         ObjectProperty hasType = model.createObjectProperty(NS + Props.hasType);
         hasType.addComment("has a hospital's type", "EN");
-        hasType.addRange(XSD.xstring);
+        hasType.addRange(type);
         hasType.addDomain(hospital);
         ObjectProperty isTypeOf = model.createObjectProperty(NS + Props.isTypeOf);
         isTypeOf.addComment("is a hospital's type", "EN");
@@ -205,7 +205,7 @@ public class OntModel {
         
         ObjectProperty hasOwnership = model.createObjectProperty(NS + Props.hasOwnership);
         hasOwnership.addComment("has a hospital's ownership", "EN");
-        hasOwnership.addRange(XSD.xstring);
+        hasOwnership.addRange(ownership);
         hasOwnership.addDomain(hospital);
         ObjectProperty isOwnershipOf = model.createObjectProperty(NS + Props.isOwnershipOf);
         isOwnershipOf.addComment("is a hospital's ownership", "EN");
