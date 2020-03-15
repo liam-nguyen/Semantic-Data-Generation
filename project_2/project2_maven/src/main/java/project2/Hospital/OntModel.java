@@ -11,7 +11,9 @@ import org.apache.jena.vocabulary.XSD;
  */
 public class OntModel {
     private static final String duURI = "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#";
-    public enum Classes {MedicareMetadata, Hospital, State, Nation, Statistics, Location, Country}
+    public enum Classes {MedicareMetadata, Hospital, State, Nation, Statistics, Location, Country, Address,
+    	Zipcode, City, Type, Ownership, PhoneNumber, FacilityID, FacilityName, EmergencyServices, AverageMedicareSpending,
+    	Score, Rating, Year} // Remove Nation
     public enum Props {hasID, hasFacilityName, hasHospitalAverageSpending, isIDOf,
         isFacilityNameOf, hasEmergencyService, isEmergencyServiceOf, hasPhoneNumber, isHospitalAverageSpendingOf,
         hasScore, isScoreOf, hasRating, isRatingOf, hasLocation, isLocationOf, hasAddress, isAddressOf, hasZipcode,
@@ -35,10 +37,23 @@ public class OntModel {
         // Create classes
         OntClass hospital = model.createClass(NS + Classes.Hospital);
         OntClass state = model.createClass(NS + Classes.State);
-        OntClass nation = model.createClass(NS + Classes.Nation);
+//        OntClass nation = model.createClass(NS + Classes.Nation);
         OntClass statistics = model.createClass(NS + Classes.Statistics);
         OntClass location = model.createClass(NS + Classes.Location);
         OntClass country = model.createClass(NS + Classes.Country);
+        OntClass address = model.createClass(NS + Classes.Address);
+        OntClass zipcode = model.createClass(NS + Classes.Zipcode);
+        OntClass city = model.createClass(NS + Classes.City);
+        OntClass type = model.createClass(NS + Classes.Type);
+        OntClass ownership = model.createClass(NS + Classes.Ownership);
+        OntClass phonenumber = model.createClass(NS + Classes.PhoneNumber);
+        OntClass facilityid = model.createClass(NS + Classes.FacilityID);
+        OntClass facilityname = model.createClass(NS + Classes.FacilityName);
+        OntClass emergencyservices = model.createClass(NS + Classes.EmergencyServices);
+        OntClass averagemedicarespending = model.createClass(NS + Classes.AverageMedicareSpending);
+        OntClass score = model.createClass(NS + Classes.Score);
+        OntClass rating = model.createClass(NS + Classes.Rating);
+        OntClass year = model.createClass(NS + Classes.Year);
         
         // D.Phuc's
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
@@ -48,12 +63,12 @@ public class OntModel {
         medicaremetadata.addSubClass(country);
         
         // Comments
-        nation.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
+//        nation.addComment("", "EN");
         state.addComment("One of 50 states in US", "EN");
-        hospital.addComment("", "EN");
-        statistics.addComment("", "EN");
-        location.addComment("", "EN");
-        country.addComment("", "EN");
+        hospital.addComment("A hospital with general information and statistics", "EN");
+        statistics.addComment("Various statistics for the hospital", "EN");
+        location.addComment("A collection of information regarding the hospital's location", "EN");
+        country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
         medicaremetadata.addComment("", "EN");
 
         /* Create properties */
