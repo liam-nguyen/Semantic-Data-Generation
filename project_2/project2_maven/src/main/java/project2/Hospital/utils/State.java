@@ -3,7 +3,6 @@ package project2.Hospital.utils;
 public class State {
     String name;
     String amount;
-
     public State(String name) {
         this.name = name;
     }

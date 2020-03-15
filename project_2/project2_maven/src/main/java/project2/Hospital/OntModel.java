@@ -16,8 +16,8 @@ public class OntModel {
         isFacilityNameOf, hasEmergencyService, isEmergencyServiceOf, hasPhoneNumber, isHospitalAverageSpendingOf,
         hasScore, isScoreOf, hasRating, isRatingOf}
 
-    private static String source = "https://data.medicare.gov/d/nrth-mfg3";
-    private static String NS = source + "#";
+    public static String source = "https://data.medicare.gov/d/nrth-mfg3";
+    public static String NS = source + "#";
     private static org.apache.jena.ontology.OntModel model;
 
     public OntModel() {

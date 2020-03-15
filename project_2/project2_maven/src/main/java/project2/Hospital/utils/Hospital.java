@@ -1,9 +1,9 @@
 package project2.Hospital.utils;
 
 public class Hospital {
-        String ID, hospitalName, score = "-1", rating = "-1", sampleSize = "-1", ownershipName, type;
-        String zipcode, address, state, country = "USA", city, phoneNumber;
-        String medicareAmount = "-1";
+        public String ID, hospitalName, score = "-1", rating = "-1", sampleSize = "-1", ownershipName, type;
+        public String zipcode, address, state, country = "USA", city, phoneNumber;
+        public String medicareAmount = "-1";
         boolean hasEmergency;
 
         private Hospital(String ID) {
