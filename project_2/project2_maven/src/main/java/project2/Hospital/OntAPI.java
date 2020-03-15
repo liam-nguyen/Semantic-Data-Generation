@@ -1,25 +1,13 @@
 package project2.Hospital;
 
-import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.vocabulary.RDFS;
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
-import project2.Hospital.utils.US_States;
-
-<<<<<<< HEAD
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-=======
-import java.io.*;
->>>>>>> f7ce70e14eb5ca9dacfaa26f556b9737298dedf0
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -58,13 +46,13 @@ public class OntAPI {
             // h=hospitals.get(0);
             OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
             Individual instance = hospital.createIndividual(OntModel.NS +h.getHospitalName() );
-            Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasID);
+            Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityID);
             Property hasFacilityName = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityName);
             Property hasEmergencyService=model.getProperty(OntModel.NS+OntModel.Props.hasEmergencyService);
             Property hasPhoneNumber=model.getProperty(OntModel.NS+OntModel.Props.hasPhoneNumber);
             Property hasScore=model.getProperty(OntModel.NS+OntModel.Props.hasScore);
             Property hasRating=model.getProperty(OntModel.NS+OntModel.Props.hasRating);
-            Property hasMedicareSpending=model.getProperty(OntModel.NS+OntModel.Props.hasHospitalAverageSpending);
+            Property hasMedicareSpending=model.getProperty(OntModel.NS+OntModel.Props.hasAverageMedicareSpending);
             //  RDFNode phoneNumberRange=model.createTypedLiteral(h.getPhoneNumber(), XSDDatatype.XSDstring);
             // hasPhoneNumber.addProperty(RDFS.range,instance);
 
@@ -135,7 +123,7 @@ public class OntAPI {
 //        Property hasAverageSpending = model.getProperty(NS + Props.hasAverageSpending);
 //        model.add(instance, hasAverageSpending, amount);
 //    }
-
+*/
     public void display() {
         model.write(System.out);
     }
@@ -145,15 +133,12 @@ public class OntAPI {
         FileWriter out = new FileWriter(filePath.toString());
         model.write(out);
     }
-    public void writeToFile(OntAPI model) throws IOException {
+    public void writeToFile() throws IOException {
         Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
         writeToFile(root);
     }
 
     public static void main(String[] args) throws IOException {
-*/
-    
-    public static void main(String[] args) {
 //        OntAPI ont = new OntAPI();
 //        ont.display();
         OntAPI instanceModel = new OntAPI();
@@ -201,7 +186,6 @@ public class OntAPI {
                 String averageSpendingPerEpisodeState=data[6];
                 String averageSpendingPerEpisodeNation=data[7];
 
-
                 //Check if the facility id already exists, if it exists modify the ibject by adding values
                 Iterator<Hospital> iterator = hospitals.iterator();
                 while (iterator.hasNext()) {
@@ -239,5 +223,6 @@ public class OntAPI {
         //instanceModel.addHospitalName(A.ID, A.hospitalName);
         //instanceModel.display();
         //System.out.println(A);
+        instanceModel.writeToFile();
     }
 }
