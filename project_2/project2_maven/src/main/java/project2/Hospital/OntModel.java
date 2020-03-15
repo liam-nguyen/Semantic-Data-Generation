@@ -47,10 +47,14 @@ public class OntModel {
         medicaremetadata.addSubClass(state);
         medicaremetadata.addSubClass(country);
         
-
         // Comments
         nation.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
         state.addComment("One of 50 states in US", "EN");
+        hospital.addComment("", "EN");
+        statistics.addComment("", "EN");
+        location.addComment("", "EN");
+        country.addComment("", "EN");
+        medicaremetadata.addComment("", "EN");
 
         /* Create properties */
         ObjectProperty hasID = model.createObjectProperty(NS + Props.hasID);
@@ -61,8 +65,6 @@ public class OntModel {
         ObjectProperty isIDOf = model.createObjectProperty(NS + Props.isIDOf);
         isIDOf.addInverseOf(hasID);
         isIDOf.addComment("is facility ID of", "EN");
-        isIDOf.addDomain(XSD.positiveInteger);
-        isIDOf.addRange(hospital);
         isIDOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasFacilityName = model.createObjectProperty(NS + Props.hasFacilityName);
@@ -73,8 +75,6 @@ public class OntModel {
         ObjectProperty isFacilityNameOf = model.createObjectProperty(NS + Props.isFacilityNameOf);
         isFacilityNameOf.addInverseOf(hasFacilityName);
         isFacilityNameOf.addComment("is facility's name of", "EN");
-        isFacilityNameOf.addDomain(XSD.xstring);
-        isFacilityNameOf.addRange(hospital);
         isFacilityNameOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasEmergencyService = model.createObjectProperty(NS + Props.hasEmergencyService);
@@ -83,10 +83,8 @@ public class OntModel {
         hasEmergencyService.addRange(XSD.xboolean);
         hasEmergencyService.setRDFType(OWL.FunctionalProperty);
         ObjectProperty isEmergencyServiceOf = model.createObjectProperty(NS + Props.isEmergencyServiceOf);
-        isEmergencyServiceOf.addInverseOf(hasFacilityName);
+        isEmergencyServiceOf.addInverseOf(hasEmergencyService);
         isEmergencyServiceOf.addComment("is a boolean whether a facility has emergency service", "EN");
-        isEmergencyServiceOf.addDomain(XSD.xboolean);
-        isEmergencyServiceOf.addRange(hospital);
 
         ObjectProperty hasPhoneNumber = model.createObjectProperty(NS + Props.hasPhoneNumber);
         hasPhoneNumber.addComment("A phone number of a facility", "EN");
@@ -94,10 +92,8 @@ public class OntModel {
         hasPhoneNumber.addRange(XSD.xstring);
         hasPhoneNumber.setRDFType(OWL.FunctionalProperty);
         ObjectProperty isPhoneNumberOf = model.createObjectProperty(NS + Props.isFacilityNameOf);
-        isPhoneNumberOf.addInverseOf(hasFacilityName);
+        isPhoneNumberOf.addInverseOf(hasPhoneNumber);
         isPhoneNumberOf.addComment("is a boolean whether a facility has emergency service", "EN");
-        isPhoneNumberOf.addDomain(XSD.xstring);
-        isPhoneNumberOf.addRange(hospital);
         isPhoneNumberOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasHospitalAverageSpending = model.createObjectProperty(NS + Props.hasHospitalAverageSpending);
@@ -106,8 +102,7 @@ public class OntModel {
         hasHospitalAverageSpending.addDomain(statistics);
         ObjectProperty isHospitalAverageSpendingOf = model.createObjectProperty(NS + Props.isHospitalAverageSpendingOf);
         isHospitalAverageSpendingOf.addComment("is a hospital's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
-        isHospitalAverageSpendingOf.addDomain(XSD.decimal);
-        isHospitalAverageSpendingOf.addRange(statistics);
+        isHospitalAverageSpendingOf.addInverseOf(hasHospitalAverageSpending);
 
         ObjectProperty hasScore = model.createObjectProperty(NS + Props.hasScore);
         hasScore.addComment("has a hospital's score", "EN");
@@ -115,8 +110,7 @@ public class OntModel {
         hasScore.addDomain(statistics);
         ObjectProperty isScoreOf = model.createObjectProperty(NS + Props.isScoreOf);
         isScoreOf.addComment("is a hospital's score", "EN");
-        isScoreOf.addDomain(XSD.integer);
-        isScoreOf.addRange(statistics);
+        isScoreOf.addInverseOf(hasScore);
 
         ObjectProperty hasRating = model.createObjectProperty(NS + Props.hasRating);
         hasRating.addComment("has a hospital's rating from 1-5", "EN");
@@ -127,8 +121,7 @@ public class OntModel {
         hasRating.addDomain(statistics);
         ObjectProperty isRatingOf = model.createObjectProperty(NS + Props.isRatingOf);
         isRatingOf.addComment("is a hospital's rating from 1-5", "EN");
-        isRatingOf.addDomain(ratingRange);
-        isRatingOf.addRange(statistics);
+        isRatingOf.addInverseOf(hasRating);
         
         // D.Phuc's
         ObjectProperty hasYear = model.createObjectProperty(NS + Props.hasYear);
@@ -137,8 +130,7 @@ public class OntModel {
         hasYear.addDomain(statistics);
         ObjectProperty isYearOf = model.createObjectProperty(NS + Props.isYearOf);
         isYearOf.addComment("is a statistic's year", "EN");
-        isYearOf.addRange(statistics);
-        isYearOf.addDomain(XSD.xstring);
+        isYearOf.addInverseOf(hasYear);
         
         ObjectProperty hasLocation = model.createObjectProperty(NS + Props.hasLocation);
         hasLocation.addComment("has a hospital's location", "EN");
@@ -146,8 +138,7 @@ public class OntModel {
         hasLocation.addDomain(hospital);
         ObjectProperty isLocationOf = model.createObjectProperty(NS + Props.isLocationOf);
         isLocationOf.addComment("is a hospital's location", "EN");
-        isLocationOf.addRange(hospital);
-        isLocationOf.addDomain(location);
+        isLocationOf.addInverseOf(hasLocation);
         
         ObjectProperty hasAddress = model.createObjectProperty(NS + Props.hasAddress);
         hasAddress.addComment("has a hospital location's address", "EN");
@@ -155,8 +146,7 @@ public class OntModel {
         hasAddress.addDomain(location);
         ObjectProperty isAddressOf = model.createObjectProperty(NS + Props.isAddressOf);
         isAddressOf.addComment("is a hospital location's address", "EN");
-        isAddressOf.addRange(location);
-        isAddressOf.addDomain(XSD.xstring);
+        isAddressOf.addInverseOf(hasAddress);
         
         ObjectProperty hasZipcode = model.createObjectProperty(NS + Props.hasZipcode);
         hasZipcode.addComment("has a hospital location's Zipcode", "EN");
@@ -164,8 +154,7 @@ public class OntModel {
         hasZipcode.addDomain(location);
         ObjectProperty isZipcodeOf = model.createObjectProperty(NS + Props.isZipcodeOf);
         isZipcodeOf.addComment("is a hospital location's Zipcode", "EN");
-        isZipcodeOf.addRange(location);
-        isZipcodeOf.addDomain(XSD.xstring);
+        isZipcodeOf.addInverseOf(hasZipcode);
         
         ObjectProperty hasCity = model.createObjectProperty(NS + Props.hasCity);
         hasCity.addComment("has a hospital location's city", "EN");
@@ -173,8 +162,7 @@ public class OntModel {
         hasCity.addDomain(location);
         ObjectProperty isCityOf = model.createObjectProperty(NS + Props.isCityOf);
         isCityOf.addComment("is a hospital location's city", "EN");
-        isCityOf.addRange(location);
-        isCityOf.addDomain(XSD.xstring);
+        isCityOf.addInverseOf(hasCity);
         
         ObjectProperty hasCountry = model.createObjectProperty(NS + Props.hasCountry);
         hasCountry.addComment("has a hospital location's country", "EN");
@@ -182,8 +170,7 @@ public class OntModel {
         hasCountry.addDomain(location);
         ObjectProperty isCountryOf = model.createObjectProperty(NS + Props.isCountryOf);
         isCountryOf.addComment("is a hospital location's country", "EN");
-        isCountryOf.addRange(location);
-        isCountryOf.addDomain(country);
+        isCountryOf.addInverseOf(hasCountry);
         
         ObjectProperty hasState = model.createObjectProperty(NS + Props.hasState);
         hasState.addComment("has a hospital location's state", "EN");
@@ -191,8 +178,7 @@ public class OntModel {
         hasState.addDomain(location);
         ObjectProperty isStateOf = model.createObjectProperty(NS + Props.isStateOf);
         isStateOf.addComment("is a hospital location's state", "EN");
-        isStateOf.addRange(location);
-        isStateOf.addDomain(state);
+        isStateOf.addInverseOf(hasState);
         
         ObjectProperty hasType = model.createObjectProperty(NS + Props.hasType);
         hasType.addComment("has a hospital's type", "EN");
@@ -200,8 +186,7 @@ public class OntModel {
         hasType.addDomain(hospital);
         ObjectProperty isTypeOf = model.createObjectProperty(NS + Props.isTypeOf);
         isTypeOf.addComment("is a hospital's type", "EN");
-        isTypeOf.addRange(hospital);
-        isTypeOf.addDomain(XSD.xstring);
+        isTypeOf.addInverseOf(hasType);
         
         ObjectProperty hasOwnership = model.createObjectProperty(NS + Props.hasOwnership);
         hasOwnership.addComment("has a hospital's ownership", "EN");
@@ -209,8 +194,7 @@ public class OntModel {
         hasOwnership.addDomain(hospital);
         ObjectProperty isOwnershipOf = model.createObjectProperty(NS + Props.isOwnershipOf);
         isOwnershipOf.addComment("is a hospital's ownership", "EN");
-        isOwnershipOf.addRange(hospital);
-        isOwnershipOf.addDomain(XSD.xstring);
+        isOwnershipOf.addInverseOf(hasOwnership);
         
         ObjectProperty hasStatistics = model.createObjectProperty(NS + Props.hasStatistics);
         hasStatistics.addComment("has MedicareMetadata's statistics", "EN");
@@ -218,8 +202,7 @@ public class OntModel {
         hasStatistics.addDomain(medicaremetadata);
         ObjectProperty isStatisticsOf = model.createObjectProperty(NS + Props.isStatisticsOf);
         isStatisticsOf.addComment("is MedicareMetadata's statistics", "EN");
-        isStatisticsOf.addRange(medicaremetadata);
-        isStatisticsOf.addDomain(statistics);
+        isStatisticsOf.addInverseOf(hasStatistics);
     }
 
     public static void main(String[] args) {
