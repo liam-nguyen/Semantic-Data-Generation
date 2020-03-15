@@ -7,6 +7,11 @@ import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
 import project2.Hospital.utils.US_States;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,15 +90,25 @@ public class OntAPI {
     public void display() {
         model.write(System.out);
     }
+    public void writeToFile(Path path) throws IOException {
+        Path filePath = path.resolve("Hospital.owl");
+        FileWriter out = new FileWriter(filePath.toString());
+        model.write(out);
+    }
+    public void writeToFile(OntAPI model) throws IOException {
+        Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
+        writeToFile(root);
+    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        OntAPI ont = new OntAPI();
 //        ont.display();
         OntAPI instanceModel = new OntAPI();
 
         Hospital A = Hospital.create("1234").name("Liam").ownership("Self").validate();
         instanceModel.addHospitalName(A.ID, A.hospitalName);
-        instanceModel.display();
+//        instanceModel.display();
         System.out.println(A);
+        instanceModel.writeToFile(instanceModel);
     }
 }
