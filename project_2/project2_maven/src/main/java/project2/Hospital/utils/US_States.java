@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class US_States {
-    public static final Map<String, String> states = new HashMap<>();
+    public static final Map<String, String> states = new HashMap<String,String>();
     static {
         states.put("AL", "Alabama");
         states.put("AK", "Alaska");
