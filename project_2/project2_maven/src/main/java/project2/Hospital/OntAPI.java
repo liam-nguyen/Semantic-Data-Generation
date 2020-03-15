@@ -40,7 +40,7 @@ public class OntAPI {
     public void addNationMedicareSpending(String amount) {
         nationAverage = amount;
     }
-
+//TestCommit
 
     public static void addHospitalToModel(List<Hospital> hospitals)  {
         try {
