@@ -6,12 +6,14 @@ import org.apache.jena.rdf.model.Property;
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
 import project2.Hospital.utils.US_States;
+import project2.Hospital.utils.TE_Dataset;
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class gathers data to build a model
@@ -140,6 +142,12 @@ public class OntAPI {
     }
 
     public static void main(String[] args) throws IOException {
+    	//D.Phuc's
+//        List<TE_Dataset> myList = TE_Dataset.processFile("D:\\Timely_and_Effective_Care_-_Hospital.csv");
+//        Map<String ,List<TE_Dataset>> groupByID = TE_Dataset.IdForTE_Dataset(myList);
+//        System.out.println("Writing file ...");
+//        TE_Dataset.writeFile(groupByID);
+        
 //        OntAPI ont = new OntAPI();
 //        ont.display();
         OntAPI instanceModel = new OntAPI();
