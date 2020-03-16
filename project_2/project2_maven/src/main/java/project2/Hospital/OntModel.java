@@ -25,7 +25,7 @@ public class OntModel {
 
     public static final String source = "https://data.medicare.gov/d/nrth-mfg3";
     public static final String NS = source + "#";
-    private static org.apache.jena.ontology.OntModel model;
+    private org.apache.jena.ontology.OntModel model;
 
     public OntModel() {
         model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules

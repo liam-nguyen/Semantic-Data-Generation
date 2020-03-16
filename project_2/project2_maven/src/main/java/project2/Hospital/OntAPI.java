@@ -4,7 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
 import project2.Hospital.utils.Hospital;
@@ -32,16 +31,19 @@ public class OntAPI {
     Map<String, State> statesMap;
     String nationAverage = "-1";
 
+    public Map<String, Individual> cache; // to store all (URI, individuals) to reduce searching time for an individual through model.
+
     public OntAPI() {
         model = new OntModel().getModel();
         statesMap = new HashMap<>();
         hospitalsMap = new HashMap<>();
+        cache = new HashMap<>();
     }
 
     public void addHospitalToModel(List<Hospital> hospitals) {
         final String yearStr = "2018";
         int total = hospitals.size();
-        Stopwatch timer;
+//        Stopwatch timer;
 
         OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
         OntClass state = model.getOntClass(OntModel.NS + OntModel.Classes.State);
@@ -55,7 +57,7 @@ public class OntAPI {
         OntClass year = model.getOntClass(OntModel.NS + OntModel.Classes.Year);
 
         for (Hospital h : hospitals) {
-            timer = new Stopwatch();
+//            timer = new Stopwatch();
             Individual hospitalInstance = hospital.createIndividual(OntModel.NS + h.getID());
             Individual stateInstance = getIndividual(state, OntModel.NS + h.getState());
             Individual usa = getIndividual(country, OntModel.NS + h.getCountry());
@@ -66,9 +68,9 @@ public class OntAPI {
             Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRating());
             Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
             Individual statisticsInstance = getIndividual(statistics, OntModel.NS + h.getID() + yearStr);
-            System.out.println("Individual time: " + timer.elapsedTime());
+//            System.out.println("Individual time: " + timer.elapsedTime());
 
-            timer = new Stopwatch();
+//            timer = new Stopwatch();
             Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityID);
             Property hasFacilityName = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityName);
             Property hasEmergencyService = model.getProperty(OntModel.NS + OntModel.Props.hasEmergencyService);
@@ -85,9 +87,9 @@ public class OntAPI {
             Property hasType = model.getProperty(OntModel.NS + OntModel.Props.hasType);
             Property hasStatistics = model.getProperty(OntModel.NS + OntModel.Props.hasStatistics);
             Property hasYear = model.getProperty(OntModel.NS + OntModel.Props.hasYear);
-            System.out.println("Property time: " + timer.elapsedTime());
+//            System.out.println("Property time: " + timer.elapsedTime());
 
-            timer = new Stopwatch();
+//            timer = new Stopwatch();
             model.add(hospitalInstance, hasFacilityName, h.getHospitalName());
             model.add(hospitalInstance, hasID, h.getID());
             model.add(hospitalInstance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
@@ -105,8 +107,8 @@ public class OntAPI {
             model.add(statisticsInstance, hasMedicareSpending, averagemedicarespendingInstance);
             model.add(statisticsInstance, hasYear, yearInstance);
             model.add(hospitalInstance, hasStatistics, statisticsInstance);
-            System.out.println("Model Adding time: " + timer.elapsedTime());
-            System.out.println("Remained: " + (--total) + " - Processed " + h);
+//            System.out.println("Model Adding time: " + timer.elapsedTime());
+            System.out.println("Remained: " + (--total) + " - Processed " + h.getID());
         }
     }
 
@@ -257,9 +259,10 @@ public class OntAPI {
 
     /** Utilities **/
     private Individual getIndividual(OntClass instanceClass, String URI) {
-        Individual instance = model.getIndividual(URI);
-        if (instance == null) return instanceClass.createIndividual(URI);
-        return instance;
+        if (!cache.containsKey(URI)) {
+            cache.put(URI, instanceClass.createIndividual(URI));
+        }
+        return cache.get(URI);
     }
 
     public static void main(String[] args) throws IOException, CsvValidationException {
