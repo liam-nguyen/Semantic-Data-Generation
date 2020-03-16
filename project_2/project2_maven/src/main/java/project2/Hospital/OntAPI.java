@@ -11,9 +11,7 @@ import project2.Hospital.utils.State;
 import project2.Hospital.utils.Stopwatch;
 import java.io.*;
 import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -23,8 +21,6 @@ public class OntAPI {
     static final String hospitalGeneralFileName = "Hospital_General_Information.csv";
     static final String hospitalSpendingFileName = "Medicare_Hospital_Spending_by_claim_groupbyID.csv";
     static final String hospitalCareFileName = "Timely_Effective_groupedByID.csv";
-    static final Path basePath = FileSystems.getDefault().getPath("").toAbsolutePath();
-    static final Path resourcePath = basePath.resolve(Paths.get("src", "main", "resources"));
 
     public org.apache.jena.ontology.OntModel model;
     Map<String, Hospital> hospitalsMap;
@@ -133,8 +129,6 @@ public class OntAPI {
         model.add(instance, hasAverageSpending, nationAverage);
     }
 
-    public void display() { model.write(System.out); }
-
     public void writeToFile(Path path) throws IOException {
         Path filePath = path.resolve("Hospital.owl");
         BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
@@ -157,11 +151,15 @@ public class OntAPI {
     }
 
     public void parseGeneralCSV() throws IOException, CsvValidationException {
-        Path hospitalGeneralFilePath = resourcePath.resolve(hospitalGeneralFileName);
         Hospital hospital;
-        CSVReader openCsvReader = new CSVReaderBuilder(Files.newBufferedReader(hospitalGeneralFilePath))
-                                                            .withSkipLines(1)
-                                                            .build();
+        CSVReader openCsvReader = new CSVReaderBuilder(
+                new InputStreamReader(
+                        Objects.requireNonNull(getClass()
+                                .getClassLoader()
+                                .getResourceAsStream(hospitalGeneralFileName))))
+                .withSkipLines(1)
+                .build();
+
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
@@ -199,10 +197,13 @@ public class OntAPI {
 
     //Reading file hospital spending by claim
     public void parseSpendingCSV() throws IOException, CsvValidationException {
-        Path hospitalSpendingFilePath = resourcePath.resolve(hospitalSpendingFileName);
-        CSVReader openCsvReader = new CSVReaderBuilder(Files.newBufferedReader(hospitalSpendingFilePath))
-                                        .withSkipLines(1)
-                                        .build();
+        CSVReader openCsvReader = new CSVReaderBuilder(
+                new InputStreamReader(
+                        Objects.requireNonNull(getClass()
+                                .getClassLoader()
+                                .getResourceAsStream(hospitalSpendingFileName))))
+                .withSkipLines(1)
+                .build();
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
@@ -229,11 +230,15 @@ public class OntAPI {
 
     //Reading file timely effective grouped by id
     public void parseCareCSV() throws IOException, CsvValidationException {
-        Path hospitalCareFilePath = resourcePath.resolve(hospitalCareFileName);
         Hospital hospital;
-        CSVReader openCsvReader = new CSVReaderBuilder(Files.newBufferedReader(hospitalCareFilePath))
-                                    .withSkipLines(1)
-                                    .build();
+
+        CSVReader openCsvReader = new CSVReaderBuilder(
+                new InputStreamReader(
+                        Objects.requireNonNull(getClass()
+                                .getClassLoader()
+                                .getResourceAsStream(hospitalCareFileName))))
+                .withSkipLines(1)
+                .build();
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
@@ -273,6 +278,9 @@ public class OntAPI {
         instanceModel.parseSpendingCSV();
         instanceModel.parseCareCSV();
         instanceModel.filterHospitals();
+
+//        instanceModel.hospitalsMap.values().forEach(e -> System.out.println(e.getHospitalName() + " " + e.getMedicareAmount()));
+//        instanceModel.statesMap.values().forEach(e -> System.out.println(e.getFullStateName() + " " + e.getAmount()));
 
 //        instanceModel.hospitalsMap.values().forEach(System.out::println);
 
