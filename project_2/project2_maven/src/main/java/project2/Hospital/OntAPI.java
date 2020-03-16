@@ -5,6 +5,7 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
+import project2.Hospital.utils.US_States;
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;

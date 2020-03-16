@@ -3,6 +3,7 @@ package project2.Hospital;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.XSD;
 
@@ -53,7 +54,20 @@ public class OntModel {
         OntClass averagemedicarespending = model.createClass(NS + Classes.AverageMedicareSpending);
         OntClass score = model.createClass(NS + Classes.Score);
         OntClass rating = model.createClass(NS + Classes.Rating);
-        OntClass year = model.createClass(NS + Classes.Year);	
+        OntClass year = model.createClass(NS + Classes.Year);
+        
+        // Class range for appropriate classes
+        address.addRDFType(XSD.xstring);
+        zipcode.addRDFType(XSD.xstring);
+        city.addRDFType(XSD.xstring);
+        type.addRDFType(XSD.xstring);
+        ownership.addRDFType(XSD.xstring);
+        phonenumber.addRDFType(XSD.xstring);
+        facilityid.addRDFType(XSD.xint);
+        facilityname.addRDFType(XSD.xstring);
+        emergencyservices.addRDFType(XSD.xboolean);
+        averagemedicarespending.addRDFType(XSD.decimal);
+        score.addRDFType(XSD.xstring);
         
         // D.Phuc's
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
@@ -61,6 +75,18 @@ public class OntModel {
         medicaremetadata.addSubClass(hospital);
         medicaremetadata.addSubClass(state);
         medicaremetadata.addSubClass(country);
+        
+        // Intersecting classes
+        hospital.convertToIntersectionClass(
+        		model.createList(
+        			new RDFNode[] {type, ownership, phonenumber, facilityid,
+        						   facilityname, emergencyservices}));
+        year.convertToIntersectionClass(
+        		model.createList(
+        			new RDFNode[] {averagemedicarespending, score, rating}));
+        location.convertToIntersectionClass(
+        		model.createList(
+        			new RDFNode[] {address, zipcode, city, state, country}));
         
         // Comments
 //        nation.addComment("", "EN");
