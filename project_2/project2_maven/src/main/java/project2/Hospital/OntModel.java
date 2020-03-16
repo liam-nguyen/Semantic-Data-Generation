@@ -3,6 +3,7 @@ package project2.Hospital;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.XSD;
 
@@ -62,6 +63,17 @@ public class OntModel {
         medicaremetadata.addSubClass(state);
         medicaremetadata.addSubClass(country);
         
+        // Intersecting classes
+        hospital.convertToIntersectionClass(
+        		model.createList(
+        			new RDFNode[] {type, ownership, phonenumber, facilityid,
+        						   facilityname, emergencyservices}));
+        year.convertToIntersectionClass(
+        		model.createList(
+        			new RDFNode[] {averagemedicarespending, score, rating}));
+        location.convertToIntersectionClass(
+        		model.createList(
+        			new RDFNode[] {address, zipcode, city, state, country}));
         
         // Comments
 //        nation.addComment("", "EN");

@@ -5,14 +5,10 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
-<<<<<<< HEAD
 import project2.Hospital.utils.US_States;
-import java.io.*;
-=======
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
->>>>>>> bd702c06e4275c7fff98c40363d3323487e9446e
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
