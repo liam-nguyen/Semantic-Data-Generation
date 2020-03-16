@@ -3,9 +3,16 @@ package project2.Hospital;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.util.URIref;
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
+import project2.Hospital.utils.Stopwatch;
+
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,25 +33,32 @@ public class OntAPI {
 
     public OntAPI() {
         model = new OntModel().getModel();
-        hospitals = new ArrayList<Hospital>();
-        states = new ArrayList<State>();
+        hospitals = new ArrayList<>();
+        states = new ArrayList<>();
         hospitalsMap = new HashMap<>();
     }
 
-    public void addState(State s) {
-        states.add(s);
-    }
-    public void addNationMedicareSpending(String amount) {
+     public void addNationMedicareSpending(String amount) {
         nationAverage = amount;
     }
 
-    public static void addHospitalToModel(List<Hospital> hospitals) {
+    public static String URLEncoder(String s) {
+        String encoded_s = null;
         try {
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("model.rdf"), "utf-8"));
+            encoded_s = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            System.out.println(e.toString());
+        }
+        return encoded_s;
+    }
+
+    public static void addHospitalToModel(List<Hospital> hospitals) {
+//        try {
+//            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("model.rdf"), "utf-8"));
 
             for (Hospital h : hospitals) {
                 OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
-                Individual instance = hospital.createIndividual(OntModel.NS + h.getHospitalName());
+                Individual instance = hospital.createIndividual(OntModel.NS + URLEncoder(h.getHospitalName()));
                 Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityID);
                 Property hasFacilityName = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityName);
                 Property hasEmergencyService = model.getProperty(OntModel.NS + OntModel.Props.hasEmergencyService);
@@ -52,34 +66,29 @@ public class OntAPI {
                 Property hasScore = model.getProperty(OntModel.NS + OntModel.Props.hasScore);
                 Property hasRating = model.getProperty(OntModel.NS + OntModel.Props.hasRating);
                 Property hasMedicareSpending = model.getProperty(OntModel.NS + OntModel.Props.hasAverageMedicareSpending);
-                //  RDFNode phoneNumberRange=model.createTypedLiteral(h.getPhoneNumber(), XSDDatatype.XSDstring);
-                // hasPhoneNumber.addProperty(RDFS.range,instance);
 
-                model.add(instance, hasFacilityName, h.getHospitalName());
+                model.add(instance, hasFacilityName, URLEncoder(h.getHospitalName()));
                 model.add(instance, hasID, h.getID());
                 model.add(instance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
                 model.add(instance, hasPhoneNumber, h.getPhoneNumber());
                 model.add(instance, hasScore, h.getRating());
                 model.add(instance, hasScore, h.getScore());
                 model.add(instance, hasRating, h.getRating());
-                // System.out.println("Medicare amount"+h.getMedicareAmount());
                 model.add(instance, hasMedicareSpending, h.getMedicareAmount());
-                //  model.add(instance,hasPhoneNumber,phoneNumberRange);
+//                System.out.println("Done hospital" + h.toString());
             }
-
 //            Write model to a file
-            model.write(writer);
-//              model.write(System.out);
-        } catch(Exception e){
-            System.out.println("Exception in writing to a file"+e);
-        }
+//            model.write(writer);
+//        } catch (Exception e){
+//            System.out.println("Exception in writing to a file"+e);
+//        }
     }
 
     public void display() { model.write(System.out); }
 
     public void writeToFile(Path path) throws IOException {
         Path filePath = path.resolve("Hospital.owl");
-        FileWriter out = new FileWriter(filePath.toString());
+        BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
         model.write(out);
     }
     public void writeToFile() throws IOException {
@@ -173,7 +182,7 @@ public class OntAPI {
         return hospitalsMap.containsKey(ID) ? hospitalsMap.get(ID) : Hospital.create(ID);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         OntAPI instanceModel = new OntAPI();
         Hospital hospital;
 
@@ -261,11 +270,16 @@ public class OntAPI {
         }
 //        instanceModel.parseCSVs();
 //        addHospitalToModel(hospitals);
-//        addHospitalToModel(new ArrayList<>(hospitalsMap.values()));
-//        instanceModel.writeToFile();
-//        for (var entry : hospitalsMap.entrySet()) {
-//            Hospital h = entry.getValue();
-//            System.out.println(entry.getKey() + h.hospitalName);
-//        }
+        System.out.println("Done building hospitalsMap");
+        Stopwatch timer = new Stopwatch();
+        addHospitalToModel(new ArrayList<>(hospitalsMap.values()));
+        System.out.println("Add Hospital Time: " + timer.elapsedTime());
+
+        timer = new Stopwatch();
+        instanceModel.writeToFile();
+        System.out.println("Write Owl Time: " + timer.elapsedTime());
+//        String base = "https://data.medicare.gov/d/nrth-mfg3#";
+//        String badString = "HOSPITAL DISTRICT #1 OF RICE COUNTY";
+//        System.out.println(URLEncoder.encode(badString, StandardCharsets.UTF_8.toString()));
     }
 }
