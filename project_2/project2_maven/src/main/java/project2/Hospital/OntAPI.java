@@ -1,6 +1,10 @@
 package project2.Hospital;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
 import project2.Hospital.utils.Hospital;
@@ -8,6 +12,7 @@ import project2.Hospital.utils.State;
 import project2.Hospital.utils.Stopwatch;
 import java.io.*;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -22,10 +27,10 @@ public class OntAPI {
     static final Path basePath = FileSystems.getDefault().getPath("").toAbsolutePath();
     static final Path resourcePath = basePath.resolve(Paths.get("src", "main", "resources"));
 
-    public static org.apache.jena.ontology.OntModel model;
-    static Map<String, Hospital> hospitalsMap;
-    static Map<String, State> statesMap;
-    static String nationAverage = "-1";
+    public org.apache.jena.ontology.OntModel model;
+    Map<String, Hospital> hospitalsMap;
+    Map<String, State> statesMap;
+    String nationAverage = "-1";
 
     public OntAPI() {
         model = new OntModel().getModel();
@@ -33,10 +38,37 @@ public class OntAPI {
         hospitalsMap = new HashMap<>();
     }
 
-    public static void addHospitalToModel(List<Hospital> hospitals) {
+    public void addHospitalToModel(List<Hospital> hospitals) {
+        final String yearStr = "2018";
+        int total = hospitals.size();
+        Stopwatch timer;
+
+        OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
+        OntClass state = model.getOntClass(OntModel.NS + OntModel.Classes.State);
+        OntClass country = model.getOntClass(OntModel.NS + OntModel.Classes.Country);
+        OntClass type = model.getOntClass(OntModel.NS + OntModel.Classes.Type);
+        OntClass ownership = model.getOntClass(OntModel.NS + OntModel.Classes.Ownership);
+        OntClass statistics = model.getOntClass(OntModel.NS + OntModel.Classes.Statistics);
+        OntClass averagemedicarespending = model.getOntClass(OntModel.NS + OntModel.Classes.AverageMedicareSpending);
+        OntClass score = model.getOntClass(OntModel.NS + OntModel.Classes.Score);
+        OntClass rating = model.getOntClass(OntModel.NS + OntModel.Classes.Rating);
+        OntClass year = model.getOntClass(OntModel.NS + OntModel.Classes.Year);
+
         for (Hospital h : hospitals) {
-            OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
-            Individual instance = hospital.createIndividual(OntModel.NS + h.getID());
+            timer = new Stopwatch();
+            Individual hospitalInstance = hospital.createIndividual(OntModel.NS + h.getID());
+            Individual stateInstance = getIndividual(state, OntModel.NS + h.getState());
+            Individual usa = getIndividual(country, OntModel.NS + h.getCountry());
+            Individual typeInstance = getIndividual(type, OntModel.NS + h.getType());
+            Individual ownershipInstance = getIndividual(ownership, OntModel.NS + h.getOwnershipName());
+            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmount());
+            Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScore());
+            Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRating());
+            Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
+            Individual statisticsInstance = getIndividual(statistics, OntModel.NS + h.getID() + yearStr);
+            System.out.println("Individual time: " + timer.elapsedTime());
+
+            timer = new Stopwatch();
             Property hasID = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityID);
             Property hasFacilityName = model.getProperty(OntModel.NS + OntModel.Props.hasFacilityName);
             Property hasEmergencyService = model.getProperty(OntModel.NS + OntModel.Props.hasEmergencyService);
@@ -51,26 +83,34 @@ public class OntAPI {
             Property hasAddress = model.getProperty(OntModel.NS + OntModel.Props.hasAddress);
             Property hasOwnership = model.getProperty(OntModel.NS + OntModel.Props.hasOwnership);
             Property hasType = model.getProperty(OntModel.NS + OntModel.Props.hasType);
+            Property hasStatistics = model.getProperty(OntModel.NS + OntModel.Props.hasStatistics);
+            Property hasYear = model.getProperty(OntModel.NS + OntModel.Props.hasYear);
+            System.out.println("Property time: " + timer.elapsedTime());
 
-            model.add(instance, hasFacilityName, h.getHospitalName());
-            model.add(instance, hasID, h.getID());
-            model.add(instance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
-            model.add(instance, hasPhoneNumber, h.getPhoneNumber());
-            model.add(instance, hasScore, h.getRating());
-            model.add(instance, hasScore, h.getScore());
-            model.add(instance, hasRating, h.getRating());
-            model.add(instance, hasMedicareSpending, h.getMedicareAmount());
-            model.add(instance, hasAddress, h.getAddress());
-            model.add(instance, hasCountry, h.getCountry());
-            model.add(instance, hasCity, h.getCity());
-            model.add(instance, hasState, h.getState());
-            model.add(instance, hasZipCode, h.getZipcode());
-            model.add(instance, hasOwnership, h.getOwnershipName());
-            model.add(instance, hasType, h.getType());
+            timer = new Stopwatch();
+            model.add(hospitalInstance, hasFacilityName, h.getHospitalName());
+            model.add(hospitalInstance, hasID, h.getID());
+            model.add(hospitalInstance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
+            model.add(hospitalInstance, hasPhoneNumber, h.getPhoneNumber());
+            model.add(hospitalInstance, hasAddress, h.getAddress());
+            model.add(hospitalInstance, hasCountry, usa);
+            model.add(hospitalInstance, hasCity, h.getCity());
+            model.add(hospitalInstance, hasState, stateInstance);
+            model.add(hospitalInstance, hasZipCode, h.getZipcode());
+            model.add(hospitalInstance, hasOwnership, ownershipInstance);
+            model.add(hospitalInstance, hasType, typeInstance);
+
+            model.add(statisticsInstance, hasScore, scoreInstance);
+            model.add(statisticsInstance, hasRating, ratingInstance);
+            model.add(statisticsInstance, hasMedicareSpending, averagemedicarespendingInstance);
+            model.add(statisticsInstance, hasYear, yearInstance);
+            model.add(hospitalInstance, hasStatistics, statisticsInstance);
+            System.out.println("Model Adding time: " + timer.elapsedTime());
+            System.out.println("Remained: " + (--total) + " - Processed " + h);
         }
     }
 
-    public static void addStateSpending(List<State> states) {
+    public void addStateSpending(List<State> states) {
         OntClass state = model.getOntClass(OntModel.NS + OntModel.Classes.State);
         for (State s : states) {
             Individual stateInstance = model.getIndividual(OntModel.NS + s.getAbbr());
@@ -78,12 +118,12 @@ public class OntAPI {
                 stateInstance = state.createIndividual(OntModel.NS + s.getAbbr());
                 stateInstance.addComment(s.getFullStateName(), "EN");
             }
-            Property hasAverageSpending = model.getProperty(OntModel.NS + OntModel.Props.hasAverageMedicareSpending);
-            model.add(stateInstance, hasAverageSpending, s.getAmount());
+            Property hasAverageMedicareSpending = model.getProperty(OntModel.NS + OntModel.Props.hasAverageMedicareSpending);
+            model.add(stateInstance, hasAverageMedicareSpending, s.getAmount());
         }
     }
 
-    public static void addNationSpending() {
+    public void addNationSpending() {
         OntClass country = model.getOntClass(OntModel.NS + OntModel.Classes.Country);
         Individual instance = country.createIndividual(OntModel.NS + "USA");
         instance.addLabel("United State of America", "EN");
@@ -106,7 +146,7 @@ public class OntAPI {
 
     public Hospital getHospital(String ID) {
         if (hospitalsMap.containsKey(ID)) return hospitalsMap.get(ID);
-        System.out.println("Can't find hospital ID: " + ID);
+//        System.out.println("Can't find hospital ID: " + ID);
         return Hospital.create(ID);
     }
 
@@ -114,15 +154,15 @@ public class OntAPI {
         return statesMap.containsKey(abbr) ? statesMap.get(abbr) : State.create(abbr);
     }
 
-    public void parseGeneralCSV() throws IOException {
+    public void parseGeneralCSV() throws IOException, CsvValidationException {
         Path hospitalGeneralFilePath = resourcePath.resolve(hospitalGeneralFileName);
         Hospital hospital;
-        String row;
+        CSVReader openCsvReader = new CSVReaderBuilder(Files.newBufferedReader(hospitalGeneralFilePath))
+                                                            .withSkipLines(1)
+                                                            .build();
 
-        BufferedReader csvReader = new BufferedReader(new FileReader(hospitalGeneralFilePath.toString()));
-        csvReader.readLine(); // ignore first line
-        while ((row = csvReader.readLine()) != null) {
-            String[] data = row.split(",");
+        String[] data;
+        while ((data = openCsvReader.readNext()) != null) {
             String facilityId = data[0];
             String facilityName = data[1];
             String address = data[2];
@@ -156,14 +196,14 @@ public class OntAPI {
     }
 
     //Reading file hospital spending by claim
-    public void parseSpendingCSV() throws IOException {
+    public void parseSpendingCSV() throws IOException, CsvValidationException {
         Path hospitalSpendingFilePath = resourcePath.resolve(hospitalSpendingFileName);
-        BufferedReader csvReader = new BufferedReader(new FileReader(hospitalSpendingFilePath.toString()));
-        String row;
+        CSVReader openCsvReader = new CSVReaderBuilder(Files.newBufferedReader(hospitalSpendingFilePath))
+                                        .withSkipLines(1)
+                                        .build();
 
-        csvReader.readLine(); // ignore first line
-        while ((row = csvReader.readLine()) != null) {
-            String[] data = row.split(",");
+        String[] data;
+        while ((data = openCsvReader.readNext()) != null) {
             final String facilityID = data[0];
             String state = data[2];
             String averageSpendingPerEpisodeHospital = data[5];
@@ -186,15 +226,15 @@ public class OntAPI {
     }
 
     //Reading file timely effective grouped by id
-    public void parseCareCSV() throws IOException {
+    public void parseCareCSV() throws IOException, CsvValidationException {
         Path hospitalCareFilePath = resourcePath.resolve(hospitalCareFileName);
         Hospital hospital;
-        BufferedReader csvReader = new BufferedReader(new FileReader(hospitalCareFilePath.toString()));
-        String row;
+        CSVReader openCsvReader = new CSVReaderBuilder(Files.newBufferedReader(hospitalCareFilePath))
+                                    .withSkipLines(1)
+                                    .build();
 
-        csvReader.readLine(); // ignore first line
-        while ((row = csvReader.readLine()) != null) {
-            String[] data = row.split(",");
+        String[] data;
+        while ((data = openCsvReader.readNext()) != null) {
             String facilityID = data[0];
             String totalScore = data[8];
 
@@ -204,30 +244,50 @@ public class OntAPI {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    // Filter out hospitals that doesn't have spending or score
+    public void filterHospitals() {
+        hospitalsMap.entrySet().removeIf(entry -> {
+            Hospital h = entry.getValue();
+            return  h.getHospitalName().equals("") || // Hospital not in general information dataset
+                    h.getScore().equals("-1") ||  // Hospital not in timely and effective dataset
+                    h.getRating().equals("-1") || // Hospital doesn't have rating
+                    h.getRating().equals("Not Available"); // Hospital doesn't have rating
+        });
+    }
+
+    /** Utilities **/
+    private Individual getIndividual(OntClass instanceClass, String URI) {
+        Individual instance = model.getIndividual(URI);
+        if (instance == null) return instanceClass.createIndividual(URI);
+        return instance;
+    }
+
+    public static void main(String[] args) throws IOException, CsvValidationException {
         OntAPI instanceModel = new OntAPI();
 
         //Read csv file and get all values
         instanceModel.parseGeneralCSV();
         instanceModel.parseSpendingCSV();
         instanceModel.parseCareCSV();
+        instanceModel.filterHospitals();
 
-//        for (var e : hospitalsMap.values()) {
-//            System.out.println(e);
-//        }
+//        instanceModel.hospitalsMap.values().forEach(System.out::println);
+
         // Build models
-//        System.out.println("HospitalsMap - Complete");
-//        Stopwatch timer = new Stopwatch();
-//        addHospitalToModel(new ArrayList<>(hospitalsMap.values()));
-//        System.out.println("Model Hospital - Complete - Time: " + timer.elapsedTime());
-//
-//        timer = new Stopwatch();
-//        addStateSpending(new ArrayList<>(statesMap.values()));
-//        System.out.println("Model Hospital - Complete - Time: " + timer.elapsedTime());
-//
-//        addNationSpending();
-//        timer = new Stopwatch();
-//        instanceModel.writeToFile();
-//        System.out.println("Write Owl - Complete - Time: " + timer.elapsedTime());
+        System.out.println("Complete adding all hospitals. Size: " + instanceModel.hospitalsMap.size());
+        System.out.println("Building Ontology, please wait...It might take some time...");
+        Stopwatch timer = new Stopwatch();
+        instanceModel.addHospitalToModel(new ArrayList<>(instanceModel.hospitalsMap.values()));
+        System.out.println("Building Hospital Ontology - Complete - Time: " + timer.elapsedTime());
+
+        timer = new Stopwatch();
+        instanceModel.addStateSpending(new ArrayList<>(instanceModel.statesMap.values()));
+        System.out.println("Building State Ontology - Complete - Time: " + timer.elapsedTime());
+
+        instanceModel.addNationSpending();
+        timer = new Stopwatch();
+        System.out.println("Writing to file Hospital.owl...");
+        instanceModel.writeToFile();
+        System.out.println("Writing to file Hospital.owl - Complete - Time: " + timer.elapsedTime());
     }
 }

@@ -1,10 +1,21 @@
 package project2.Hospital.utils;
 
 public class Hospital {
-        public String ID,hospitalName,score = "-1",rating = "-1",sampleSize = "-1",ownershipName,type;
-        public String zipcode, address, state, country = "USA", city, phoneNumber;
+        public String ID,
+                hospitalName = "" ,
+                score = "-1",
+                rating = "-1",
+                sampleSize = "-1",
+                ownershipName="",
+                type="";
+        public String zipcode="",
+                address="",
+                state="",
+                country = "USA",
+                city="",
+                phoneNumber="";
         public String medicareAmount = "-1";
-        public String hasEmergency;
+        public String hasEmergency="";
 
         private Hospital(String ID) {
             this.ID = ID;
