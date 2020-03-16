@@ -1,11 +1,15 @@
 package project2.Hospital;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
+
 import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
 import project2.Hospital.utils.Stopwatch;
+import project2.Hospital.utils.US_States;
+
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -38,7 +42,6 @@ public class OntAPI {
      public void addNationMedicareSpending(String amount) {
         nationAverage = amount;
     }
-
     public static String URLEncoder(String s) {
         String encoded_s = null;
         try {
@@ -50,9 +53,6 @@ public class OntAPI {
     }
 
     public static void addHospitalToModel(List<Hospital> hospitals) {
-//        try {
-//            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("model.rdf"), "utf-8"));
-
             for (Hospital h : hospitals) {
                 OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
                 Individual instance = hospital.createIndividual(OntModel.NS + URLEncoder(h.getHospitalName()));
@@ -63,6 +63,13 @@ public class OntAPI {
                 Property hasScore = model.getProperty(OntModel.NS + OntModel.Props.hasScore);
                 Property hasRating = model.getProperty(OntModel.NS + OntModel.Props.hasRating);
                 Property hasMedicareSpending = model.getProperty(OntModel.NS + OntModel.Props.hasAverageMedicareSpending);
+                Property hasCity=model.getProperty(OntModel.NS+OntModel.Props.hasCity);
+                Property hasState=model.getProperty(OntModel.NS+OntModel.Props.hasState);
+                Property hasCountry=model.getProperty(OntModel.NS+OntModel.Props.hasCountry);
+                Property hasZipCode=model.getProperty(OntModel.NS+OntModel.Props.hasZipcode);
+                Property hasAddress=model.getProperty(OntModel.NS+OntModel.Props.hasAddress);
+                Property hasOwnership=model.getProperty(OntModel.NS+OntModel.Props.hasOwnership);
+                Property hasType=model.getProperty(OntModel.NS+OntModel.Props.hasType);
 
                 model.add(instance, hasFacilityName, URLEncoder(h.getHospitalName()));
                 model.add(instance, hasID, h.getID());
@@ -72,14 +79,52 @@ public class OntAPI {
                 model.add(instance, hasScore, h.getScore());
                 model.add(instance, hasRating, h.getRating());
                 model.add(instance, hasMedicareSpending, h.getMedicareAmount());
-//                System.out.println("Done hospital" + h.toString());
+                model.add(instance, hasAddress,h.getAddress());
+                model.add(instance, hasCountry, h.getCountry());
+                model.add(instance, hasCity, h.getCity());
+                model.add(instance, hasState, h.getState());
+                model.add(instance, hasZipCode, h.getZipcode());
+                model.add(instance, hasOwnership, h.getOwnershipName());
+                model.add(instance, hasType, h.getType());
+        }
+    }
+
+    public static void addStateSpending(String stateName, String amount) {
+//        try {
+//            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("model.owl"), "utf-8"));
+            // Gather classes and properties
+            OntClass state = model.getOntClass(OntModel.NS + OntModel.Classes.State);
+            Individual stateInstance = model.getIndividual(OntModel.NS + stateName);
+            if (stateInstance == null) {
+                stateInstance = state.createIndividual(OntModel.NS + stateName);
+                stateInstance.addComment(US_States.getFullStateName(stateName), "EN");
             }
-//            Write model to a file
+            Property hasAverageSpending = model.getProperty(OntModel.NS + OntModel.Props.hasAverageMedicareSpending);
+            model.add(stateInstance, hasAverageSpending, amount);
 //            model.write(writer);
-//        } catch (Exception e){
-//            System.out.println("Exception in writing to a file"+e);
+//        }catch(Exception e){
+//            System.out.println("Exception in writing to a file in addStateSpending "+e);
 //        }
     }
+
+    public static void addNationSpending(String amount) {
+//        try {
+//            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("model.owl"), "utf-8"));
+            // Gather classes and properties
+            OntClass country = model.getOntClass(OntModel.NS + OntModel.Classes.Country);
+            Individual instance = model.getIndividual(OntModel.NS + "USA");
+            if (instance == null) {
+                instance = country.createIndividual(OntModel.NS + "USA");
+                instance.addLabel("United State of America", "EN");
+            }
+            Property hasAverageSpending = model.getProperty(OntModel.NS + OntModel.Props.hasAverageMedicareSpending);
+            model.add(instance, hasAverageSpending, amount);
+//            model.write(writer);
+//        }catch(Exception e){
+//            System.out.println("Exception in writing to a file in addNationSpending "+e.toString());
+//        }
+    }
+
 
     public void display() { model.write(System.out); }
 
@@ -93,87 +138,6 @@ public class OntAPI {
         writeToFile(root);
     }
 
-//    public void parseCSVs() {
-//        Hospital hospital;
-//
-//        //Read csv file and get all values
-//        Path basePath = FileSystems.getDefault().getPath("").toAbsolutePath();
-//        Path resourcePath = basePath.resolve(Paths.get("src", "main", "resources"));
-//
-//        Path hospitalGeneralFilePath = resourcePath.resolve(hospitalGeneralFileName);
-//        Path hospitalSpendingFilePath = resourcePath.resolve(hospitalSpendingFileName);
-//        Path hospitalCareFilePath = resourcePath.resolve(hospitalCareFileName);
-//
-//        try {
-//            BufferedReader csvReader = new BufferedReader(new FileReader(hospitalGeneralFilePath.toString()));
-//            String row = csvReader.readLine();
-//            while ((row = csvReader.readLine()) != null) {
-//                //  row = csvReader.readLine();
-//                String[] data = row.split(",");
-//                String facilityId = data[0];
-//                String facilityName = data[1];
-//                String address=data[2];
-//                String city=data[3];
-//                String state=data[4];
-//                String zipCode=data[5];
-//                String countryName=data[6];
-//                String phoneNumber=data[7];
-//                String hospitalType=data[8];
-//                String ownership=data[9];
-//                boolean emergencyService=Boolean.getBoolean(data[10]);
-//                String rating=data[12];
-//                //Creating hospital object
-//                hospital=Hospital.create(facilityId).name(facilityName).address(address).city(city).state(state).zipCode(zipCode).country(countryName).
-//                        phoneNumber(phoneNumber).type(hospitalType).ownership(ownership).hasEmergency(emergencyService).rating(rating).validate();
-//                //Adding hospital to list of hospitals
-//                hospitals.add(hospital);
-//            }
-//
-//            //Reading file hospital spending by claim
-//            csvReader = new BufferedReader(new FileReader(hospitalSpendingFilePath.toString()));
-//            row=csvReader.readLine();
-//            while((row=csvReader.readLine())!=null){
-//                String[] data = row.split(",");
-//                final String facilityID=data[0];
-//                String facilityName=data[1];
-//                String state=data[2];
-//                String period=data[3];
-//                String claimType=data[4];
-//                String averageSpendingPerEpisodeHopsital=data[5];
-//                String averageSpendingPerEpisodeState=data[6];
-//                String averageSpendingPerEpisodeNation=data[7];
-//
-//                //Check if the facility id already exists, if it exists modify the ibject by adding values
-//                Iterator<Hospital> iterator = hospitals.iterator();
-//                while (iterator.hasNext()) {
-//                    Hospital hospital1 = iterator.next();
-//                    if (hospital1.getID().equals(facilityID)) {
-//                        hospital1.setMedicareAmount(averageSpendingPerEpisodeHopsital);
-//                    }
-//                }
-//            }
-//            //Reading file timely effective grouped by id
-//            csvReader = new BufferedReader(new FileReader(hospitalCareFilePath.toString()));
-//            row = csvReader.readLine();
-//            System.out.println(row);
-//            while ((row = csvReader.readLine()) != null) {
-//                //  row = csvReader.readLine();
-//                String[] data = row.split(",");
-//                String facilityID = data[0];
-//                String facilityName = data[1];
-//                String Address = data[2];
-//                String city = data[3];
-//                String state = data[4];
-//                String zipcode = data[5];
-//                String countyName = data[6];
-//                String PhoneNumber = data[7];
-//                String totalScore = data[8];
-//                String totalSample = data[9];
-//            }
-//        } catch(Exception e){
-//            System.out.println("Exception in reading file"+ e.toString());
-//        }
-//    }
 
     public Hospital getHospital(String ID) {
         return hospitalsMap.containsKey(ID) ? hospitalsMap.get(ID) : Hospital.create(ID);
@@ -195,7 +159,6 @@ public class OntAPI {
             BufferedReader csvReader = new BufferedReader(new FileReader(hospitalGeneralFilePath.toString()));
             String row = csvReader.readLine();
             while ((row = csvReader.readLine()) != null) {
-                //  row = csvReader.readLine();
                 String[] data = row.split(",");
                 String facilityId = data[0];
                 String facilityName = data[1];
@@ -213,8 +176,7 @@ public class OntAPI {
                 //Creating hospital object
                 hospital=Hospital.create(facilityId).name(facilityName).address(address).city(city).state(state).zipCode(zipCode).country(countryName).
                         phoneNumber(phoneNumber).type(hospitalType).ownership(ownership).hasEmergency(emergencyService).rating(rating).validate();
-               //Adding hospital to list of hospitals
-//                hospitals.add(hospital);
+                //Adding hospital to the hashmap of hospitals
                 hospitalsMap.put(facilityId, hospital);
             }
 
@@ -224,24 +186,22 @@ public class OntAPI {
             while((row=csvReader.readLine())!=null){
                 String[] data = row.split(",");
                 final String facilityID=data[0];
-                String facilityName=data[1];
                 String state=data[2];
-                String period=data[3];
-                String claimType=data[4];
-                String averageSpendingPerEpisodeHopsital=data[5];
+                String averageSpendingPerEpisodeHospital=data[5];
                 String averageSpendingPerEpisodeState=data[6];
                 String averageSpendingPerEpisodeNation=data[7];
 
-//                //Check if the facility id already exists, if it exists modify the ibject by adding values
-//                Iterator<Hospital> iterator = hospitals.iterator();
-//                while (iterator.hasNext()) {
-//                    Hospital hospital1 = iterator.next();
-//                    if (hospital1.getID().equals(facilityID)) {
-//                        hospital1.setMedicareAmount(averageSpendingPerEpisodeHopsital);
-//                    }
-//                }
+                //Check if the facilityId already exists in the map, modify the object by adding averageSpendig
                 hospital = instanceModel.getHospital(facilityID);
-                hospital.setMedicareAmount(averageSpendingPerEpisodeHopsital);
+                if(hospital!=null)
+                    hospital.setMedicareAmount(averageSpendingPerEpisodeHospital);
+
+                //Adding average spending to the state
+                System.out.println("Data: " + data[2]);
+                addStateSpending(state,averageSpendingPerEpisodeState);
+
+                //Adding average spending to the nation
+                addNationSpending(averageSpendingPerEpisodeNation);
             }
 
             //Reading file timely effective grouped by id
@@ -249,20 +209,18 @@ public class OntAPI {
             row = csvReader.readLine();
             System.out.println(row);
             while ((row = csvReader.readLine()) != null) {
-                //  row = csvReader.readLine();
                 String[] data = row.split(",");
                 String facilityID = data[0];
-                String facilityName = data[1];
-                String Address = data[2];
-                String city = data[3];
-                String state = data[4];
-                String zipcode = data[5];
-                String countyName = data[6];
-                String PhoneNumber = data[7];
                 String totalScore = data[8];
-                String totalSample = data[9];
+
+                //Check if facility already exists in the hashmap and modify the hospital object
+                hospital = instanceModel.getHospital(facilityID);
+                if(hospital!=null)
+                    hospital.setScore(totalScore);
             }
+
         } catch(Exception e){
+            e.printStackTrace();
             System.out.println("Exception in reading file"+ e.toString());
         }
 //        instanceModel.parseCSVs();
