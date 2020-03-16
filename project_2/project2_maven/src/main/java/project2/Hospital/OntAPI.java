@@ -42,7 +42,7 @@ public class OntAPI {
     public void addHospitalToModel(List<Hospital> hospitals) {
         final String yearStr = "2018";
         int total = hospitals.size();
-//        Stopwatch timer;
+        Stopwatch timer;
 
         OntClass hospital = model.getOntClass(OntModel.NS + OntModel.Classes.Hospital);
         OntClass state = model.getOntClass(OntModel.NS + OntModel.Classes.State);
@@ -51,21 +51,14 @@ public class OntAPI {
         OntClass ownership = model.getOntClass(OntModel.NS + OntModel.Classes.Ownership);
         OntClass statistics = model.getOntClass(OntModel.NS + OntModel.Classes.Statistics);
         OntClass averagemedicarespending = model.getOntClass(OntModel.NS + OntModel.Classes.AverageMedicareSpending);
-        OntClass score = model.getOntClass(OntModel.NS + OntModel.Classes.Score);
-        OntClass rating = model.getOntClass(OntModel.NS + OntModel.Classes.Rating);
-        OntClass year = model.getOntClass(OntModel.NS + OntModel.Classes.Year);
 
         for (Hospital h : hospitals) {
 //            timer = new Stopwatch();
             Individual hospitalInstance = hospital.createIndividual(OntModel.NS + h.getID());
             Individual stateInstance = getIndividual(state, OntModel.NS + h.getState());
-            Individual usa = getIndividual(country, OntModel.NS + h.getCountry());
+            Individual usa = getIndividual(country, OntModel.NS + "USA");
             Individual typeInstance = getIndividual(type, OntModel.NS + h.getType());
             Individual ownershipInstance = getIndividual(ownership, OntModel.NS + h.getOwnershipName());
-            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmount());
-            Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScore());
-            Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRating());
-            Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
             Individual statisticsInstance = getIndividual(statistics, OntModel.NS + h.getID() + yearStr);
 //            System.out.println("Individual time: " + timer.elapsedTime());
 
@@ -101,10 +94,10 @@ public class OntAPI {
             model.add(hospitalInstance, hasOwnership, ownershipInstance);
             model.add(hospitalInstance, hasType, typeInstance);
 
-            model.add(statisticsInstance, hasScore, scoreInstance);
-            model.add(statisticsInstance, hasRating, ratingInstance);
-            model.add(statisticsInstance, hasMedicareSpending, averagemedicarespendingInstance);
-            model.add(statisticsInstance, hasYear, yearInstance);
+            model.add(statisticsInstance, hasScore, h.getScore());
+            model.add(statisticsInstance, hasRating, h.getRating());
+            model.add(statisticsInstance, hasMedicareSpending, h.getMedicareAmount());
+            model.add(statisticsInstance, hasYear, yearStr);
             model.add(hospitalInstance, hasStatistics, statisticsInstance);
 //            System.out.println("Model Adding time: " + timer.elapsedTime());
             System.out.println("Remained: " + (--total) + " - Processed " + h.getID());
@@ -281,11 +274,6 @@ public class OntAPI {
         instanceModel.parseSpendingCSV();
         instanceModel.parseCareCSV();
         instanceModel.filterHospitals();
-
-//        instanceModel.hospitalsMap.values().forEach(e -> System.out.println(e.getHospitalName() + " " + e.getMedicareAmount()));
-//        instanceModel.statesMap.values().forEach(e -> System.out.println(e.getFullStateName() + " " + e.getAmount()));
-
-//        instanceModel.hospitalsMap.values().forEach(System.out::println);
 
         // Build models
         System.out.println("Complete adding all hospitals. Size: " + instanceModel.hospitalsMap.size());

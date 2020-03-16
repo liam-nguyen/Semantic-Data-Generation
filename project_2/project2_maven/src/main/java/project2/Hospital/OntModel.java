@@ -3,7 +3,6 @@ package project2.Hospital;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.XSD;
 
@@ -18,8 +17,7 @@ public class OntModel {
         EmergencyServices, AverageMedicareSpending, Score, Rating, Year}
     public enum Props {hasFacilityID, hasFacilityName, hasAverageMedicareSpending, isFacilityIDOf,
         isFacilityNameOf, hasEmergencyService, isEmergencyServiceOf, hasPhoneNumber,
-        isAverageMedicareSpendingOf, hasScore, isScoreOf, hasRating, isRatingOf, hasLocation,
-        isLocationOf, hasAddress, isAddressOf, hasZipcode, isZipcodeOf, hasCity, isCityOf,
+        isAverageMedicareSpendingOf, hasScore, isScoreOf, hasRating, isRatingOf, hasAddress, isAddressOf, hasZipcode, isZipcodeOf, hasCity, isCityOf,
         hasState, isStateOf, hasCountry, isCountryOf, hasType, isTypeOf, hasOwnership,
         isOwnershipOf, hasYear, isYearOf, hasStatistics, isStatisticsOf}
 
@@ -41,7 +39,6 @@ public class OntModel {
         OntClass hospital = model.createClass(NS + Classes.Hospital);
         OntClass state = model.createClass(NS + Classes.State);
         OntClass statistics = model.createClass(NS + Classes.Statistics);
-//        OntClass location = model.createClass(NS + Classes.Location);
         OntClass country = model.createClass(NS + Classes.Country);
         OntClass address = model.createClass(NS + Classes.Address);
         OntClass zipcode = model.createClass(NS + Classes.Zipcode);
@@ -59,37 +56,22 @@ public class OntModel {
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
 
         // Class relationships
-//        address.addRDFType(XSD.xstring);
-//        zipcode.addRDFType(XSD.xstring);
-//        city.addRDFType(XSD.xstring);
-//        type.addRDFType(XSD.xstring);
-//        ownership.addRDFType(XSD.xstring);
-//        phonenumber.addRDFType(XSD.xstring);
-//        facilityid.addRDFType(XSD.xint);
-//        facilityname.addRDFType(XSD.xstring);
-//        emergencyservices.addRDFType(XSD.xboolean);
-//        averagemedicarespending.addRDFType(XSD.decimal);
-//        score.addRDFType(XSD.xstring);
-//        year.addRDFType(XSD.xint);
         medicaremetadata.addSubClass(hospital);
         medicaremetadata.addSubClass(state);
         medicaremetadata.addSubClass(country);
         
         // Intersecting classes
         hospital.convertToIntersectionClass(
-        		model.createList(type, ownership, score, rating,
+        		model.createList(type, ownership,
                         phonenumber, facilityid,
                         facilityname, emergencyservices));
         year.convertToIntersectionClass(
         		model.createList(averagemedicarespending, score, rating));
-//        location.convertToIntersectionClass(
-//        		model.createList(address, zipcode, city, state, country));
-        
-        // Comments
+
+        // Class comments
         state.addComment("One of 50 states in US", "EN");
         hospital.addComment("A hospital with general information and statistics", "EN");
         statistics.addComment("Various statistics for the hospital", "EN");
-//        location.addComment("A collection of information regarding the hospital's location", "EN");
         country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
         medicaremetadata.addComment("A collection of the hospital's statistical data", "EN");
 
@@ -168,18 +150,9 @@ public class OntModel {
         isYearOf.addComment("is a statistic's year", "EN");
         isYearOf.addInverseOf(hasYear);
         
-//        ObjectProperty hasLocation = model.createObjectProperty(NS + Props.hasLocation);
-//        hasLocation.addComment("has a hospital's location", "EN");
-//        hasLocation.addRange(location);
-//        hasLocation.addDomain(hospital);
-//        ObjectProperty isLocationOf = model.createObjectProperty(NS + Props.isLocationOf);
-//        isLocationOf.addComment("is a hospital's location", "EN");
-//        isLocationOf.addInverseOf(hasLocation);
-        
         ObjectProperty hasAddress = model.createObjectProperty(NS + Props.hasAddress);
         hasAddress.addComment("has a hospital location's address", "EN");
         hasAddress.addRange(address);
-//        hasAddress.addDomain(location);
         hasAddress.addDomain(hospital);
         ObjectProperty isAddressOf = model.createObjectProperty(NS + Props.isAddressOf);
         isAddressOf.addComment("is a hospital location's address", "EN");
@@ -188,7 +161,6 @@ public class OntModel {
         ObjectProperty hasZipcode = model.createObjectProperty(NS + Props.hasZipcode);
         hasZipcode.addComment("has a hospital location's Zipcode", "EN");
         hasZipcode.addRange(zipcode);
-//        hasZipcode.addDomain(location);
         hasZipcode.addDomain(hospital);
         ObjectProperty isZipcodeOf = model.createObjectProperty(NS + Props.isZipcodeOf);
         isZipcodeOf.addComment("is a hospital location's Zipcode", "EN");
@@ -197,7 +169,6 @@ public class OntModel {
         ObjectProperty hasCity = model.createObjectProperty(NS + Props.hasCity);
         hasCity.addComment("has a hospital location's city", "EN");
         hasCity.addRange(city);
-//        hasCity.addDomain(location);
         hasCity.addDomain(hospital);
         ObjectProperty isCityOf = model.createObjectProperty(NS + Props.isCityOf);
         isCityOf.addComment("is a hospital location's city", "EN");
@@ -206,7 +177,6 @@ public class OntModel {
         ObjectProperty hasCountry = model.createObjectProperty(NS + Props.hasCountry);
         hasCountry.addComment("has a hospital location's country", "EN");
         hasCountry.addRange(country);
-//        hasCountry.addDomain(location);
         hasCountry.addDomain(hospital);
         ObjectProperty isCountryOf = model.createObjectProperty(NS + Props.isCountryOf);
         isCountryOf.addComment("is a hospital location's country", "EN");
@@ -215,7 +185,6 @@ public class OntModel {
         ObjectProperty hasState = model.createObjectProperty(NS + Props.hasState);
         hasState.addComment("has a hospital location's state", "EN");
         hasState.addRange(state);
-//        hasState.addDomain(location);
         hasState.addDomain(hospital);
         ObjectProperty isStateOf = model.createObjectProperty(NS + Props.isStateOf);
         isStateOf.addComment("is a hospital location's state", "EN");
@@ -246,10 +215,10 @@ public class OntModel {
         isStatisticsOf.addInverseOf(hasStatistics);
     }
 
-    public static void main(String[] args) {
-        OntModel ontology = new OntModel();
-        org.apache.jena.ontology.OntModel model = ontology.getModel();
-
-        model.write(System.out);
-        }
+//    public static void main(String[] args) {
+//        OntModel ontology = new OntModel();
+//        org.apache.jena.ontology.OntModel model = ontology.getModel();
+//
+//        model.write(System.out);
+//        }
 }
