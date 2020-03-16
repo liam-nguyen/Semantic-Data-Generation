@@ -133,6 +133,7 @@ public class OntAPI {
 
     public void writeToFile() throws IOException {
         Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
+        
         writeToFile(root);
     }
 
