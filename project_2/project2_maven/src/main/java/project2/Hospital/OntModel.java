@@ -68,6 +68,7 @@ public class OntModel {
         emergencyservices.addRDFType(XSD.xboolean);
         averagemedicarespending.addRDFType(XSD.decimal);
         score.addRDFType(XSD.xstring);
+        year.addRDFType(XSD.xint);
         
         // D.Phuc's
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
