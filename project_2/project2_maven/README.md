@@ -33,14 +33,14 @@ datasets into semantic data in .rdf or .owl format
 
 ## Usage
 
+- To package jar
+
+```sh
+mvn clean package
+```
+
 - Run main by executing Jar file:
 
 ```sh
 java -jar target/project2_maven-1.0-SNAPSHOT-jar-with-dependencies.jar
-```
-
-- To repackage jar
-
-```sh
-mvn clean package
 ```
