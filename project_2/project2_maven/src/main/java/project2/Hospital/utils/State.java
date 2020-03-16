@@ -1,16 +1,22 @@
 package project2.Hospital.utils;
 
 public class State {
-    String name;
+    String abbr;
     String amount;
-    public State(String name) {
-        this.name = name;
-    }
-    public State(String name, String amount) {
-        this(name);
-        this.amount = amount;
+
+    public State(String abbr) {
+        this.abbr = abbr;
     }
 
-    public void setAmount(String amount) {this.amount = amount;}
-    public String getAmount() {return amount;}
+    public String getAbbr() {
+        return abbr;
+    }
+    public String getAmount() { return amount; }
+    public String getFullStateName() { return US_States.getFullStateName(abbr); }
+    public static State create(String abbr) {
+        return new State(abbr);
+    }
+    public void setAverageMedicareAmount(String amount) {
+        this.amount = amount;
+    }
 }

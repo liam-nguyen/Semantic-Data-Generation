@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 ﻿Facility ID,Facility Name,State,Period,Claim Type,Avg Spending Per Episode Hospital,Avg Spending Per Episode State,Avg Spending Per Episode Nation,Percent of Spending Hospital,Percent of Spending State,Percent of Spending Nation,Start Date,End Date
-=======
-Facility ID,Facility Name,State,Period,Claim Type,Avg Spending Per Episode Hospital,Avg Spending Per Episode State,Avg Spending Per Episode Nation,Percent of Spending Hospital,Percent of Spending State,Percent of Spending Nation,Start Date,End Date
->>>>>>> 3ffbf2b3cedf061330476a37f3ad9c7482ddff21
 10001,SOUTHEAST ALABAMA MEDICAL CENTER,AL,Complete Episode,Total,22944,20779,21646,100.00%,100.00%,100.00%,1/1/18,12/31/18
 10005,MARSHALL MEDICAL CENTERS,AL,Complete Episode,Total,17973,20779,21646,100.00%,100.00%,100.00%,1/1/18,12/31/18
 10006,NORTH ALABAMA MEDICAL CENTER,AL,Complete Episode,Total,20289,20779,21646,100.00%,100.00%,100.00%,1/1/18,12/31/18

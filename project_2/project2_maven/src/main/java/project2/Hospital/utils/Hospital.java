@@ -1,10 +1,21 @@
 package project2.Hospital.utils;
 
 public class Hospital {
-        public String ID,hospitalName,score = "-1",rating = "-1",sampleSize = "-1",ownershipName,type;
-        public String zipcode, address, state, country = "USA", city, phoneNumber;
+        public String ID,
+                hospitalName = "" ,
+                score = "-1",
+                rating = "-1",
+                sampleSize = "-1",
+                ownershipName="",
+                type="";
+        public String zipcode="",
+                address="",
+                state="",
+                country = "USA",
+                city="",
+                phoneNumber="";
         public String medicareAmount = "-1";
-        boolean hasEmergency;
+        public String hasEmergency="";
 
         private Hospital(String ID) {
             this.ID = ID;
@@ -19,7 +30,7 @@ public class Hospital {
             return this;
         }
 
-        public Hospital hasEmergency(boolean b) {
+        public Hospital hasEmergency(String b) {
             this.hasEmergency = b;
             return this;
         }
@@ -196,11 +207,11 @@ public class Hospital {
         this.medicareAmount = medicareAmount;
     }
 
-    public boolean getHasEmergency() {
+    public String getHasEmergency() {
         return hasEmergency;
     }
 
-    public void setHasEmergency(boolean hasEmergency) {
+    public void setHasEmergency(String hasEmergency) {
         this.hasEmergency = hasEmergency;
     }
 
