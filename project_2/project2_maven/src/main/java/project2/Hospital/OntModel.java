@@ -68,6 +68,7 @@ public class OntModel {
         emergencyservices.addRDFType(XSD.xboolean);
         averagemedicarespending.addRDFType(XSD.decimal);
         score.addRDFType(XSD.xstring);
+        year.addRDFType(XSD.xint);
         
         // D.Phuc's
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
@@ -265,7 +266,7 @@ public class OntModel {
 //        ontology.addHospital("10001", "SOUTHEAST ALABAMA MEDICAL CENTER", "AL", "20779");
 //        ontology.addStateSpending("CA", "22304");
 //        ontology.addNationSpending("21646");
-        model.write(System.out);
+                model.write(System.out);
 //        System.out.println(model.getOntClass(NS + Class.Hospital));
-    }
+        }
 }
