@@ -265,7 +265,7 @@ public class OntModel {
 //        ontology.addHospital("10001", "SOUTHEAST ALABAMA MEDICAL CENTER", "AL", "20779");
 //        ontology.addStateSpending("CA", "22304");
 //        ontology.addNationSpending("21646");
-        model.write(System.out);
+                model.write(System.out);
 //        System.out.println(model.getOntClass(NS + Class.Hospital));
-    }
+        }
 }
