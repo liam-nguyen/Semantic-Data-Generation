@@ -54,7 +54,20 @@ public class OntModel {
         OntClass averagemedicarespending = model.createClass(NS + Classes.AverageMedicareSpending);
         OntClass score = model.createClass(NS + Classes.Score);
         OntClass rating = model.createClass(NS + Classes.Rating);
-        OntClass year = model.createClass(NS + Classes.Year);	
+        OntClass year = model.createClass(NS + Classes.Year);
+        
+        // Class range for appropriate classes
+        address.addRDFType(XSD.xstring);
+        zipcode.addRDFType(XSD.xstring);
+        city.addRDFType(XSD.xstring);
+        type.addRDFType(XSD.xstring);
+        ownership.addRDFType(XSD.xstring);
+        phonenumber.addRDFType(XSD.xstring);
+        facilityid.addRDFType(XSD.xint);
+        facilityname.addRDFType(XSD.xstring);
+        emergencyservices.addRDFType(XSD.xboolean);
+        averagemedicarespending.addRDFType(XSD.decimal);
+        score.addRDFType(XSD.xstring);
         
         // D.Phuc's
         OntClass medicaremetadata = model.createClass(NS + Classes.MedicareMetadata);
