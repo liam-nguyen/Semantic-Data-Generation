@@ -10,8 +10,8 @@ import project2.Hospital.utils.Hospital;
 import project2.Hospital.utils.State;
 import java.io.*;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import project2.Hospital.utils.Stopwatch;
@@ -132,14 +132,14 @@ public class OntAPI {
     }
 
     public void writeToFile() throws IOException {
-        Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
-        
-        writeToFile(root);
+        final Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
+        final Path outputFolder = root.resolve("output");
+        Files.createDirectories(outputFolder);
+        writeToFile(outputFolder);
     }
 
     public Hospital getHospital(String ID) {
         if (hospitalsMap.containsKey(ID)) return hospitalsMap.get(ID);
-//        System.out.println("Can't find hospital ID: " + ID);
         return Hospital.create(ID);
     }
 
@@ -160,7 +160,7 @@ public class OntAPI {
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
-            String facilityId = data[0];
+            String facilityId = stripLeadingZeros(data[0]);
             String facilityName = data[1];
             String address = data[2];
             String city = data[3];
@@ -171,7 +171,8 @@ public class OntAPI {
             String hospitalType = data[8];
             String ownership = data[9];
             String emergencyService = data[10];
-            String rating = data[12];
+            String rating = stripLeadingZeros(data[12]);
+
 
             //Creating hospital object
             hospital = getHospital(facilityId)
@@ -187,7 +188,7 @@ public class OntAPI {
                             .hasEmergency(emergencyService)
                             .rating(rating);
 
-            //Adding hospital to the hashmap of hospitals
+            //Adding hospital to the Hashmap of hospitals
             hospitalsMap.put(facilityId, hospital);
         }
     }
@@ -204,11 +205,11 @@ public class OntAPI {
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
-            final String facilityID = data[0];
+            final String facilityID = stripLeadingZeros(data[0]);
             String state = data[2];
-            String averageSpendingPerEpisodeHospital = data[5];
-            String averageSpendingPerEpisodeState = data[6];
-            String averageSpendingPerEpisodeNation = data[7];
+            String averageSpendingPerEpisodeHospital = stripLeadingZeros(data[5]);
+            String averageSpendingPerEpisodeState = stripLeadingZeros(data[6]);
+            String averageSpendingPerEpisodeNation = stripLeadingZeros(data[7]);
 
             //Check if the facilityId already exists in the map, modify the object by adding averageSpending
             Hospital hospital = getHospital(facilityID);
@@ -239,8 +240,8 @@ public class OntAPI {
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
-            String facilityID = data[0];
-            String totalScore = data[8];
+            String facilityID = stripLeadingZeros(data[0]);
+            String totalScore = (data[8]);
 
             hospital = getHospital(facilityID);
             hospital.setScore(totalScore);
@@ -249,22 +250,37 @@ public class OntAPI {
     }
 
     // Filter out hospitals that doesn't have spending or score
-    public void filterHospitals() {
-        hospitalsMap.entrySet().removeIf(entry -> {
-            Hospital h = entry.getValue();
-            return  h.getHospitalName().equals("") || // Hospital not in general information dataset
-                    h.getScore().equals("-1") ||  // Hospital not in timely and effective dataset
-                    h.getRating().equals("-1") || // Hospital doesn't have rating
-                    h.getRating().equals("Not Available"); // Hospital doesn't have rating
-        });
+    public static Map<String, Hospital> filterHospitals(Map<String, Hospital> hospitals) {
+        Map<String, Hospital> filteredHospitals = new HashMap<>();
+        hospitals.entrySet().stream().filter(e -> !hasBadData(e.getValue())).forEach(e -> filteredHospitals.put(e.getKey(), e.getValue()));
+        return filteredHospitals;
     }
 
-    /** Utilities **/
+    // == Private methods == //
     private Individual getIndividual(OntClass instanceClass, String URI) {
         if (!cache.containsKey(URI)) {
             cache.put(URI, instanceClass.createIndividual(URI));
         }
         return cache.get(URI);
+    }
+
+    private String stripLeadingZeros(final String value) {
+        return value.replaceFirst("^0+(?!$)", "");
+    }
+
+    private static Map<String, Hospital> getHospitalWithBadData(Map<String, Hospital> hospitals) {
+        Map<String, Hospital> hospitalsWithBadData = new HashMap<>();
+        hospitals.entrySet().stream()
+                .filter(entry -> hasBadData(entry.getValue()))
+                .forEach(e -> hospitalsWithBadData.put(e.getKey(), e.getValue()));
+        return hospitalsWithBadData;
+    }
+
+    private static boolean hasBadData (Hospital h) {
+        return h.getScore().equals("-1") ||  // Hospital not in timely and effective dataset
+//                h.getRating().equals("-1") || // Hospital doesn't have rating
+//                h.getRating().equals("Not Available") || // Hospital doesn't have rating
+                h.getMedicareAmount().equals("-1"); // Hospital doesn't have medicare amount
     }
 
     public static void main(String[] args) throws IOException, CsvValidationException {
@@ -274,13 +290,19 @@ public class OntAPI {
         instanceModel.parseGeneralCSV();
         instanceModel.parseSpendingCSV();
         instanceModel.parseCareCSV();
-        instanceModel.filterHospitals();
+        Map<String, Hospital> filteredHospital = filterHospitals(instanceModel.hospitalsMap);
 
-        // Build models
-        System.out.println("Complete adding all hospitals. Size: " + instanceModel.hospitalsMap.size());
+        System.out.println("=========== Hospitals with bad data ===========");
+        var hospitalWithBadData = getHospitalWithBadData(instanceModel.hospitalsMap);
+        hospitalWithBadData.forEach((key, value) -> System.out.println(value));
+        System.out.println("Total hospitals with bad data: " + hospitalWithBadData.size());
+
+        System.out.println("=========== Ontology ===========");
+//      Build models
+        System.out.println("Complete adding all hospitals. Size: " + filteredHospital.size());
         System.out.println("Building Ontology, please wait...It might take some time...");
         Stopwatch timer = new Stopwatch();
-        instanceModel.addHospitalToModel(new ArrayList<>(instanceModel.hospitalsMap.values()));
+        instanceModel.addHospitalToModel(new ArrayList<>(filteredHospital.values()));
         System.out.println("Building Hospital Ontology - Complete - Time: " + timer.elapsedTime());
 
         timer = new Stopwatch();

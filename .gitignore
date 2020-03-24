@@ -95,3 +95,5 @@ local.properties
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
 
+#Exclude 
+!/project_2/Project 2 - Submit Package/*.jar

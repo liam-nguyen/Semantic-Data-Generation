@@ -1,5 +1,7 @@
 package project2.Hospital.utils;
 
+import java.io.Serializable;
+
 public class Hospital {
         public String ID,
                 hospitalName = "" ,
