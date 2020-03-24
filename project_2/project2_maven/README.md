@@ -44,3 +44,5 @@ mvn clean package
 ```sh
 java -jar target/project2_maven-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
+
+- A copy of the jar file is in Project 2 - Submit Package
