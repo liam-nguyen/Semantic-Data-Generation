@@ -1,4 +1,4 @@
-package project2.Hospital.utils;
+package project2.utils;
 
 public class State {
     String abbr;

@@ -1,4 +1,4 @@
-package project2.Hospital.utils;
+package project2.utils;
 
 /******************************************************************************
  *  Compilation:  javac Stopwatch.java
