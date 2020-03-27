@@ -17,6 +17,8 @@ import java.util.Map;
 import project2.utils.Stopwatch;
 import project2.utils.Utils;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * This class is responsible to read the CSV file and build OWL instances
@@ -61,7 +63,7 @@ import java.util.*;
                     Individual stateInstance = getIndividual(state, OntModel.NS + h.getState());
                     Individual usa = getIndividual(country, OntModel.NS + h.getCountry());
                     Individual typeInstance = getIndividual(type, OntModel.NS + h.getType());
-                    Individual ownershipInstance = getIndividual(ownership, OntModel.NS + h.getOwnershipName());
+                    Individual ownershipInstance = getIndividual(ownership, OntModel.NS + h.getOwnership());
                     Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmount());
                     Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScore());
                     Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRating());
@@ -89,7 +91,7 @@ import java.util.*;
 //            System.out.println("Property time: " + timer.elapsedTime());
 
 //            timer = new Stopwatch();
-                    model.add(hospitalInstance, hasFacilityName, h.getHospitalName());
+                    model.add(hospitalInstance, hasFacilityName, h.getName());
                     model.add(hospitalInstance, hasID, h.getID());
                     model.add(hospitalInstance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
                     model.add(hospitalInstance, hasPhoneNumber, h.getPhoneNumber());
@@ -145,9 +147,9 @@ import java.util.*;
             }
 
             public Hospital getHospital(String ID) {
-                if (hospitalsMap.containsKey(ID)) return hospitalsMap.get(ID);
-//        System.out.println("Can't find hospital ID: " + ID);
-                return Hospital.create(ID);
+                return  hospitalsMap.containsKey(ID)
+                        ? hospitalsMap.get(ID)
+                        : Hospital.create(ID);
             }
 
             public State getState(String abbr) {
@@ -156,9 +158,11 @@ import java.util.*;
 
             // Filter out hospitals that doesn't have spending or score
             public static Map<String, Hospital> filterHospitals(Map<String, Hospital> hospitals) {
-                Map<String, Hospital> filteredHospitals = new HashMap<>();
-                hospitals.entrySet().stream().filter(e -> !hasBadData(e.getValue())).forEach(e -> filteredHospitals.put(e.getKey(), e.getValue()));
-                return filteredHospitals;
+                return hospitals
+                        .entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue().isValid())
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             }
 
             //== == CSVs == ==//
@@ -192,17 +196,17 @@ import java.util.*;
 
                     //Creating hospital object
                     hospital = getHospital(facilityId)
-                            .name(facilityName)
-                            .address(address)
-                            .city(city)
-                            .state(state)
-                            .zipCode(zipCode)
-                            .country(countryName)
-                            .phoneNumber(phoneNumber)
-                            .type(hospitalType)
-                            .ownership(ownership)
+                            .hasName(facilityName)
+                            .hasAddress(address)
+                            .hasCity(city)
+                            .hasState(state)
+                            .hasZipCode(zipCode)
+                            .hasCountry(countryName)
+                            .hasPhoneNumber(phoneNumber)
+                            .hasType(hospitalType)
+                            .hasOwnership(ownership)
                             .hasEmergency(emergencyService)
-                            .rating(rating);
+                            .hasRating(rating);
 
                     //Adding hospital to the hashmap of hospitals
                     hospitalsMap.put(facilityId, hospital);
@@ -230,7 +234,7 @@ import java.util.*;
 
                     //Check if the facilityId already exists in the map, modify the object by adding averageSpending
                     Hospital hospital = getHospital(facilityID);
-                    hospital.setMedicareAmount(averageSpendingPerEpisodeHospital);
+                    hospital.hasMedicareSpending(averageSpendingPerEpisodeHospital);
                     hospitalsMap.put(facilityID, hospital);
 
                     //Adding average spending to the state
@@ -262,7 +266,7 @@ import java.util.*;
                     String totalScore = (data[8]);
 
                     hospital = getHospital(facilityID);
-                    hospital.setScore(totalScore);
+                    hospital.hasScore(totalScore);
                     hospitalsMap.put(facilityID, hospital);
                 }
             }
@@ -278,16 +282,9 @@ import java.util.*;
             private static Map<String, Hospital> getHospitalWithBadData(Map<String, Hospital> hospitals) {
                 Map<String, Hospital> hospitalsWithBadData = new HashMap<>();
                 hospitals.entrySet().stream()
-                        .filter(entry -> hasBadData(entry.getValue()))
+                        .filter(entry -> entry.getValue().isValid())
                         .forEach(e -> hospitalsWithBadData.put(e.getKey(), e.getValue()));
                 return hospitalsWithBadData;
-            }
-
-            private static boolean hasBadData (Hospital h) {
-                return h.getScore().equals("-1") ||  // Hospital not in timely and effective dataset
-//                h.getRating().equals("-1") || // Hospital doesn't have rating
-//                h.getRating().equals("Not Available") || // Hospital doesn't have rating
-                        h.getMedicareAmount().equals("-1"); // Hospital doesn't have medicare amount
             }
 
             //== Main ==//

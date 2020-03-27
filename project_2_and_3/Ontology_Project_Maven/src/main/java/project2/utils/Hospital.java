@@ -1,12 +1,15 @@
 package project2.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
 public class Hospital {
     //== Instance fields ==//
     private String ID,
             hospitalName = "",
             score = "-1",
             rating = "-1",
-            sampleSize = "-1",
             ownershipName = "",
             type = "";
     private String zipcode = "",
@@ -24,12 +27,69 @@ public class Hospital {
     }
 
     //== Public method ==//
-    //== == Method to build a hospital object == ==//
+    //== == Creation == ==//
     public static Hospital create(String ID) {
         return new Hospital(ID);
     }
+    //== == Getters == ==//
+    public String getID() {
+        return ID;
+    }
 
-    public Hospital name(String n) {
+    public String getName() {
+        return hospitalName;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public String getOwnership() {
+        return ownershipName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getMedicareAmount() {
+        return medicareAmount;
+    }
+
+    public String getHasEmergency() {
+        return hasEmergency;
+    }
+
+    //== == Method to build a hospital object == ==//
+    public Hospital hasName(String n) {
         this.hospitalName = n;
         return this;
     }
@@ -39,188 +99,58 @@ public class Hospital {
         return this;
     }
 
-    public Hospital zipCode(String zipcode) {
+    public Hospital hasZipCode(String zipcode) {
         this.zipcode = zipcode;
         return this;
     }
 
-    public Hospital address(String address) {
+    public Hospital hasAddress(String address) {
         this.address = address;
         return this;
     }
 
-    public Hospital state(String state) {
+    public Hospital hasState(String state) {
         this.state = state;
         return this;
     }
 
-    public Hospital country(String country) {
+    public Hospital hasCountry(String country) {
         this.country = country;
         return this;
     }
 
-    public Hospital city(String city) {
+    public Hospital hasCity(String city) {
         this.city = city;
         return this;
     }
 
-    public Hospital medicareSpending(String amount) {
+    public Hospital hasMedicareSpending(String amount) {
         this.medicareAmount = amount;
         return this;
     }
 
-    public Hospital score(String score) {
+    public Hospital hasScore(String score) {
         this.score = score;
         return this;
     }
 
-    public Hospital rating(String rating) {
+    public Hospital hasRating(String rating) {
         this.rating = rating;
         return this;
     }
 
-    public Hospital type(String type) {
+    public Hospital hasType(String type) {
         this.type = type;
         return this;
     }
 
-    public Hospital ownership(String ownershipName) {
+    public Hospital hasOwnership(String ownershipName) {
         this.ownershipName = ownershipName;
         return this;
     }
 
-    public Hospital phoneNumber(String number) {
+    public Hospital hasPhoneNumber(String number) {
         this.phoneNumber = number;
-        return this;
-    }
-
-    public Hospital sample(String size) {
-        this.sampleSize = size;
-        return this;
-    }
-
-    //== == Getters and setters == ==//
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-    public String getHospitalName() {
-        return hospitalName;
-    }
-
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public String getSampleSize() {
-        return sampleSize;
-    }
-
-    public void setSampleSize(String sampleSize) {
-        this.sampleSize = sampleSize;
-    }
-
-    public String getOwnershipName() {
-        return ownershipName;
-    }
-
-    public void setOwnershipName(String ownershipName) {
-        this.ownershipName = ownershipName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getMedicareAmount() {
-        return medicareAmount;
-    }
-
-    public void setMedicareAmount(String medicareAmount) {
-        this.medicareAmount = medicareAmount;
-    }
-
-    public String getHasEmergency() {
-        return hasEmergency;
-    }
-
-    public void setHasEmergency(String hasEmergency) {
-        this.hasEmergency = hasEmergency;
-    }
-
-    public Hospital validate() {
         return this;
     }
 
@@ -242,5 +172,56 @@ public class Hospital {
                 ", medicareAmount='" + medicareAmount + '\'' +
                 ", hasEmergency=" + hasEmergency +
                 '}';
+    }
+
+    /**
+     * Check if a hospital object is valid against a list of validators
+     * @param validators a list of predicates
+     * @return true if hospital is valid, else false
+     */
+    public boolean isValid(List<Predicate<Hospital>> validators) {
+        return validators.stream().reduce(x->true, Predicate::and).test(this);
+    }
+
+    /**
+     * heck if a hospital object is valid against a default list of validators
+     * @return true if hospital is valid, else false
+     */
+    public boolean isValid() {
+        List<Predicate<Hospital>> validators = new ArrayList<>();
+
+        // List of validators
+        validators.add(hospital -> !hospital.getName().equals("") || hospital.getName() != null);
+        validators.add(hospital -> !hospital.getScore().equals("-1"));
+        validators.add(hospital -> !hospital.getMedicareAmount().equals("-1"));
+
+        return isValid(validators);
+    }
+
+    public static void main(String[] args) {
+        List<Predicate<Hospital>> validator = new ArrayList<>();
+        validator.add(hospital -> !hospital.hospitalName.equals(""));
+        validator.add(hospital -> !hospital.medicareAmount.equals("-1"));
+        validator.add(hospital -> !hospital.phoneNumber.equals(""));
+
+        Hospital good = Hospital.create("1")
+                .hasName("Good")
+                .hasMedicareSpending("50")
+                .hasPhoneNumber("111-111-1111");
+        Hospital bad1 = Hospital.create("2")
+                .hasName("Bad1")
+                .hasPhoneNumber("111-111-1111");
+        Hospital bad2 = Hospital.create("3")
+                .hasPhoneNumber("111-111-1111");
+
+        List<Hospital> hospitals = new ArrayList<>();
+        hospitals.add(good);
+        hospitals.add(bad1);
+        hospitals.add(bad2);
+
+        hospitals.forEach(h -> {
+            System.out.print("Hospital " + h.getID() + " is " +
+                    validator.stream().reduce(x -> true, Predicate::and).test(h) + "\n");
+        });
     }
 }

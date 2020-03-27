@@ -1,0 +1,427 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:ds="https://data.medicare.gov/d/nrth-mfg3#"
+    xmlns:du="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Hospital">
+    <rdfs:comment xml:lang="EN">A hospital with general information and statistics</rdfs:comment>
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Type"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Ownership"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Score"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Rating"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#PhoneNumber"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#FacilityID"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#FacilityName"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#EmergencyServices"/>
+    </owl:intersectionOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#State">
+    <rdfs:comment xml:lang="EN">One of 50 states in US</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Address"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Statistics">
+    <rdfs:comment xml:lang="EN">Various statistics for the hospital</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#City"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Country">
+    <rdfs:comment xml:lang="EN">A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata">
+    <rdfs:comment xml:lang="EN">A collection of the hospital's statistical data</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#AverageMedicareSpending"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Zipcode"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Year">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#AverageMedicareSpending"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Score"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Rating"/>
+    </owl:intersectionOf>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isYearOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasYear"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a statistic's year</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isZipcodeOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasZipcode"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's Zipcode</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasScore">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:comment xml:lang="EN">has a hospital's score</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasAverageMedicareSpending">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:comment xml:lang="EN">has a hospital's average spending per Beneficiary (MSPB) episodes in USD</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasStatistics">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:comment xml:lang="EN">has MedicareMetadata's statistics</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isAverageMedicareSpendingOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasAverageMedicareSpending"/>
+    <rdfs:comment xml:lang="EN">is a hospital's average spending per Beneficiary (MSPB) episodes in USD of</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isCityOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCity"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's city</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isTypeOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasType"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital's type</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isStateOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasState"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's state</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isRatingOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasRating"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital's rating from 1-5</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasOwnership">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Ownership"/>
+    <rdfs:comment xml:lang="EN">has a hospital's ownership</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isCountryOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCountry"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's country</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasType">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Type"/>
+    <rdfs:comment xml:lang="EN">has a hospital's type</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasRating">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range>
+      <owl:DataRange>
+        <owl:oneOf rdf:parseType="Resource">
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >5</rdf:first>
+          </rdf:rest>
+          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+          >1</rdf:first>
+        </owl:oneOf>
+      </owl:DataRange>
+    </rdfs:range>
+    <rdfs:comment xml:lang="EN">has a hospital's rating from 1-5</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCity">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#City"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's city</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasState">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#State"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's state</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isStatisticsOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasStatistics"/>
+    <rdfs:comment xml:lang="EN">is MedicareMetadata's statistics</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isOwnershipOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasOwnership"/>
+    <rdfs:comment xml:lang="EN">is a hospital's ownership</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasAddress">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Address"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's address</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isAddressOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasAddress"/>
+    <rdfs:comment xml:lang="EN">is a hospital location's address</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasZipcode">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Zipcode"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's Zipcode</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCountry">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Country"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's country</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isScoreOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasScore"/>
+    <rdfs:comment xml:lang="EN">is a hospital's score</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isEmergencyServiceOf">
+    <rdfs:comment xml:lang="EN">is a boolean whether a facility has emergency service</rdfs:comment>
+    <owl:inverseOf>
+      <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasEmergencyService"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasYear">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Year"/>
+    <rdfs:comment xml:lang="EN">has a statistic's year</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasFacilityID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    <rdfs:comment xml:lang="EN">has a particular facility ID</rdfs:comment>
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasPhoneNumber">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:comment xml:lang="EN">A phone number of a facility</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasEmergencyService">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:comment xml:lang="EN">A boolean whether a facility has emergency service</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasFacilityName">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:comment xml:lang="EN">has the facility's name</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isFacilityIDOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasFacilityID"/>
+    <rdfs:comment xml:lang="EN">is facility ID of</rdfs:comment>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isFacilityNameOf">
+    <rdfs:comment xml:lang="EN">is a boolean whether a facility has emergency service</rdfs:comment>
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasPhoneNumber"/>
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasFacilityName"/>
+    <rdfs:comment xml:lang="EN">is facility's name of</rdfs:comment>
+  </owl:InverseFunctionalProperty>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#TN">
+    <ds:hasAverageMedicareSpending>21954</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Tennessee</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NJ">
+    <ds:hasAverageMedicareSpending>22666</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New Jersey</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#SD">
+    <ds:hasAverageMedicareSpending>21448</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">South Dakota</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OK">
+    <ds:hasAverageMedicareSpending>21650</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Oklahoma</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#RI">
+    <ds:hasAverageMedicareSpending>20673</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Rhode Island</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CT">
+    <ds:hasAverageMedicareSpending>21690</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Connecticut</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#SC">
+    <ds:hasAverageMedicareSpending>21199</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">South Carolina</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#VA">
+    <ds:hasAverageMedicareSpending>20676</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Virginia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NH">
+    <ds:hasAverageMedicareSpending>20693</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New Hampshire</rdfs:comment>
+  </ds:State>
+  <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#USA">
+    <ds:hasAverageMedicareSpending>21646</ds:hasAverageMedicareSpending>
+    <rdfs:label xml:lang="EN">United State of America</rdfs:label>
+  </ds:Country>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NY">
+    <ds:hasAverageMedicareSpending>21433</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New York</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#KS">
+    <ds:hasAverageMedicareSpending>21466</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Kansas</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#DE">
+    <ds:hasAverageMedicareSpending>22708</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Delaware</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MO">
+    <ds:hasAverageMedicareSpending>21320</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Missouri</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CA">
+    <ds:hasAverageMedicareSpending>22304</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">California</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#DC">
+    <ds:hasAverageMedicareSpending>22708</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">District Of Columbia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#GA">
+    <ds:hasAverageMedicareSpending>20978</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Georgia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ME">
+    <ds:hasAverageMedicareSpending>20663</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Maine</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WI">
+    <ds:hasAverageMedicareSpending>20640</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Wisconsin</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WA">
+    <ds:hasAverageMedicareSpending>20861</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Washington</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IN">
+    <ds:hasAverageMedicareSpending>21785</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Indiana</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MN">
+    <ds:hasAverageMedicareSpending>21037</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Minnesota</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OR">
+    <ds:hasAverageMedicareSpending>20362</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Oregon</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#UT">
+    <ds:hasAverageMedicareSpending>22940</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Utah</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OH">
+    <ds:hasAverageMedicareSpending>21942</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Ohio</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ID">
+    <ds:hasAverageMedicareSpending>21258</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Idaho</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#KY">
+    <ds:hasAverageMedicareSpending>21081</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Kentucky</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WY">
+    <ds:hasAverageMedicareSpending>19663</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Wyoming</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NM">
+    <ds:hasAverageMedicareSpending>20371</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New Mexico</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#LA">
+    <ds:hasAverageMedicareSpending>22493</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Louisiana</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NE">
+    <ds:hasAverageMedicareSpending>22071</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Nebraska</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#PA">
+    <ds:hasAverageMedicareSpending>21471</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Pennsylvania</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AL">
+    <ds:hasAverageMedicareSpending>20779</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Alabama</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MT">
+    <ds:hasAverageMedicareSpending>20541</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Montana</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NV">
+    <ds:hasAverageMedicareSpending>23002</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Nevada</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IL">
+    <ds:hasAverageMedicareSpending>21780</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Illinois</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#VT">
+    <ds:hasAverageMedicareSpending>20693</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Vermont</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WV">
+    <ds:hasAverageMedicareSpending>20608</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">West Virginia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ND">
+    <ds:hasAverageMedicareSpending>21448</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">North Dakota</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AK">
+    <ds:hasAverageMedicareSpending>20861</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Alaska</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CO">
+    <ds:hasAverageMedicareSpending>22382</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Colorado</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MS">
+    <ds:hasAverageMedicareSpending>20922</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Mississippi</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#HI">
+    <ds:hasAverageMedicareSpending>21063</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Hawaii</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AZ">
+    <ds:hasAverageMedicareSpending>21904</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Arizona</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MI">
+    <ds:hasAverageMedicareSpending>21068</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Michigan</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NC">
+    <ds:hasAverageMedicareSpending>20574</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">North Carolina</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IA">
+    <ds:hasAverageMedicareSpending>20179</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Iowa</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AR">
+    <ds:hasAverageMedicareSpending>21370</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Arkansas</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MA">
+    <ds:hasAverageMedicareSpending>20791</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Massachusetts</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#FL">
+    <ds:hasAverageMedicareSpending>21985</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Florida</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#TX">
+    <ds:hasAverageMedicareSpending>23343</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Texas</rdfs:comment>
+  </ds:State>
+</rdf:RDF>
