@@ -4,6 +4,8 @@ public class State {
     String abbr;
     String amount;
 
+    private static String getStr() {return "Liam";}
+
     public State(String abbr) {
         this.abbr = abbr;
     }

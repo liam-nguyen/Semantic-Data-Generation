@@ -96,4 +96,4 @@ local.properties
 #.project
 
 #Exclude 
-!/project_2/Project 2 - Submit Package/*.jar
+!/project_2_and_3/Ontology_Project_Maven/deliverables/*.jar
