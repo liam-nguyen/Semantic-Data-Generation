@@ -1,5 +1,12 @@
 package project2.utils;
 
+import com.google.common.net.UrlEscapers;
+import org.apache.http.client.utils.URIBuilder;
+import project2.Hospital.OntModel;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -86,6 +93,63 @@ public class Hospital {
 
     public String getHasEmergency() {
         return hasEmergency;
+    }
+
+    //== == Getters for URI == ==//
+    public String getIDAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(ID);
+    }
+
+    public String getNameAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(hospitalName);
+    }
+
+    public String getScoreAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(score);
+    }
+
+    public String getRatingAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(rating);
+    }
+
+    public String getOwnershipAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(ownershipName);
+    }
+
+    public String getTypeAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(type);
+    }
+
+    public String getZipcodeAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(zipcode);
+    }
+
+    public String getAddressAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(address);
+    }
+
+    public String getStateAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(state);
+    }
+
+    public String getCountryAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(country);
+    }
+
+    public String getCityAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(city);
+    }
+
+    public String getPhoneNumberAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(phoneNumber);
+    }
+
+    public String getMedicareAmountAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(medicareAmount);
+    }
+
+    public String getHasEmergencyAsURI() throws URISyntaxException, UnsupportedEncodingException {
+        return escapeURI(hasEmergency);
     }
 
     //== == Method to build a hospital object == ==//
@@ -196,6 +260,11 @@ public class Hospital {
         validators.add(hospital -> !hospital.getMedicareAmount().equals("-1"));
 
         return isValid(validators);
+    }
+
+    //== Private methods ==//
+    private String escapeURI(String s) throws UnsupportedEncodingException {
+        return UrlEscapers.urlFragmentEscaper().escape(s);
     }
 
     public static void main(String[] args) {

@@ -3,29 +3,31 @@ package project2.Hospital;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
 import project2.utils.Hospital;
 import project2.utils.State;
-
-import java.io.*;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import project2.utils.Stopwatch;
 import project2.utils.Utils;
 
+import java.io.*;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
  * This class is responsible to read the CSV file and build OWL instances
  */
 public class OntInstanceModel {
+    //== Static fields ==//
+    public static final String source = "https://data.medicare.gov/d/nrth-mfg3";
+    public final URIBuilder myURIBuilder;
+
     //== Instance fields ==//
     public org.apache.jena.ontology.OntModel model; // Root model
     Map<String, Hospital> hospitalsMap; // String = facilityID
@@ -34,16 +36,17 @@ public class OntInstanceModel {
     public Map<String, Individual> cache; // Cache for faster Ontology's instance look-up time
 
     //== Constructor ==//
-    public OntInstanceModel() {
+    public OntInstanceModel() throws URISyntaxException {
         model = new OntModel().getModel();
         statesMap = new HashMap<>();
         hospitalsMap = new HashMap<>();
         cache = new HashMap<>();
+        myURIBuilder = new URIBuilder(source);
     }
 
     //== Public methods ==//
     //== == Build ontology instances == ==//
-    public void addHospitalToModel(List<Hospital> hospitals) throws UnsupportedEncodingException {
+    public void addHospitalToModel(List<Hospital> hospitals) throws UnsupportedEncodingException, URISyntaxException {
         final String yearStr = "2018";
         int total = hospitals.size();
 //        Stopwatch timer;
@@ -61,16 +64,16 @@ public class OntInstanceModel {
 
         for (Hospital h : hospitals) {
 //            timer = new Stopwatch();
-            Individual hospitalInstance = hospital.createIndividual(Utils.encodeToURI(OntModel.NS + h.getID()));
-            Individual stateInstance = getIndividual(state, Utils.encodeToURI(OntModel.NS + h.getState()));
-            Individual usa = getIndividual(country, Utils.encodeToURI(OntModel.NS + h.getCountry()));
-            Individual typeInstance = getIndividual(type, Utils.encodeToURI(OntModel.NS + h.getType()));
-            Individual ownershipInstance = getIndividual(ownership, Utils.encodeToURI(OntModel.NS + h.getOwnership()));
-            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, Utils.encodeToURI(OntModel.NS + h.getMedicareAmount()));
-            Individual scoreInstance = getIndividual(score, Utils.encodeToURI(OntModel.NS + h.getScore()));
-            Individual ratingInstance = getIndividual(rating, Utils.encodeToURI(OntModel.NS + h.getRating()));
-            Individual yearInstance = getIndividual(year, Utils.encodeToURI(OntModel.NS + "2018"));
-            Individual statisticsInstance = getIndividual(statistics, Utils.encodeToURI(OntModel.NS + h.getID() + yearStr));
+            Individual hospitalInstance = hospital.createIndividual(OntModel.NS + h.getIDAsURI());
+            Individual stateInstance = getIndividual(state, OntModel.NS + h.getStateAsURI());
+            Individual usa = getIndividual(country, OntModel.NS + h.getCountryAsURI());
+            Individual typeInstance = getIndividual(type, OntModel.NS + h.getTypeAsURI());
+            Individual ownershipInstance = getIndividual(ownership, OntModel.NS +h.getOwnershipAsURI());
+            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmountAsURI());
+            Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScoreAsURI());
+            Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRatingAsURI());
+            Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
+            Individual statisticsInstance = getIndividual(statistics, OntModel.NS + h.getIDAsURI() + yearStr);
 //            System.out.println("Individual time: " + timer.elapsedTime());
 
 //            timer = new Stopwatch();
@@ -145,7 +148,8 @@ public class OntInstanceModel {
 
     public void writeToFile() throws IOException {
         Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
-        writeToFile(root);
+        Path deliverables_dir = root.resolve("deliverables");
+        writeToFile(deliverables_dir);
     }
 
     public Hospital getHospital(String ID) {
@@ -282,23 +286,26 @@ public class OntInstanceModel {
     }
 
     private static Map<String, Hospital> getHospitalWithBadData(Map<String, Hospital> hospitals) {
-        Map<String, Hospital> hospitalsWithBadData = new HashMap<>();
-        hospitals.entrySet().stream()
-                .filter(entry -> entry.getValue().isValid())
-                .forEach(e -> hospitalsWithBadData.put(e.getKey(), e.getValue()));
-        return hospitalsWithBadData;
+        return hospitals.entrySet().stream()
+                .filter(entry -> !entry.getValue().isValid())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    //== Small samples for testing purposes ==//
+    private static Map<String, Hospital> getSmallSample(Map<String, Hospital> hospitals) {
+        return hospitals.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     //== Main ==//
-    public static void main(String[] args) throws IOException, CsvValidationException {
+    public static void main(String[] args) throws IOException, CsvValidationException, URISyntaxException {
         OntInstanceModel instanceModel = new OntInstanceModel();
 
         //Read csv file and get all values
         instanceModel.parseGeneralCSV();
         instanceModel.parseSpendingCSV();
         instanceModel.parseCareCSV();
-
-        Map<String, Hospital> filteredHospitals = filterHospitals(instanceModel.hospitalsMap);
+//        Map<String, Hospital> filteredHospitals = filterHospitals(instanceModel.hospitalsMap);
+        Map<String, Hospital> filteredHospitals = getSmallSample(instanceModel.hospitalsMap);
 
         // Build models
         System.out.println("Complete adding all hospitals. Size: " + filteredHospitals.size());
