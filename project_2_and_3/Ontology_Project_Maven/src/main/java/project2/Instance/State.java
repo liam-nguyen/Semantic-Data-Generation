@@ -1,4 +1,6 @@
-package project2.utils;
+package project2.Instance;
+
+import project2.Helper.US_States;
 
 public class State {
     String abbr;

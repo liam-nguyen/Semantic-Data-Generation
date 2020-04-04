@@ -1,12 +1,9 @@
-package project2.utils;
+package project2.Instance;
 
 import com.google.common.net.UrlEscapers;
-import org.apache.http.client.utils.URIBuilder;
-import project2.Hospital.OntModel;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;

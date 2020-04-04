@@ -1,6 +1,4 @@
-package project2.utils;
-
-import org.springframework.web.util.UriBuilder;
+package project2.Helper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
