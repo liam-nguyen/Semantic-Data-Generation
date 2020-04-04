@@ -73,6 +73,9 @@ public class US_States {
         states.put("WI", "Wisconsin");
         states.put("WY", "Wyoming");
         states.put("YT", "Yukon Territory");
+        // Territories
+        states.put("AS", "American Samoa");
+        states.put("MP", "Northern Mariana Islands");
     }
 
     public static String getFullStateName(String abbr) {

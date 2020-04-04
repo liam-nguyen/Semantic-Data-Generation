@@ -3,7 +3,7 @@ package project2.Helper;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
-import project2.Util.Misc;
+import project2.Util.URI_Helper;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -54,7 +54,7 @@ public class CSVData {
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
 
-            String facilityId = Misc.stripLeadingZeros(data[0]);
+            String facilityId = URI_Helper.stripLeadingZeros(data[0]);
             String facilityName = data[1];
             String address = data[2];
             String city = data[3];
@@ -65,7 +65,7 @@ public class CSVData {
             String hospitalType = data[8];
             String ownership = data[9];
             String emergencyService = data[10];
-            String rating = Misc.stripLeadingZeros(data[12]);
+            String rating = URI_Helper.stripLeadingZeros(data[12]);
 
             //Creating hospital object
             hospital = getHospital(facilityId)
@@ -99,11 +99,11 @@ public class CSVData {
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
-            final String facilityID = Misc.stripLeadingZeros(data[0]);
+            final String facilityID = URI_Helper.stripLeadingZeros(data[0]);
             String state = data[2];
-            String averageSpendingPerEpisodeHospital = Misc.stripLeadingZeros(data[5]);
-            String averageSpendingPerEpisodeState = Misc.stripLeadingZeros(data[6]);
-            String averageSpendingPerEpisodeNation = Misc.stripLeadingZeros(data[7]);
+            String averageSpendingPerEpisodeHospital = URI_Helper.stripLeadingZeros(data[5]);
+            String averageSpendingPerEpisodeState = URI_Helper.stripLeadingZeros(data[6]);
+            String averageSpendingPerEpisodeNation = URI_Helper.stripLeadingZeros(data[7]);
 
             //Check if the facilityId already exists in the map, modify the object by adding averageSpending
             Hospital hospital = getHospital(facilityID);
@@ -135,7 +135,7 @@ public class CSVData {
 
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
-            String facilityID = Misc.stripLeadingZeros(data[0]);
+            String facilityID = URI_Helper.stripLeadingZeros(data[0]);
             String totalScore = (data[8]);
 
             hospital = getHospital(facilityID);

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import project2.Util.Misc;
-
-import javax.swing.text.html.Option;
+import project2.Util.URI_Helper;
 
 public class Hospital {
     //== Instance fields ==//
@@ -19,10 +17,10 @@ public class Hospital {
             type = "";
     private String zipcode = "",
             address = "",
-            state = "",
             country = "USA",
             city = "",
             phoneNumber = "";
+    private State state;
     private String medicareAmount = "-1";
     private String hasEmergency = "";
 
@@ -71,7 +69,7 @@ public class Hospital {
     }
 
     public String getState() {
-        return state;
+        return state.getAbbr();
     }
 
     public String getCountry() {
@@ -95,60 +93,60 @@ public class Hospital {
     }
 
     //== == Getters for URI == ==//
-    public String getIDAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(ID);
+    public String getIDAsURI() {
+        return URI_Helper.escapeURI(ID);
     }
 
-    public String getNameAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(hospitalName);
+    public String getNameAsURI() {
+        return URI_Helper.escapeURI(hospitalName);
     }
 
-    public String getScoreAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(score);
+    public String getScoreAsURI() {
+        return URI_Helper.escapeURI(score);
     }
 
-    public String getRatingAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(rating);
+    public String getRatingAsURI() {
+        return URI_Helper.escapeURI(rating);
     }
 
-    public String getOwnershipAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(ownershipName);
+    public String getOwnershipAsURI() {
+        return URI_Helper.escapeURI(ownershipName);
     }
 
-    public String getTypeAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(type);
+    public String getTypeAsURI() {
+        return URI_Helper.escapeURI(type);
     }
 
-    public String getZipcodeAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(zipcode);
+    public String getZipcodeAsURI() {
+        return URI_Helper.escapeURI(zipcode);
     }
 
-    public String getAddressAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(address);
+    public String getAddressAsURI() {
+        return URI_Helper.escapeURI(address);
     }
 
-    public String getStateAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(state);
+    public String getStateAsURI() {
+        return URI_Helper.escapeURI(state.getAbbr());
     }
 
-    public String getCountryAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(country);
+    public String getCountryAsURI() {
+        return URI_Helper.escapeURI(country);
     }
 
-    public String getCityAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(city);
+    public String getCityAsURI() {
+        return URI_Helper.escapeURI(city);
     }
 
-    public String getPhoneNumberAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(phoneNumber);
+    public String getPhoneNumberAsURI() {
+        return URI_Helper.escapeURI(phoneNumber);
     }
 
-    public String getMedicareAmountAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(medicareAmount);
+    public String getMedicareAmountAsURI() {
+        return URI_Helper.escapeURI(medicareAmount);
     }
 
-    public String getHasEmergencyAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(hasEmergency);
+    public String getHasEmergencyAsURI() {
+        return URI_Helper.escapeURI(hasEmergency);
     }
 
     //== == Parsed getter == ==//
@@ -199,7 +197,7 @@ public class Hospital {
     }
 
     public Hospital hasState(String state) {
-        this.state = state;
+        this.state = State.create(state);
         return this;
     }
 
