@@ -10,10 +10,7 @@ public class URI_Helper {
     public static String stripLeadingZeros(final String value) {
         return value.replaceFirst("^0+(?!$)", "");
     }
-    public static String encodeToURI(String s) throws UnsupportedEncodingException {
-        return java.net.URI.create(URLEncoder.encode(s, "UTF-8")).toString();
-    }
-    public static String escapeURI(String s) throws UnsupportedEncodingException {
+    public static String escapeURI(String s) {
         return UrlEscapers.urlFragmentEscaper().escape(s);
     }
 }

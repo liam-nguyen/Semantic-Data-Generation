@@ -28,9 +28,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Address"/>
-  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Statistics">
-    <rdfs:comment xml:lang="EN">Various statistics for the hospital</rdfs:comment>
-  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
   <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#City"/>
   <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Country">
     <rdfs:comment xml:lang="EN">A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.</rdfs:comment>
@@ -66,16 +64,17 @@
     <rdfs:comment xml:lang="EN">has a particular facility ID</rdfs:comment>
     <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isNationalAverageSpendingOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasNationalAverageSpending"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a national average spending per Beneficiary (MSPB) episodes in USD of</rdfs:comment>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isAverageMedicareSpendingOf">
     <owl:inverseOf>
       <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasHospitalAverageMedicareSpending"/>
     </owl:inverseOf>
     <rdfs:comment xml:lang="EN">is a hospital's average spending per Beneficiary (MSPB) episodes in USD of</rdfs:comment>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasStatistics">
-    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
-    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
-    <rdfs:comment xml:lang="EN">has MedicareMetadata's statistics</rdfs:comment>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isCityOf">
     <owl:inverseOf>
@@ -162,10 +161,6 @@
     <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#State"/>
     <rdfs:comment xml:lang="EN">has a hospital location's state</rdfs:comment>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isStatisticsOf">
-    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasStatistics"/>
-    <rdfs:comment xml:lang="EN">is MedicareMetadata's statistics</rdfs:comment>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isOwnershipOf">
     <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasOwnership"/>
     <rdfs:comment xml:lang="EN">is a hospital's ownership</rdfs:comment>
@@ -174,6 +169,12 @@
     <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:comment xml:lang="EN">has a hospital location's address</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isStateAverageMedicareSpendingOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasStateAverageMedicareSpending"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a state's average spending per Beneficiary (MSPB) episodes in USD of</rdfs:comment>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isAddressOf">
     <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasAddress"/>
@@ -184,7 +185,11 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:comment xml:lang="EN">has a hospital location's Zipcode</rdfs:comment>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasStateAverageMedicareSpending"/>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasStateAverageMedicareSpending">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#State"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    <rdfs:comment xml:lang="EN">has a state's average spending per Beneficiary (MSPB) episodes in USD</rdfs:comment>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasHospitalAverageMedicareSpending">
     <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
@@ -203,7 +208,11 @@
     <rdfs:comment xml:lang="EN">is a boolean whether a facility has emergency service</rdfs:comment>
     <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasEmergencyService"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasNationalAverageSpending"/>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasNationalAverageSpending">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Country"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    <rdfs:comment xml:lang="EN">has a national average spending per Beneficiary (MSPB) episodes in USD</rdfs:comment>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasYear">
     <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -222,7 +231,8 @@
   <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#420055">
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#SC">
-        <ds:hasStateAverageMedicareSpending>21199</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21199.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">South Carolina</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -251,7 +261,8 @@
     <ds:hasYear>2018</ds:hasYear>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CA">
-        <ds:hasStateAverageMedicareSpending>22304</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22304.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">California</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -289,7 +300,8 @@
     <ds:hasEmergencyService>true</ds:hasEmergencyService>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IL">
-        <ds:hasStateAverageMedicareSpending>21780</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21780.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Illinois</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -321,7 +333,8 @@
     >21828.0</ds:hasHospitalAverageMedicareSpending>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#VA">
-        <ds:hasStateAverageMedicareSpending>20676</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20676.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Virginia</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -341,7 +354,8 @@
     <ds:hasYear>2018</ds:hasYear>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MA">
-        <ds:hasStateAverageMedicareSpending>20791</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20791.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Massachusetts</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -417,7 +431,8 @@
     <ds:hasCity>SCOTTSBLUFF</ds:hasCity>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NE">
-        <ds:hasStateAverageMedicareSpending>22071</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22071.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Nebraska</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -430,7 +445,8 @@
     >2</ds:hasRating>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#FL">
-        <ds:hasStateAverageMedicareSpending>21985</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21985.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Florida</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -456,7 +472,8 @@
     <ds:hasYear>2018</ds:hasYear>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NH">
-        <ds:hasStateAverageMedicareSpending>20693</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20693.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">New Hampshire</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -485,7 +502,8 @@
     >20019.0</ds:hasHospitalAverageMedicareSpending>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OH">
-        <ds:hasStateAverageMedicareSpending>21942</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21942.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Ohio</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -538,7 +556,8 @@
     <ds:hasZipcode>36451</ds:hasZipcode>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AL">
-        <ds:hasStateAverageMedicareSpending>20779</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20779.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Alabama</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -569,7 +588,8 @@
     </ds:hasCountry>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#TX">
-        <ds:hasStateAverageMedicareSpending>23343</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >23343.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Texas</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -640,7 +660,8 @@
     >5</ds:hasRating>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NC">
-        <ds:hasStateAverageMedicareSpending>20574</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20574.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">North Carolina</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -715,7 +736,8 @@
     <ds:hasAddress>1000 W 10TH ST</ds:hasAddress>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MO">
-        <ds:hasStateAverageMedicareSpending>21320</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21320.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Missouri</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -777,7 +799,8 @@
     <ds:hasCity>FRANKFORT</ds:hasCity>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#KY">
-        <ds:hasStateAverageMedicareSpending>21081</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21081.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Kentucky</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -796,7 +819,8 @@
   <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#330270">
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NY">
-        <ds:hasStateAverageMedicareSpending>21433</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21433.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">New York</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -871,7 +895,8 @@
     <ds:hasAddress>2001 STULTS RD</ds:hasAddress>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IN">
-        <ds:hasStateAverageMedicareSpending>21785</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21785.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Indiana</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -902,7 +927,8 @@
     <ds:hasYear>2018</ds:hasYear>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#VT">
-        <ds:hasStateAverageMedicareSpending>20693</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20693.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Vermont</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -937,7 +963,8 @@
     <ds:hasEmergencyService>true</ds:hasEmergencyService>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CO">
-        <ds:hasStateAverageMedicareSpending>22382</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22382.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Colorado</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -976,7 +1003,8 @@
     </ds:hasCountry>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#PA">
-        <ds:hasStateAverageMedicareSpending>21471</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21471.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Pennsylvania</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1115,7 +1143,8 @@
     >1324</ds:hasScore>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MN">
-        <ds:hasStateAverageMedicareSpending>21037</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21037.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Minnesota</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1164,7 +1193,8 @@
     <ds:hasZipcode>98372</ds:hasZipcode>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WA">
-        <ds:hasStateAverageMedicareSpending>20861</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20861.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Washington</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1200,7 +1230,8 @@
     <ds:hasFacilityName>KANSAS CITY ORTHOPAEDIC INSTITUTE</ds:hasFacilityName>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#KS">
-        <ds:hasStateAverageMedicareSpending>21466</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21466.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Kansas</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1323,7 +1354,8 @@
     <ds:hasType>Acute Care Hospitals</ds:hasType>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OK">
-        <ds:hasStateAverageMedicareSpending>21650</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21650.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Oklahoma</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1509,7 +1541,8 @@
     <ds:hasZipcode>48341</ds:hasZipcode>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MI">
-        <ds:hasStateAverageMedicareSpending>21068</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21068.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Michigan</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1723,7 +1756,8 @@
     <ds:hasOwnership>Proprietary</ds:hasOwnership>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MS">
-        <ds:hasStateAverageMedicareSpending>20922</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20922.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Mississippi</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -1936,7 +1970,8 @@
     </ds:hasCountry>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#DE">
-        <ds:hasStateAverageMedicareSpending>22708</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22708.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Delaware</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -2087,7 +2122,8 @@
     <ds:hasZipcode>54449</ds:hasZipcode>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WI">
-        <ds:hasStateAverageMedicareSpending>20640</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20640.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Wisconsin</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -2132,7 +2168,8 @@
     <ds:hasFacilityID>110082</ds:hasFacilityID>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#GA">
-        <ds:hasStateAverageMedicareSpending>20978</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20978.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Georgia</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -2193,7 +2230,8 @@
     <ds:hasEmergencyService>false</ds:hasEmergencyService>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AZ">
-        <ds:hasStateAverageMedicareSpending>21904</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21904.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Arizona</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -2757,7 +2795,8 @@
     <ds:hasCity>RAYVILLE</ds:hasCity>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#LA">
-        <ds:hasStateAverageMedicareSpending>22493</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22493.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Louisiana</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -2781,7 +2820,8 @@
     >3</ds:hasRating>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NV">
-        <ds:hasStateAverageMedicareSpending>23002</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >23002.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Nevada</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -2961,7 +3001,8 @@
     <ds:hasYear>2018</ds:hasYear>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#HI">
-        <ds:hasStateAverageMedicareSpending>21063</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21063.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Hawaii</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -3038,7 +3079,8 @@
     <ds:hasPhoneNumber>(563) 421-1000</ds:hasPhoneNumber>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IA">
-        <ds:hasStateAverageMedicareSpending>20179</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20179.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Iowa</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -3419,7 +3461,8 @@
     <ds:hasAddress>1801 MARTIN LUTHER KING JR DRIVE</ds:hasAddress>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AR">
-        <ds:hasStateAverageMedicareSpending>21370</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21370.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Arkansas</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -4096,7 +4139,8 @@
   <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#440151">
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#TN">
-        <ds:hasStateAverageMedicareSpending>21954</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21954.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Tennessee</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -4521,7 +4565,8 @@
     <ds:hasEmergencyService>true</ds:hasEmergencyService>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#UT">
-        <ds:hasStateAverageMedicareSpending>22940</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22940.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Utah</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -4792,7 +4837,8 @@
     <ds:hasZipcode>25301</ds:hasZipcode>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WV">
-        <ds:hasStateAverageMedicareSpending>20608</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20608.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">West Virginia</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -4836,7 +4882,8 @@
     <ds:hasType>Acute Care Hospitals</ds:hasType>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ND">
-        <ds:hasStateAverageMedicareSpending>21448</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21448.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">North Dakota</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -4907,7 +4954,8 @@
     <ds:hasZipcode>04938</ds:hasZipcode>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ME">
-        <ds:hasStateAverageMedicareSpending>20663</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20663.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Maine</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -5379,7 +5427,8 @@
     <ds:hasType>Acute Care Hospitals</ds:hasType>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NM">
-        <ds:hasStateAverageMedicareSpending>20371</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20371.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">New Mexico</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -5804,7 +5853,8 @@
   <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#310041">
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NJ">
-        <ds:hasStateAverageMedicareSpending>22666</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22666.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">New Jersey</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -6180,7 +6230,8 @@
     <ds:hasYear>2018</ds:hasYear>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OR">
-        <ds:hasStateAverageMedicareSpending>20362</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20362.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Oregon</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -6640,7 +6691,8 @@
     <ds:hasOwnership>Voluntary non-profit - Private</ds:hasOwnership>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MT">
-        <ds:hasStateAverageMedicareSpending>20541</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20541.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Montana</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -7583,7 +7635,8 @@
     >2</ds:hasRating>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#SD">
-        <ds:hasStateAverageMedicareSpending>21448</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21448.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">South Dakota</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -16688,7 +16741,8 @@
     >1260</ds:hasScore>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ID">
-        <ds:hasStateAverageMedicareSpending>21258</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21258.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Idaho</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -16774,7 +16828,8 @@
     >4</ds:hasRating>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#RI">
-        <ds:hasStateAverageMedicareSpending>20673</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20673.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Rhode Island</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -17869,7 +17924,8 @@
     <ds:hasCity>PUTNAM</ds:hasCity>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CT">
-        <ds:hasStateAverageMedicareSpending>21690</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >21690.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Connecticut</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -20093,7 +20149,8 @@
     <ds:hasCity>FAIRBANKS</ds:hasCity>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AK">
-        <ds:hasStateAverageMedicareSpending>20861</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >20861.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Alaska</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -37928,7 +37985,8 @@
     <ds:hasPhoneNumber>(307) 633-7600</ds:hasPhoneNumber>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WY">
-        <ds:hasStateAverageMedicareSpending>19663</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >19663.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">Wyoming</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -54633,7 +54691,8 @@
     <ds:hasFacilityName>MEDSTAR WASHINGTON HOSPITAL CENTER</ds:hasFacilityName>
     <ds:hasState>
       <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#DC">
-        <ds:hasStateAverageMedicareSpending>22708</ds:hasStateAverageMedicareSpending>
+        <ds:hasStateAverageMedicareSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+        >22708.0</ds:hasStateAverageMedicareSpending>
         <rdfs:comment xml:lang="EN">District Of Columbia</rdfs:comment>
       </ds:State>
     </ds:hasState>
@@ -55288,7 +55347,8 @@
     <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#NM"/>
   </ds:Hospital>
   <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#USA">
-    <ds:hasNationalAverageSpending>21646</ds:hasNationalAverageSpending>
+    <ds:hasNationalAverageSpending rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+    >21646.0</ds:hasNationalAverageSpending>
     <rdfs:label xml:lang="EN">United State of America</rdfs:label>
   </ds:Country>
   <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#150064">

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class OurModel {
     //== Enum ==//
     public enum Class_Name {
-        MedicareMetadata, Hospital, State, Statistics, Location, Country, Address,
+        MedicareMetadata, Hospital, State, Statistics, Location, Nation, Address,
         Zipcode, City, Type, Ownership, PhoneNumber, FacilityID, FacilityName,
         EmergencyServices, AverageMedicareSpending, Score, Rating, Year;
 
@@ -45,8 +45,9 @@ public class OurModel {
         isAverageMedicareSpendingOf, hasScore, isScoreOf, hasRating, isRatingOf, hasLocation,
         isLocationOf, hasAddress, isAddressOf, hasZipcode, isZipcodeOf, hasCity, isCityOf,
         hasState, isStateOf, hasCountry, isCountryOf, hasType, isTypeOf, hasOwnership,
-        isOwnershipOf, hasYear, isYearOf, hasStatistics, isStatisticsOf, hasStateAverageMedicareSpending,
-        isStateAverageMedicareSpendingOf, hasNationalAverageSpending, isNationalAverageSpendingOf;
+        isOwnershipOf, hasYear, isYearOf, hasStatistics, isStatisticsOf,
+        hasStateAverageMedicareSpending, isStateAverageMedicareSpendingOf, hasStateName, isStateNameOf,
+        hasNationalAverageSpending, isNationalAverageSpendingOf, hasNationName, isNationNameOf;
 
         public String getURI() {
             return sourceURI + this.name();
@@ -99,8 +100,26 @@ public class OurModel {
     }
 
     //== Public methods ==//
+    public static void writeModelToFile(String fileName) throws IOException {
+        Path filePath = FileSystems.getDefault().getPath("").toAbsolutePath()
+                .resolve("deliverables")
+                .resolve(owlFileName);
+
+        BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
+
+        System.out.println("Writing to file " + owlFileName + " ...");
+        Stopwatch timer = new Stopwatch();
+        model.write(out);
+        System.out.println("Writing to file - Complete - Time: " + timer.elapsedTime());
+    }
+
+    public static void writeModelToFile() throws IOException {
+        writeModelToFile(owlFileName);
+    }
+
+    //== Private methods ==//
     //== == Build ontology instances == ==//
-    public static void addInstances(Predicate<Hospital> hospitalPred) throws UnsupportedEncodingException {
+    private static void addInstances(Predicate<Hospital> hospitalPred) throws UnsupportedEncodingException {
         Stopwatch timer;
         List<Hospital> filteredHospitals = hospitals.values().stream().filter(hospitalPred).collect(Collectors.toList());
 
@@ -129,7 +148,7 @@ public class OurModel {
 
         OntClass hospital = createClassIfAbsent(Class_Name.Hospital.getURI());
         OntClass state = createClassIfAbsent(Class_Name.State.getURI());
-        OntClass country = createClassIfAbsent(Class_Name.Country.getURI());
+        OntClass country = createClassIfAbsent(Class_Name.Nation.getURI());
         OntClass type = createClassIfAbsent(Class_Name.Type.getURI());
         OntClass ownership = createClassIfAbsent(Class_Name.Ownership.getURI());
 
@@ -190,72 +209,56 @@ public class OurModel {
     }
 
     private static void addStateToModel(List<State> states) {
-
         int total = states.size();
         OntClass state = createClassIfAbsent(OurModel.Class_Name.State.getURI());
         ObjectProperty hasStateAverageMedicareSpending = createPropIfAbsent(Prop_Name.hasStateAverageMedicareSpending.getURI());
+        ObjectProperty hasStateName = createPropIfAbsent(Prop_Name.hasStateName.getURI());
 
         for (State s : states) {
             Individual stateInstance = createIndividualIfAbsent(state, OurModel.sourceURI + s.getAbbr());
-            stateInstance.addComment(s.getFullStateName(), "EN");
 
             model.add(stateInstance, hasStateAverageMedicareSpending, model.createTypedLiteral(s.getAverageMedicareAmount()));
+            model.add(stateInstance, hasStateName, model.createTypedLiteral(s.getFullStateName()));
             System.out.println("Remained: " + (--total) + " - Added " + s.getAbbr());
         }
     }
 
     private static void addNationToModel() {
-        OntClass country = createClassIfAbsent(OurModel.Class_Name.Country.getURI());
+        OntClass country = createClassIfAbsent(OurModel.Class_Name.Nation.getURI());
         ObjectProperty hasNationalAverageSpending = createPropIfAbsent(OurModel.Prop_Name.hasNationalAverageSpending.getURI());
+        ObjectProperty hasNationName = createPropIfAbsent(Prop_Name.hasNationName.getURI());
 
         Individual nationInstance = country.createIndividual(OurModel.sourceURI + "USA");
+
         nationInstance.addLabel("United State of America", "EN");
         model.add(nationInstance, hasNationalAverageSpending, model.createTypedLiteral(Double.parseDouble(nationalAverage)));
+        model.add(nationInstance, hasNationName, model.createTypedLiteral("United State of America"));
         System.out.println("Added national averaged.");
     }
 
-    //== == Utilities == ==//
-    public static void writeModelToFile(String fileName) throws IOException {
-        Path filePath = FileSystems.getDefault().getPath("").toAbsolutePath()
-                .resolve("deliverables")
-                .resolve(owlFileName);
-
-        BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
-
-        System.out.println("Writing to file " + owlFileName + " ...");
-        Stopwatch timer = new Stopwatch();
-        model.write(out);
-        System.out.println("Writing to file - Complete - Time: " + timer.elapsedTime());
-    }
-
-    public static void writeModelToFile() throws IOException {
-        writeModelToFile(owlFileName);
-    }
-
-    //== Private methods ==//
     private static void addClasses() {
         // Create classes
         OntClass hospital = createClassIfAbsent(sourceURI + Class_Name.Hospital);
+        OntClass state = createClassIfAbsent(sourceURI + Class_Name.State);
+        OntClass country = createClassIfAbsent(sourceURI + Class_Name.Nation);
+
 //        OntClass statistics = createClassIfAbsent(sourceURI + Class_Name.Statistics);
 //        OntClass location = model.createClass(NS + Classes.Location);
-        OntClass country = createClassIfAbsent(sourceURI + Class_Name.Country);
-        OntClass address = createClassIfAbsent(sourceURI + Class_Name.Address);
-        OntClass zipcode = createClassIfAbsent(sourceURI + Class_Name.Zipcode);
-        OntClass city = createClassIfAbsent(sourceURI + Class_Name.City);
-        OntClass type = createClassIfAbsent(sourceURI + Class_Name.Type);
-        OntClass ownership = createClassIfAbsent(sourceURI + Class_Name.Ownership);
-        OntClass phonenumber = createClassIfAbsent(sourceURI + Class_Name.PhoneNumber);
-        OntClass facilityid = createClassIfAbsent(sourceURI + Class_Name.FacilityID);
-        OntClass facilityname = createClassIfAbsent(sourceURI + Class_Name.FacilityName);
-        OntClass emergencyservices = createClassIfAbsent(sourceURI + Class_Name.EmergencyServices);
-        OntClass averagemedicarespending = createClassIfAbsent(sourceURI + Class_Name.AverageMedicareSpending);
-        OntClass score = createClassIfAbsent(sourceURI + Class_Name.Score);
-        OntClass rating = createClassIfAbsent(sourceURI + Class_Name.Rating);
+//        OntClass address = createClassIfAbsent(sourceURI + Class_Name.Address);
+//        OntClass zipcode = createClassIfAbsent(sourceURI + Class_Name.Zipcode);
+//        OntClass city = createClassIfAbsent(sourceURI + Class_Name.City);
+//        OntClass type = createClassIfAbsent(sourceURI + Class_Name.Type);
+//        OntClass ownership = createClassIfAbsent(sourceURI + Class_Name.Ownership);
+//        OntClass phonenumber = createClassIfAbsent(sourceURI + Class_Name.PhoneNumber);
+//        OntClass facilityid = createClassIfAbsent(sourceURI + Class_Name.FacilityID);
+//        OntClass facilityname = createClassIfAbsent(sourceURI + Class_Name.FacilityName);
+//        OntClass emergencyservices = createClassIfAbsent(sourceURI + Class_Name.EmergencyServices);
+//        OntClass averagemedicarespending = createClassIfAbsent(sourceURI + Class_Name.AverageMedicareSpending);
+//        OntClass score = createClassIfAbsent(sourceURI + Class_Name.Score);
+//        OntClass rating = createClassIfAbsent(sourceURI + Class_Name.Rating);
 //        OntClass year = model.createClass(NS + Class_Name.Year);
-        OntClass medicaremetadata = createClassIfAbsent(sourceURI + Class_Name.MedicareMetadata);
+//        OntClass medicaremetadata = createClassIfAbsent(sourceURI + Class_Name.MedicareMetadata);
 
-        // For State
-        OntClass state = createClassIfAbsent(sourceURI + Class_Name.State);
 
         // Class relationships
 //        address.addRDFType(XSD.xstring);
@@ -270,15 +273,15 @@ public class OurModel {
 //        averagemedicarespending.addRDFType(XSD.decimal);
 //        score.addRDFType(XSD.xstring);
 //        year.addRDFType(XSD.xint);
-        medicaremetadata.addSubClass(hospital);
-        medicaremetadata.addSubClass(state);
-        medicaremetadata.addSubClass(country);
+//        medicaremetadata.addSubClass(hospital);
+//        medicaremetadata.addSubClass(state);
+//        medicaremetadata.addSubClass(country);
 
         // Intersecting classes
-        hospital.convertToIntersectionClass(
-                model.createList(type, ownership, score, rating,
-                        phonenumber, facilityid,
-                        facilityname, emergencyservices));
+//        hospital.convertToIntersectionClass(
+//                model.createList(type, ownership, score, rating,
+//                        phonenumber, facilityid,
+//                        facilityname, emergencyservices));
 //        year.convertToIntersectionClass(
 //                model.createList(averagemedicarespending, score, rating));
 //        location.convertToIntersectionClass(
@@ -286,11 +289,11 @@ public class OurModel {
 
         // Comments
         state.addComment("One of 50 states in US", "EN");
-        hospital.addComment("A hospital with general information and statistics", "EN");
+        country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
+//        hospital.addComment("A hospital with general information and statistics", "EN");
 //        statistics.addComment("Various statistics for the hospital", "EN");
 //        location.addComment("A collection of information regarding the hospital's location", "EN");
-        country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
-        medicaremetadata.addComment("A collection of the hospital's statistical data", "EN");
+//        medicaremetadata.addComment("A collection of the hospital's statistical data", "EN");
     }
 
     private static void addProps() {
@@ -408,7 +411,7 @@ public class OurModel {
 
         ObjectProperty hasCountry = createPropIfAbsent(sourceURI + Prop_Name.hasCountry);
         hasCountry.addComment("has a hospital location's country", "EN");
-        hasCountry.addRange(createClassIfAbsent(sourceURI + Class_Name.Country));
+        hasCountry.addRange(createClassIfAbsent(sourceURI + Class_Name.Nation));
 //        hasCountry.addDomain(location);
         hasCountry.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
         ObjectProperty isCountryOf = createPropIfAbsent(sourceURI + Prop_Name.isCountryOf);
@@ -457,15 +460,30 @@ public class OurModel {
         isStateAverageMedicareSpendingOf.addComment("is a state's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
         isStateAverageMedicareSpendingOf.addInverseOf(hasStateAverageMedicareSpending);
 
+        ObjectProperty hasStateName = createPropIfAbsent(Prop_Name.hasStateName.getURI());
+        hasStateName.addComment("Full name of a state", "EN");
+        hasStateName.addRange(XSD.xstring);
+        hasStateName.addDomain(createClassIfAbsent(Class_Name.State.getURI()));
+        ObjectProperty isStateNameOf = createPropIfAbsent(Prop_Name.isStateNameOf.getURI());
+        isStateNameOf.addComment("is state name of ", "EN");
+        isStateNameOf.addInverseOf(hasStateName);
+
         //** ** Nation ** **//
         ObjectProperty hasNationalAverageSpending = createPropIfAbsent(sourceURI + Prop_Name.hasNationalAverageSpending);
         hasNationalAverageSpending.addComment("has a national average spending per Beneficiary (MSPB) episodes in USD", "EN");
         hasNationalAverageSpending.addRange(XSD.xdouble);
-        hasNationalAverageSpending.addDomain(createClassIfAbsent(Class_Name.Country.getURI()));
+        hasNationalAverageSpending.addDomain(createClassIfAbsent(Class_Name.Nation.getURI()));
         ObjectProperty isNationalAverageSpendingOf = createPropIfAbsent(Prop_Name.isNationalAverageSpendingOf.getURI());
         isNationalAverageSpendingOf.addComment("is a national average spending per Beneficiary (MSPB) episodes in USD of", "EN");
         isNationalAverageSpendingOf.addInverseOf(hasNationalAverageSpending);
 
+        ObjectProperty hasNationName = createPropIfAbsent(Prop_Name.hasNationName.getURI());
+        hasNationName.addComment("Name of a nation", "EN");
+        hasNationName.addRange(XSD.xstring);
+        hasNationName.addDomain(createClassIfAbsent(Class_Name.Nation.getURI()));
+        ObjectProperty isNationNameOf = createPropIfAbsent(Prop_Name.isNationNameOf.getURI());
+        isNationNameOf.addComment("is a nation name of ", "EN");
+        isNationNameOf.addInverseOf(hasNationName);
     }
 
     //== == Utilities methods == ==//
