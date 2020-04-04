@@ -1,0 +1,693 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:ds="https://data.medicare.gov/d/nrth-mfg3#"
+    xmlns:du="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Hospital">
+    <rdfs:comment xml:lang="EN">A hospital with general information and statistics</rdfs:comment>
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Type"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Ownership"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Score"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Rating"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#PhoneNumber"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#FacilityID"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#FacilityName"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#EmergencyServices"/>
+    </owl:intersectionOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#State">
+    <rdfs:comment xml:lang="EN">One of 50 states in US</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Address"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Statistics">
+    <rdfs:comment xml:lang="EN">Various statistics for the hospital</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#City"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Country">
+    <rdfs:comment xml:lang="EN">A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata">
+    <rdfs:comment xml:lang="EN">A collection of the hospital's statistical data</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#AverageMedicareSpending"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Zipcode"/>
+  <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Year">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#AverageMedicareSpending"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Score"/>
+      <owl:Class rdf:about="https://data.medicare.gov/d/nrth-mfg3#Rating"/>
+    </owl:intersectionOf>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isYearOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasYear"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a statistic's year</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isZipcodeOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasZipcode"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's Zipcode</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasScore">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:comment xml:lang="EN">has a hospital's score</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasAverageMedicareSpending">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:comment xml:lang="EN">has a hospital's average spending per Beneficiary (MSPB) episodes in USD</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isAverageMedicareSpendingOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasAverageMedicareSpending"/>
+    <rdfs:comment xml:lang="EN">is a hospital's average spending per Beneficiary (MSPB) episodes in USD of</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasStatistics">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#MedicareMetadata"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:comment xml:lang="EN">has MedicareMetadata's statistics</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isCityOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCity"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's city</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isTypeOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasType"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital's type</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isStateOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasState"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's state</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isRatingOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasRating"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital's rating from 1-5</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasOwnership">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Ownership"/>
+    <rdfs:comment xml:lang="EN">has a hospital's ownership</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isCountryOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCountry"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="EN">is a hospital location's country</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasType">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Type"/>
+    <rdfs:comment xml:lang="EN">has a hospital's type</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCity">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#City"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's city</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasRating">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range>
+      <owl:DataRange>
+        <owl:oneOf rdf:parseType="Resource">
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >5</rdf:first>
+          </rdf:rest>
+          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+          >1</rdf:first>
+        </owl:oneOf>
+      </owl:DataRange>
+    </rdfs:range>
+    <rdfs:comment xml:lang="EN">has a hospital's rating from 1-5</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasState">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#State"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's state</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isStatisticsOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasStatistics"/>
+    <rdfs:comment xml:lang="EN">is MedicareMetadata's statistics</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isOwnershipOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasOwnership"/>
+    <rdfs:comment xml:lang="EN">is a hospital's ownership</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasAddress">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Address"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's address</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isAddressOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasAddress"/>
+    <rdfs:comment xml:lang="EN">is a hospital location's address</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasZipcode">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Zipcode"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's Zipcode</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasCountry">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Country"/>
+    <rdfs:comment xml:lang="EN">has a hospital location's country</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isScoreOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasScore"/>
+    <rdfs:comment xml:lang="EN">is a hospital's score</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isEmergencyServiceOf">
+    <rdfs:comment xml:lang="EN">is a boolean whether a facility has emergency service</rdfs:comment>
+    <owl:inverseOf>
+      <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasEmergencyService"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasYear">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Statistics"/>
+    <rdfs:range rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Year"/>
+    <rdfs:comment xml:lang="EN">has a statistic's year</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasFacilityID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    <rdfs:comment xml:lang="EN">has a particular facility ID</rdfs:comment>
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasPhoneNumber">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:comment xml:lang="EN">A phone number of a facility</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasEmergencyService">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:comment xml:lang="EN">A boolean whether a facility has emergency service</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#hasFacilityName">
+    <rdfs:domain rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Hospital"/>
+    <rdfs:comment xml:lang="EN">has the facility's name</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isFacilityIDOf">
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasFacilityID"/>
+    <rdfs:comment xml:lang="EN">is facility ID of</rdfs:comment>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="https://data.medicare.gov/d/nrth-mfg3#isFacilityNameOf">
+    <rdfs:comment xml:lang="EN">is a boolean whether a facility has emergency service</rdfs:comment>
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasPhoneNumber"/>
+    <owl:inverseOf rdf:resource="https://data.medicare.gov/d/nrth-mfg3#hasFacilityName"/>
+    <rdfs:comment xml:lang="EN">is facility's name of</rdfs:comment>
+  </owl:InverseFunctionalProperty>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#TN">
+    <ds:hasAverageMedicareSpending>21954</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Tennessee</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NJ">
+    <ds:hasAverageMedicareSpending>22666</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New Jersey</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#SD">
+    <ds:hasAverageMedicareSpending>21448</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">South Dakota</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21303">
+    <ds:hasPhoneNumber>(907) 747-3241</ds:hasPhoneNumber>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213032018">
+        <ds:hasYear>
+          <ds:Year rdf:about="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        </ds:hasYear>
+        <ds:hasAverageMedicareSpending>
+          <ds:AverageMedicareSpending rdf:about="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        </ds:hasAverageMedicareSpending>
+        <ds:hasRating>
+          <ds:Rating rdf:about="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        </ds:hasRating>
+        <ds:hasScore rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasCity>SITKA</ds:hasCity>
+    <ds:hasOwnership>
+      <ds:Ownership rdf:about="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    </ds:hasOwnership>
+    <ds:hasZipcode>99835</ds:hasZipcode>
+    <ds:hasFacilityName>SITKA COMMUNITY HOSPITAL</ds:hasFacilityName>
+    <ds:hasFacilityID>21303</ds:hasFacilityID>
+    <ds:hasState>
+      <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AK">
+        <ds:hasAverageMedicareSpending>20861</ds:hasAverageMedicareSpending>
+      </ds:State>
+    </ds:hasState>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasAddress>209 MOLLER DRIVE</ds:hasAddress>
+    <ds:hasType>
+      <ds:Type rdf:about="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    </ds:hasType>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#SITKA%20BOROUGH"/>
+    </ds:hasCountry>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OK">
+    <ds:hasAverageMedicareSpending>21650</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Oklahoma</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#RI">
+    <ds:hasAverageMedicareSpending>20673</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Rhode Island</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CT">
+    <ds:hasAverageMedicareSpending>21690</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Connecticut</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#SC">
+    <ds:hasAverageMedicareSpending>21199</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">South Carolina</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#VA">
+    <ds:hasAverageMedicareSpending>20676</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Virginia</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21302">
+    <ds:hasPhoneNumber>(907) 224-5205</ds:hasPhoneNumber>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#KENAI%20PENINSULA"/>
+    </ds:hasCountry>
+    <ds:hasFacilityName>PROVIDENCE SEWARD HOSPITAL</ds:hasFacilityName>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213022018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#422"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+    <ds:hasCity>SEWARD</ds:hasCity>
+    <ds:hasOwnership rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasFacilityID>21302</ds:hasFacilityID>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasAddress>417 FIRST AVENUE, PO BOX 365</ds:hasAddress>
+    <ds:hasZipcode>99664</ds:hasZipcode>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NH">
+    <ds:hasAverageMedicareSpending>20693</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New Hampshire</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#170203">
+    <ds:hasEmergencyService>false</ds:hasEmergencyService>
+    <ds:hasState>
+      <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#KS">
+        <ds:hasAverageMedicareSpending>21466</ds:hasAverageMedicareSpending>
+      </ds:State>
+    </ds:hasState>
+    <ds:hasFacilityName>PREMIER SURGICAL INSTITUTE</ds:hasFacilityName>
+    <ds:hasFacilityID>170203</ds:hasFacilityID>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#1702032018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending>
+          <ds:AverageMedicareSpending rdf:about="https://data.medicare.gov/d/nrth-mfg3#25765"/>
+        </ds:hasAverageMedicareSpending>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#130"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#CHEROKEE"/>
+    </ds:hasCountry>
+    <ds:hasType>
+      <ds:Type rdf:about="https://data.medicare.gov/d/nrth-mfg3#Acute%20Care%20Hospitals"/>
+    </ds:hasType>
+    <ds:hasZipcode>66739</ds:hasZipcode>
+    <ds:hasPhoneNumber>(620) 783-1732</ds:hasPhoneNumber>
+    <ds:hasCity>GALENA</ds:hasCity>
+    <ds:hasOwnership rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    <ds:hasAddress>1619 K 66</ds:hasAddress>
+  </ds:Hospital>
+  <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#USA">
+    <ds:hasAverageMedicareSpending>21646</ds:hasAverageMedicareSpending>
+    <rdfs:label xml:lang="EN">United State of America</rdfs:label>
+  </ds:Country>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21309">
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213092018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#84"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasOwnership>
+      <ds:Ownership rdf:about="https://data.medicare.gov/d/nrth-mfg3#Voluntary%20non-profit%20-%20Private"/>
+    </ds:hasOwnership>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#DILLINGHAM"/>
+    </ds:hasCountry>
+    <ds:hasAddress>P O BOX 130</ds:hasAddress>
+    <ds:hasCity>DILLINGHAM</ds:hasCity>
+    <ds:hasPhoneNumber>(907) 842-5201</ds:hasPhoneNumber>
+    <ds:hasFacilityName>KANAKANAK HOSPITAL</ds:hasFacilityName>
+    <ds:hasFacilityID>21309</ds:hasFacilityID>
+    <ds:hasZipcode>99576</ds:hasZipcode>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NY">
+    <ds:hasAverageMedicareSpending>21433</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New York</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21301">
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasCity>VALDEZ</ds:hasCity>
+    <ds:hasFacilityName>PROVIDENCE VALDEZ MEDICAL CENTER</ds:hasFacilityName>
+    <ds:hasOwnership rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    <ds:hasAddress>PO BOX 550</ds:hasAddress>
+    <ds:hasPhoneNumber>(907) 835-2249</ds:hasPhoneNumber>
+    <ds:hasFacilityID>21301</ds:hasFacilityID>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#VALDEZ-CORDOVA"/>
+    </ds:hasCountry>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+    <ds:hasZipcode>99686</ds:hasZipcode>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213012018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#219"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#DE">
+    <ds:hasAverageMedicareSpending>22708</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Delaware</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MO">
+    <ds:hasAverageMedicareSpending>21320</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Missouri</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CA">
+    <ds:hasAverageMedicareSpending>22304</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">California</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#DC">
+    <ds:hasAverageMedicareSpending>22708</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">District Of Columbia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#GA">
+    <ds:hasAverageMedicareSpending>20978</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Georgia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ME">
+    <ds:hasAverageMedicareSpending>20663</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Maine</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WI">
+    <ds:hasAverageMedicareSpending>20640</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Wisconsin</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WA">
+    <ds:hasAverageMedicareSpending>20861</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Washington</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21308">
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213082018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#87"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasZipcode>99762</ds:hasZipcode>
+    <ds:hasPhoneNumber>(907) 443-3311</ds:hasPhoneNumber>
+    <ds:hasFacilityName>NORTON SOUND REGIONAL HOSPITAL</ds:hasFacilityName>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#NOME"/>
+    </ds:hasCountry>
+    <ds:hasCity>NOME</ds:hasCity>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasFacilityID>21308</ds:hasFacilityID>
+    <ds:hasOwnership>
+      <ds:Ownership rdf:about="https://data.medicare.gov/d/nrth-mfg3#Tribal"/>
+    </ds:hasOwnership>
+    <ds:hasAddress>1000 GREG KRUSCHEK AVENUE (P O BOX 966)</ds:hasAddress>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IN">
+    <ds:hasAverageMedicareSpending>21785</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Indiana</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MN">
+    <ds:hasAverageMedicareSpending>21037</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Minnesota</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OR">
+    <ds:hasAverageMedicareSpending>20362</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Oregon</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#UT">
+    <ds:hasAverageMedicareSpending>22940</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Utah</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#OH">
+    <ds:hasAverageMedicareSpending>21942</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Ohio</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ID">
+    <ds:hasAverageMedicareSpending>21258</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Idaho</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#KY">
+    <ds:hasAverageMedicareSpending>21081</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Kentucky</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21307">
+    <ds:hasPhoneNumber>(907) 424-8000</ds:hasPhoneNumber>
+    <ds:hasAddress>PO BOX 160 - 602 CHASE AVENUE</ds:hasAddress>
+    <ds:hasOwnership rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasZipcode>99574</ds:hasZipcode>
+    <ds:hasCity>CORDOVA</ds:hasCity>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213072018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#315"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasFacilityName>CORDOVA COMMUNITY MEDICAL CENTER</ds:hasFacilityName>
+    <ds:hasCountry rdf:resource="https://data.medicare.gov/d/nrth-mfg3#VALDEZ-CORDOVA"/>
+    <ds:hasFacilityID>21307</ds:hasFacilityID>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WY">
+    <ds:hasAverageMedicareSpending>19663</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Wyoming</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NM">
+    <ds:hasAverageMedicareSpending>20371</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">New Mexico</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#LA">
+    <ds:hasAverageMedicareSpending>22493</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Louisiana</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NE">
+    <ds:hasAverageMedicareSpending>22071</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Nebraska</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#PA">
+    <ds:hasAverageMedicareSpending>21471</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Pennsylvania</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21306">
+    <ds:hasFacilityName>PROVIDENCE KODIAK ISLAND MEDICAL CTR</ds:hasFacilityName>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasZipcode>99615</ds:hasZipcode>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+    <ds:hasFacilityID>21306</ds:hasFacilityID>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213062018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#69"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasPhoneNumber>(907) 486-9592</ds:hasPhoneNumber>
+    <ds:hasOwnership>
+      <ds:Ownership rdf:about="https://data.medicare.gov/d/nrth-mfg3#Voluntary%20non-profit%20-%20Church"/>
+    </ds:hasOwnership>
+    <ds:hasAddress>1915 EAST REZANOF DRIVE</ds:hasAddress>
+    <ds:hasCity>KODIAK</ds:hasCity>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#KODIAK%20ISLAND%20BOROUGH"/>
+    </ds:hasCountry>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AL">
+    <ds:hasAverageMedicareSpending>20779</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Alabama</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MT">
+    <ds:hasAverageMedicareSpending>20541</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Montana</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NV">
+    <ds:hasAverageMedicareSpending>23002</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Nevada</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IL">
+    <ds:hasAverageMedicareSpending>21780</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Illinois</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#VT">
+    <ds:hasAverageMedicareSpending>20693</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Vermont</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#WV">
+    <ds:hasAverageMedicareSpending>20608</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">West Virginia</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#ND">
+    <ds:hasAverageMedicareSpending>21448</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">North Dakota</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21305">
+    <ds:hasAddress>310 BENNETT STREET PO BOX 1081</ds:hasAddress>
+    <ds:hasFacilityName>SEARHC WRANGELL MEDICAL CENTER-CAH</ds:hasFacilityName>
+    <ds:hasOwnership rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    <ds:hasPhoneNumber>(907) 874-7000</ds:hasPhoneNumber>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#WRANGELL%20CITY%20AND%20BOROUGH"/>
+    </ds:hasCountry>
+    <ds:hasEmergencyService>false</ds:hasEmergencyService>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasFacilityID>21305</ds:hasFacilityID>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213052018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#348"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+    <ds:hasCity>WRANGELL</ds:hasCity>
+    <ds:hasZipcode>99929</ds:hasZipcode>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#CO">
+    <ds:hasAverageMedicareSpending>22382</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Colorado</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MS">
+    <ds:hasAverageMedicareSpending>20922</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Mississippi</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#HI">
+    <ds:hasAverageMedicareSpending>21063</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Hawaii</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AZ">
+    <ds:hasAverageMedicareSpending>21904</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Arizona</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MI">
+    <ds:hasAverageMedicareSpending>21068</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Michigan</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#NC">
+    <ds:hasAverageMedicareSpending>20574</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">North Carolina</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#IA">
+    <ds:hasAverageMedicareSpending>20179</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Iowa</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#AR">
+    <ds:hasAverageMedicareSpending>21370</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Arkansas</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#MA">
+    <ds:hasAverageMedicareSpending>20791</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Massachusetts</rdfs:comment>
+  </ds:State>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#FL">
+    <ds:hasAverageMedicareSpending>21985</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Florida</rdfs:comment>
+  </ds:State>
+  <ds:Hospital rdf:about="https://data.medicare.gov/d/nrth-mfg3#21304">
+    <ds:hasPhoneNumber>(907) 772-4291</ds:hasPhoneNumber>
+    <ds:hasStatistics>
+      <ds:Statistics rdf:about="https://data.medicare.gov/d/nrth-mfg3#213042018">
+        <ds:hasYear rdf:resource="https://data.medicare.gov/d/nrth-mfg3#2018"/>
+        <ds:hasAverageMedicareSpending rdf:resource="https://data.medicare.gov/d/nrth-mfg3#-1"/>
+        <ds:hasRating rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Not%20Available"/>
+        <ds:hasScore>
+          <ds:Score rdf:about="https://data.medicare.gov/d/nrth-mfg3#313"/>
+        </ds:hasScore>
+      </ds:Statistics>
+    </ds:hasStatistics>
+    <ds:hasEmergencyService>true</ds:hasEmergencyService>
+    <ds:hasType rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Critical%20Access%20Hospitals"/>
+    <ds:hasCity>PETERSBURG</ds:hasCity>
+    <ds:hasAddress>PO BOX 589</ds:hasAddress>
+    <ds:hasFacilityName>PETERSBURG MEDICAL CENTER</ds:hasFacilityName>
+    <ds:hasOwnership rdf:resource="https://data.medicare.gov/d/nrth-mfg3#Government%20-%20Local"/>
+    <ds:hasZipcode>99833</ds:hasZipcode>
+    <ds:hasCountry>
+      <ds:Country rdf:about="https://data.medicare.gov/d/nrth-mfg3#PETERSBURG%20BOROUGH"/>
+    </ds:hasCountry>
+    <ds:hasFacilityID>21304</ds:hasFacilityID>
+    <ds:hasState rdf:resource="https://data.medicare.gov/d/nrth-mfg3#AK"/>
+  </ds:Hospital>
+  <ds:State rdf:about="https://data.medicare.gov/d/nrth-mfg3#TX">
+    <ds:hasAverageMedicareSpending>23343</ds:hasAverageMedicareSpending>
+    <rdfs:comment xml:lang="EN">Texas</rdfs:comment>
+  </ds:State>
+</rdf:RDF>

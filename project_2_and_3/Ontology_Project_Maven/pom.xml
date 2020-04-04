@@ -32,7 +32,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        project2.Hospital.OntInstanceModel
+                                        project2.Ontology.OntInstanceModel
                                     </mainClass>
                                 </manifest>
                             </archive>
