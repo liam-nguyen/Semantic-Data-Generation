@@ -46,12 +46,13 @@ public class OurModel {
         isLocationOf, hasAddress, isAddressOf, hasZipcode, isZipcodeOf, hasCity, isCityOf,
         hasState, isStateOf, hasCountry, isCountryOf, hasType, isTypeOf, hasOwnership,
         isOwnershipOf, hasYear, isYearOf, hasStatistics, isStatisticsOf, hasStateAverageMedicareSpending,
-        hasNationalAverageSpending;
+        isStateAverageMedicareSpendingOf, hasNationalAverageSpending, isNationalAverageSpendingOf;
 
         public String getURI() {
             return sourceURI + this.name();
         }
     }
+
 
     //== Static fields ==//
     @Getter
@@ -104,17 +105,19 @@ public class OurModel {
         List<Hospital> filteredHospitals = hospitals.values().stream().filter(hospitalPred).collect(Collectors.toList());
 
         System.out.println("Building Ontology, please wait...It might take some time...");
-        System.out.println("All hospitals size: " + hospitals.size());
-        System.out.println("Filtered hospitals size: " + filteredHospitals.size());
+        System.out.println("Total hospitals: " + hospitals.size());
+        System.out.println("Adding filtered hospitals. Size: " + filteredHospitals.size());
 
         timer = new Stopwatch();
         addHospitalToModel(filteredHospitals);
-        System.out.println("Building Hospital Ontology - Complete - Time: " + timer.elapsedTime());
+        System.out.println("Hospital Ontology - Complete time: " + timer.elapsedTime());
 
         timer = new Stopwatch();
+        System.out.println("Adding states. Size: " + hospitals.size());
         addStateToModel(new ArrayList<>(states.values()));
-        System.out.println("Building State Ontology - Complete - Time: " + timer.elapsedTime());
+        System.out.println("State Ontology - Complete - Time: " + timer.elapsedTime());
 
+        System.out.println("Adding nation. Size: " + 1);
         addNationToModel();
     }
 
@@ -187,6 +190,7 @@ public class OurModel {
     }
 
     private static void addStateToModel(List<State> states) {
+
         int total = states.size();
         OntClass state = createClassIfAbsent(OurModel.Class_Name.State.getURI());
         ObjectProperty hasStateAverageMedicareSpending = createPropIfAbsent(Prop_Name.hasStateAverageMedicareSpending.getURI());
@@ -195,7 +199,7 @@ public class OurModel {
             Individual stateInstance = createIndividualIfAbsent(state, OurModel.sourceURI + s.getAbbr());
             stateInstance.addComment(s.getFullStateName(), "EN");
 
-            model.add(stateInstance, hasStateAverageMedicareSpending, s.getAverageMedicareAmount());
+            model.add(stateInstance, hasStateAverageMedicareSpending, model.createTypedLiteral(s.getAverageMedicareAmount()));
             System.out.println("Remained: " + (--total) + " - Added " + s.getAbbr());
         }
     }
@@ -206,7 +210,7 @@ public class OurModel {
 
         Individual nationInstance = country.createIndividual(OurModel.sourceURI + "USA");
         nationInstance.addLabel("United State of America", "EN");
-        model.add(nationInstance, hasNationalAverageSpending, nationalAverage);
+        model.add(nationInstance, hasNationalAverageSpending, model.createTypedLiteral(Double.parseDouble(nationalAverage)));
         System.out.println("Added national averaged.");
     }
 
@@ -232,7 +236,7 @@ public class OurModel {
     private static void addClasses() {
         // Create classes
         OntClass hospital = createClassIfAbsent(sourceURI + Class_Name.Hospital);
-        OntClass statistics = createClassIfAbsent(sourceURI + Class_Name.Statistics);
+//        OntClass statistics = createClassIfAbsent(sourceURI + Class_Name.Statistics);
 //        OntClass location = model.createClass(NS + Classes.Location);
         OntClass country = createClassIfAbsent(sourceURI + Class_Name.Country);
         OntClass address = createClassIfAbsent(sourceURI + Class_Name.Address);
@@ -283,7 +287,7 @@ public class OurModel {
         // Comments
         state.addComment("One of 50 states in US", "EN");
         hospital.addComment("A hospital with general information and statistics", "EN");
-        statistics.addComment("Various statistics for the hospital", "EN");
+//        statistics.addComment("Various statistics for the hospital", "EN");
 //        location.addComment("A collection of information regarding the hospital's location", "EN");
         country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
         medicaremetadata.addComment("A collection of the hospital's statistical data", "EN");
@@ -291,6 +295,7 @@ public class OurModel {
 
     private static void addProps() {
         /* Create properties */
+        //** ** Hospital ** **//
         ObjectProperty hasFacilityID = createPropIfAbsent(sourceURI + Prop_Name.hasFacilityID);
         hasFacilityID.addComment("has a particular facility ID", "EN");
         hasFacilityID.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
@@ -330,13 +335,13 @@ public class OurModel {
         isPhoneNumberOf.addComment("is a boolean whether a facility has emergency service", "EN");
         isPhoneNumberOf.setRDFType(OWL.InverseFunctionalProperty);
 
-        ObjectProperty hasAverageMedicareSpending = createPropIfAbsent(sourceURI + Prop_Name.hasHospitalAverageMedicareSpending);
-        hasAverageMedicareSpending.addComment("has a hospital's average spending per Beneficiary (MSPB) episodes in USD", "EN");
-        hasAverageMedicareSpending.addRange(XSD.xdouble);
-        hasAverageMedicareSpending.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
+        ObjectProperty hasHospitalAverageMedicareSpending = createPropIfAbsent(sourceURI + Prop_Name.hasHospitalAverageMedicareSpending);
+        hasHospitalAverageMedicareSpending.addComment("has a hospital's average spending per Beneficiary (MSPB) episodes in USD", "EN");
+        hasHospitalAverageMedicareSpending.addRange(XSD.xdouble);
+        hasHospitalAverageMedicareSpending.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
         ObjectProperty isHospitalAverageSpendingOf = createPropIfAbsent(sourceURI + Prop_Name.isAverageMedicareSpendingOf);
         isHospitalAverageSpendingOf.addComment("is a hospital's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
-        isHospitalAverageSpendingOf.addInverseOf(hasAverageMedicareSpending);
+        isHospitalAverageSpendingOf.addInverseOf(hasHospitalAverageMedicareSpending);
 
         ObjectProperty hasScore = createPropIfAbsent(sourceURI + Prop_Name.hasScore);
         hasScore.addComment("has a hospital's score", "EN");
@@ -435,13 +440,32 @@ public class OurModel {
         isOwnershipOf.addComment("is a hospital's ownership", "EN");
         isOwnershipOf.addInverseOf(hasOwnership);
 
-        ObjectProperty hasStatistics = createPropIfAbsent(sourceURI + Prop_Name.hasStatistics);
-        hasStatistics.addComment("has MedicareMetadata's statistics", "EN");
-        hasStatistics.addRange(createClassIfAbsent(sourceURI + Class_Name.Statistics));
-        hasStatistics.addDomain(createClassIfAbsent(sourceURI + Class_Name.MedicareMetadata));
-        ObjectProperty isStatisticsOf = createPropIfAbsent(sourceURI + Prop_Name.isStatisticsOf);
-        isStatisticsOf.addComment("is MedicareMetadata's statistics", "EN");
-        isStatisticsOf.addInverseOf(hasStatistics);
+//        ObjectProperty hasStatistics = createPropIfAbsent(sourceURI + Prop_Name.hasStatistics);
+//        hasStatistics.addComment("has MedicareMetadata's statistics", "EN");
+//        hasStatistics.addRange(createClassIfAbsent(sourceURI + Class_Name.Statistics));
+//        hasStatistics.addDomain(createClassIfAbsent(sourceURI + Class_Name.MedicareMetadata));
+//        ObjectProperty isStatisticsOf = createPropIfAbsent(sourceURI + Prop_Name.isStatisticsOf);
+//        isStatisticsOf.addComment("is MedicareMetadata's statistics", "EN");
+//        isStatisticsOf.addInverseOf(hasStatistics);
+
+        //** ** State ** **//
+        ObjectProperty hasStateAverageMedicareSpending = createPropIfAbsent(Prop_Name.hasStateAverageMedicareSpending.getURI());
+        hasStateAverageMedicareSpending.addComment("has a state's average spending per Beneficiary (MSPB) episodes in USD", "EN");
+        hasStateAverageMedicareSpending.addRange(XSD.xdouble);
+        hasStateAverageMedicareSpending.addDomain(createClassIfAbsent(Class_Name.State.getURI()));
+        ObjectProperty isStateAverageMedicareSpendingOf = createPropIfAbsent(Prop_Name.isStateAverageMedicareSpendingOf.getURI());
+        isStateAverageMedicareSpendingOf.addComment("is a state's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
+        isStateAverageMedicareSpendingOf.addInverseOf(hasStateAverageMedicareSpending);
+
+        //** ** Nation ** **//
+        ObjectProperty hasNationalAverageSpending = createPropIfAbsent(sourceURI + Prop_Name.hasNationalAverageSpending);
+        hasNationalAverageSpending.addComment("has a national average spending per Beneficiary (MSPB) episodes in USD", "EN");
+        hasNationalAverageSpending.addRange(XSD.xdouble);
+        hasNationalAverageSpending.addDomain(createClassIfAbsent(Class_Name.Country.getURI()));
+        ObjectProperty isNationalAverageSpendingOf = createPropIfAbsent(Prop_Name.isNationalAverageSpendingOf.getURI());
+        isNationalAverageSpendingOf.addComment("is a national average spending per Beneficiary (MSPB) episodes in USD of", "EN");
+        isNationalAverageSpendingOf.addInverseOf(hasNationalAverageSpending);
+
     }
 
     //== == Utilities methods == ==//
