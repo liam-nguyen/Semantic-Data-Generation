@@ -96,4 +96,5 @@ local.properties
 #.project
 
 #Exclude 
-!/project_2_and_3/Ontology_Project_Maven/deliverables/*.jar
+!/project_2_and_3/Ontology_Project_Maven/deliverables/*.*
+!/project_2_and_3/Ontology_Project_Maven/deliverables/apache-jena-fuseki-3.14.0/*.*
