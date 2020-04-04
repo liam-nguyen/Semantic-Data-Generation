@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import project2.Util.Misc;
-
-import javax.swing.text.html.Option;
+import project2.Util.URI_Helper;
 
 public class Hospital {
     //== Instance fields ==//
@@ -19,10 +17,10 @@ public class Hospital {
             type = "";
     private String zipcode = "",
             address = "",
-            state = "",
             country = "USA",
             city = "",
             phoneNumber = "";
+    private State state;
     private String medicareAmount = "-1";
     private String hasEmergency = "";
 
@@ -71,7 +69,7 @@ public class Hospital {
     }
 
     public String getState() {
-        return state;
+        return state.getAbbr();
     }
 
     public String getCountry() {
@@ -96,59 +94,59 @@ public class Hospital {
 
     //== == Getters for URI == ==//
     public String getIDAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(ID);
+        return URI_Helper.escapeURI(ID);
     }
 
     public String getNameAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(hospitalName);
+        return URI_Helper.escapeURI(hospitalName);
     }
 
     public String getScoreAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(score);
+        return URI_Helper.escapeURI(score);
     }
 
     public String getRatingAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(rating);
+        return URI_Helper.escapeURI(rating);
     }
 
     public String getOwnershipAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(ownershipName);
+        return URI_Helper.escapeURI(ownershipName);
     }
 
     public String getTypeAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(type);
+        return URI_Helper.escapeURI(type);
     }
 
     public String getZipcodeAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(zipcode);
+        return URI_Helper.escapeURI(zipcode);
     }
 
     public String getAddressAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(address);
+        return URI_Helper.escapeURI(address);
     }
 
     public String getStateAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(state);
+        return URI_Helper.escapeURI(state.getAbbr());
     }
 
     public String getCountryAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(country);
+        return URI_Helper.escapeURI(country);
     }
 
     public String getCityAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(city);
+        return URI_Helper.escapeURI(city);
     }
 
     public String getPhoneNumberAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(phoneNumber);
+        return URI_Helper.escapeURI(phoneNumber);
     }
 
     public String getMedicareAmountAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(medicareAmount);
+        return URI_Helper.escapeURI(medicareAmount);
     }
 
     public String getHasEmergencyAsURI() throws UnsupportedEncodingException {
-        return Misc.escapeURI(hasEmergency);
+        return URI_Helper.escapeURI(hasEmergency);
     }
 
     //== == Parsed getter == ==//
@@ -199,7 +197,7 @@ public class Hospital {
     }
 
     public Hospital hasState(String state) {
-        this.state = state;
+        this.state = State.create(state);
         return this;
     }
 

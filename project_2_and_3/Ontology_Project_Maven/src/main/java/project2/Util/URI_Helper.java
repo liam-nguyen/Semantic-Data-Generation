@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 
-public class Misc {
+public class URI_Helper {
     public static String stripLeadingZeros(final String value) {
         return value.replaceFirst("^0+(?!$)", "");
     }

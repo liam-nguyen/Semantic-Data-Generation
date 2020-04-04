@@ -1,26 +1,23 @@
 package project2.Helper;
 
+import lombok.Getter;
+import lombok.Setter;
 import project2.Util.US_States;
 
-public class State {
-    String abbr;
-    String amount;
+import java.util.Set;
 
-    private static String getStr() {return "Liam";}
+public class State {
+    @Getter private String abbr;
+    @Getter @Setter private String averageMedicareAmount;
 
     public State(String abbr) {
         this.abbr = abbr;
     }
 
-    public String getAbbr() {
-        return abbr;
-    }
-    public String getAmount() { return amount; }
     public String getFullStateName() { return US_States.getFullStateName(abbr); }
-    public static State create(String abbr) {
+
+    public static State create(String abbr) throws IllegalArgumentException {
+        if (!US_States.states.containsKey(abbr)) throw new IllegalArgumentException("Invalid State Abbreviation");
         return new State(abbr);
-    }
-    public void setAverageMedicareAmount(String amount) {
-        this.amount = amount;
     }
 }
