@@ -1,6 +1,6 @@
 package project2;
 
-import project2.Instance.Hospital;
+import project2.Helper.Hospital;
 import project2.Ontology.OntInstanceModel;
 
 import java.io.IOException;

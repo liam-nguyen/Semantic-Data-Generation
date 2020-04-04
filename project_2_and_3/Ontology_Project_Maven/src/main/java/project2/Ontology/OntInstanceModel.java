@@ -4,10 +4,10 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
-import project2.Helper.CSVToInstance;
-import project2.Instance.Hospital;
-import project2.Instance.State;
-import project2.Helper.Stopwatch;
+import project2.Helper.CSVData;
+import project2.Helper.Hospital;
+import project2.Helper.State;
+import project2.Util.Stopwatch;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -35,9 +35,9 @@ public class OntInstanceModel {
 
     //== Constructor ==//
     public OntInstanceModel() throws URISyntaxException {
-        states = CSVToInstance.getStates();
-        hospitals = CSVToInstance.getHospitals();
-        nationalAverage = CSVToInstance.getNationalAverage();
+        states = CSVData.getStates();
+        hospitals = CSVData.getHospitals();
+        nationalAverage = CSVData.getNationalAverage();
 
         model = new OntModel().getModel();
         cache = new HashMap<>();
@@ -91,10 +91,10 @@ public class OntInstanceModel {
             Individual usa = getIndividual(country, OntModel.NS + h.getCountryAsURI());
             Individual typeInstance = getIndividual(type, OntModel.NS + h.getTypeAsURI());
             Individual ownershipInstance = getIndividual(ownership, OntModel.NS +h.getOwnershipAsURI());
-            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmountAsURI());
-            Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScoreAsURI());
-            Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRatingAsURI());
-            Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
+//            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmountAsURI());
+//            Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScoreAsURI());
+//            Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRatingAsURI());
+//            Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
             Individual statisticsInstance = getIndividual(statistics, OntModel.NS + h.getIDAsURI() + yearStr);
 //            System.out.println("Individual time: " + timer.elapsedTime());
 
@@ -130,10 +130,10 @@ public class OntInstanceModel {
             model.add(hospitalInstance, hasOwnership, ownershipInstance);
             model.add(hospitalInstance, hasType, typeInstance);
 
-            model.add(statisticsInstance, hasScore, scoreInstance);
-            model.add(statisticsInstance, hasRating, ratingInstance);
-            model.add(statisticsInstance, hasMedicareSpending, averagemedicarespendingInstance);
-            model.add(statisticsInstance, hasYear, yearInstance);
+            model.add(statisticsInstance, hasScore, model.createTypedLiteral(h.getScoreParsed().orElse(-1)));
+            model.add(statisticsInstance, hasRating, model.createTypedLiteral(h.getRatingParsed().orElse(-1)));
+            model.add(statisticsInstance, hasMedicareSpending, model.createTypedLiteral(h.getMedicareAmountParsed().orElse(-1.0)));
+            model.add(statisticsInstance, hasYear, model.createTypedLiteral("2018"));
             model.add(hospitalInstance, hasStatistics, statisticsInstance);
 //            System.out.println("Model Adding time: " + timer.elapsedTime());
             System.out.println("Remained: " + (--total) + " - Processed " + h.getID());

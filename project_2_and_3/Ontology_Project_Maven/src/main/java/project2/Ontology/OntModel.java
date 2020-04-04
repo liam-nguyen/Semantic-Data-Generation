@@ -62,7 +62,7 @@ public class OntModel {
         OntClass averagemedicarespending = model.createClass(NS + Class_Name.AverageMedicareSpending);
         OntClass score = model.createClass(NS + Class_Name.Score);
         OntClass rating = model.createClass(NS + Class_Name.Rating);
-        OntClass year = model.createClass(NS + Class_Name.Year);
+//        OntClass year = model.createClass(NS + Class_Name.Year);
         OntClass medicaremetadata = model.createClass(NS + Class_Name.MedicareMetadata);
 
         // For State
@@ -91,8 +91,8 @@ public class OntModel {
                 model.createList(type, ownership, score, rating,
                         phonenumber, facilityid,
                         facilityname, emergencyservices));
-        year.convertToIntersectionClass(
-                model.createList(averagemedicarespending, score, rating));
+//        year.convertToIntersectionClass(
+//                model.createList(averagemedicarespending, score, rating));
 //        location.convertToIntersectionClass(
 //        		model.createList(address, zipcode, city, state, country));
 
@@ -146,7 +146,7 @@ public class OntModel {
 
         ObjectProperty hasAverageMedicareSpending = model.createObjectProperty(NS + Prop_Name.hasAverageMedicareSpending);
         hasAverageMedicareSpending.addComment("has a hospital's average spending per Beneficiary (MSPB) episodes in USD", "EN");
-        hasAverageMedicareSpending.addRange(XSD.decimal);
+        hasAverageMedicareSpending.addRange(XSD.xdouble);
         hasAverageMedicareSpending.addDomain(statistics);
         ObjectProperty isHospitalAverageSpendingOf = model.createObjectProperty(NS + Prop_Name.isAverageMedicareSpendingOf);
         isHospitalAverageSpendingOf.addComment("is a hospital's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
@@ -173,7 +173,8 @@ public class OntModel {
 
         ObjectProperty hasYear = model.createObjectProperty(NS + Prop_Name.hasYear);
         hasYear.addComment("has a statistic's year", "EN");
-        hasYear.addRange(year);
+//        hasYear.addRange(year);
+        hasYear.addRange(XSD.xstring);
         hasYear.addDomain(statistics);
         ObjectProperty isYearOf = model.createObjectProperty(NS + Prop_Name.isYearOf);
         isYearOf.addComment("is a statistic's year", "EN");
@@ -257,10 +258,10 @@ public class OntModel {
         isStatisticsOf.addInverseOf(hasStatistics);
     }
 
-    public static void main(String[] args) {
-        OntModel ontology = new OntModel();
-        org.apache.jena.ontology.OntModel model = ontology.getModel();
-
-        model.write(System.out);
-    }
+//    public static void main(String[] args) {
+//        OntModel ontology = new OntModel();
+//        org.apache.jena.ontology.OntModel model = ontology.getModel();
+//
+//        model.write(System.out);
+//    }
 }
