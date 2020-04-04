@@ -93,59 +93,59 @@ public class Hospital {
     }
 
     //== == Getters for URI == ==//
-    public String getIDAsURI() throws UnsupportedEncodingException {
+    public String getIDAsURI() {
         return URI_Helper.escapeURI(ID);
     }
 
-    public String getNameAsURI() throws UnsupportedEncodingException {
+    public String getNameAsURI() {
         return URI_Helper.escapeURI(hospitalName);
     }
 
-    public String getScoreAsURI() throws UnsupportedEncodingException {
+    public String getScoreAsURI() {
         return URI_Helper.escapeURI(score);
     }
 
-    public String getRatingAsURI() throws UnsupportedEncodingException {
+    public String getRatingAsURI() {
         return URI_Helper.escapeURI(rating);
     }
 
-    public String getOwnershipAsURI() throws UnsupportedEncodingException {
+    public String getOwnershipAsURI() {
         return URI_Helper.escapeURI(ownershipName);
     }
 
-    public String getTypeAsURI() throws UnsupportedEncodingException {
+    public String getTypeAsURI() {
         return URI_Helper.escapeURI(type);
     }
 
-    public String getZipcodeAsURI() throws UnsupportedEncodingException {
+    public String getZipcodeAsURI() {
         return URI_Helper.escapeURI(zipcode);
     }
 
-    public String getAddressAsURI() throws UnsupportedEncodingException {
+    public String getAddressAsURI() {
         return URI_Helper.escapeURI(address);
     }
 
-    public String getStateAsURI() throws UnsupportedEncodingException {
+    public String getStateAsURI() {
         return URI_Helper.escapeURI(state.getAbbr());
     }
 
-    public String getCountryAsURI() throws UnsupportedEncodingException {
+    public String getCountryAsURI() {
         return URI_Helper.escapeURI(country);
     }
 
-    public String getCityAsURI() throws UnsupportedEncodingException {
+    public String getCityAsURI() {
         return URI_Helper.escapeURI(city);
     }
 
-    public String getPhoneNumberAsURI() throws UnsupportedEncodingException {
+    public String getPhoneNumberAsURI() {
         return URI_Helper.escapeURI(phoneNumber);
     }
 
-    public String getMedicareAmountAsURI() throws UnsupportedEncodingException {
+    public String getMedicareAmountAsURI() {
         return URI_Helper.escapeURI(medicareAmount);
     }
 
-    public String getHasEmergencyAsURI() throws UnsupportedEncodingException {
+    public String getHasEmergencyAsURI() {
         return URI_Helper.escapeURI(hasEmergency);
     }
 

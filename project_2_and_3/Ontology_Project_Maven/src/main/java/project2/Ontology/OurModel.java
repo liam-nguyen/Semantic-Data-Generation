@@ -54,7 +54,6 @@ public class OurModel {
         }
     }
 
-
     //== Static fields ==//
     @Getter
     private static final String duURI = "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#";
@@ -149,8 +148,6 @@ public class OurModel {
         OntClass hospital = createClassIfAbsent(Class_Name.Hospital.getURI());
         OntClass state = createClassIfAbsent(Class_Name.State.getURI());
         OntClass country = createClassIfAbsent(Class_Name.Nation.getURI());
-        OntClass type = createClassIfAbsent(Class_Name.Type.getURI());
-        OntClass ownership = createClassIfAbsent(Class_Name.Ownership.getURI());
 
         ObjectProperty hasID = createPropIfAbsent(Prop_Name.hasFacilityID.getURI());
         ObjectProperty hasFacilityName = createPropIfAbsent(OurModel.Prop_Name.hasFacilityName.getURI());
@@ -170,23 +167,10 @@ public class OurModel {
 
 
         for (Hospital h : hospitals) {
-//            timer = new Stopwatch();
             Individual hospitalInstance = hospital.createIndividual(OurModel.sourceURI + h.getIDAsURI());
             Individual stateInstance = createIndividualIfAbsent(state, OurModel.sourceURI + h.getStateAsURI());
             Individual usa = createIndividualIfAbsent(country, OurModel.sourceURI + h.getCountryAsURI());
 
-//            Individual averagemedicarespendingInstance = getIndividual(averagemedicarespending, OntModel.NS + h.getMedicareAmountAsURI());
-//            Individual scoreInstance = getIndividual(score, OntModel.NS + h.getScoreAsURI());
-//            Individual ratingInstance = getIndividual(rating, OntModel.NS + h.getRatingAsURI());
-//            Individual yearInstance = getIndividual(year, OntModel.NS + "2018");
-//            Individual statisticsInstance = getIndividual(statistics, OurModel.sourceURI + h.getIDAsURI() + yearStr);
-//            System.out.println("Individual time: " + timer.elapsedTime());
-
-//            timer = new Stopwatch();
-
-//            System.out.println("Property time: " + timer.elapsedTime());
-
-//            timer = new Stopwatch();
             model.add(hospitalInstance, hasFacilityName, h.getName());
             model.add(hospitalInstance, hasID, h.getID());
             model.add(hospitalInstance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
@@ -203,7 +187,6 @@ public class OurModel {
 
             model.add(hospitalInstance, hasOwnership, model.createTypedLiteral(h.getOwnership()));
             model.add(hospitalInstance, hasType, model.createTypedLiteral(h.getType()));
-//            System.out.println("Model Adding time: " + timer.elapsedTime());
             System.out.println("Remained: " + (--total) + " - Added " + h.getID());
         }
     }
@@ -237,63 +220,11 @@ public class OurModel {
     }
 
     private static void addClasses() {
-        // Create classes
-        OntClass hospital = createClassIfAbsent(sourceURI + Class_Name.Hospital);
         OntClass state = createClassIfAbsent(sourceURI + Class_Name.State);
         OntClass country = createClassIfAbsent(sourceURI + Class_Name.Nation);
 
-//        OntClass statistics = createClassIfAbsent(sourceURI + Class_Name.Statistics);
-//        OntClass location = model.createClass(NS + Classes.Location);
-//        OntClass address = createClassIfAbsent(sourceURI + Class_Name.Address);
-//        OntClass zipcode = createClassIfAbsent(sourceURI + Class_Name.Zipcode);
-//        OntClass city = createClassIfAbsent(sourceURI + Class_Name.City);
-//        OntClass type = createClassIfAbsent(sourceURI + Class_Name.Type);
-//        OntClass ownership = createClassIfAbsent(sourceURI + Class_Name.Ownership);
-//        OntClass phonenumber = createClassIfAbsent(sourceURI + Class_Name.PhoneNumber);
-//        OntClass facilityid = createClassIfAbsent(sourceURI + Class_Name.FacilityID);
-//        OntClass facilityname = createClassIfAbsent(sourceURI + Class_Name.FacilityName);
-//        OntClass emergencyservices = createClassIfAbsent(sourceURI + Class_Name.EmergencyServices);
-//        OntClass averagemedicarespending = createClassIfAbsent(sourceURI + Class_Name.AverageMedicareSpending);
-//        OntClass score = createClassIfAbsent(sourceURI + Class_Name.Score);
-//        OntClass rating = createClassIfAbsent(sourceURI + Class_Name.Rating);
-//        OntClass year = model.createClass(NS + Class_Name.Year);
-//        OntClass medicaremetadata = createClassIfAbsent(sourceURI + Class_Name.MedicareMetadata);
-
-
-        // Class relationships
-//        address.addRDFType(XSD.xstring);
-//        zipcode.addRDFType(XSD.xstring);
-//        city.addRDFType(XSD.xstring);
-//        type.addRDFType(XSD.xstring);
-//        ownership.addRDFType(XSD.xstring);
-//        phonenumber.addRDFType(XSD.xstring);
-//        facilityid.addRDFType(XSD.xint);
-//        facilityname.addRDFType(XSD.xstring);
-//        emergencyservices.addRDFType(XSD.xboolean);
-//        averagemedicarespending.addRDFType(XSD.decimal);
-//        score.addRDFType(XSD.xstring);
-//        year.addRDFType(XSD.xint);
-//        medicaremetadata.addSubClass(hospital);
-//        medicaremetadata.addSubClass(state);
-//        medicaremetadata.addSubClass(country);
-
-        // Intersecting classes
-//        hospital.convertToIntersectionClass(
-//                model.createList(type, ownership, score, rating,
-//                        phonenumber, facilityid,
-//                        facilityname, emergencyservices));
-//        year.convertToIntersectionClass(
-//                model.createList(averagemedicarespending, score, rating));
-//        location.convertToIntersectionClass(
-//        		model.createList(address, zipcode, city, state, country));
-
-        // Comments
         state.addComment("One of 50 states in US", "EN");
         country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
-//        hospital.addComment("A hospital with general information and statistics", "EN");
-//        statistics.addComment("Various statistics for the hospital", "EN");
-//        location.addComment("A collection of information regarding the hospital's location", "EN");
-//        medicaremetadata.addComment("A collection of the hospital's statistical data", "EN");
     }
 
     private static void addProps() {
@@ -367,25 +298,15 @@ public class OurModel {
 
         ObjectProperty hasYear = createPropIfAbsent(sourceURI + Prop_Name.hasYear);
         hasYear.addComment("has a statistic's year", "EN");
-//        hasYear.addRange(year);
         hasYear.addRange(XSD.xstring);
         hasYear.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
         ObjectProperty isYearOf = createPropIfAbsent(sourceURI + Prop_Name.isYearOf);
         isYearOf.addComment("is a statistic's year", "EN");
         isYearOf.addInverseOf(hasYear);
 
-//        ObjectProperty hasLocation = model.createObjectProperty(NS + Props.hasLocation);
-//        hasLocation.addComment("has a hospital's location", "EN");
-//        hasLocation.addRange(location);
-//        hasLocation.addDomain(hospital);
-//        ObjectProperty isLocationOf = model.createObjectProperty(NS + Props.isLocationOf);
-//        isLocationOf.addComment("is a hospital's location", "EN");
-//        isLocationOf.addInverseOf(hasLocation);
-
         ObjectProperty hasAddress = createPropIfAbsent(sourceURI + Prop_Name.hasAddress);
         hasAddress.addComment("has a hospital location's address", "EN");
         hasAddress.addRange(XSD.xstring);
-//        hasAddress.addDomain(location);
         hasAddress.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
         ObjectProperty isAddressOf = createPropIfAbsent(sourceURI + Prop_Name.isAddressOf);
         isAddressOf.addComment("is a hospital location's address", "EN");
@@ -394,7 +315,6 @@ public class OurModel {
         ObjectProperty hasZipcode = createPropIfAbsent(sourceURI + Prop_Name.hasZipcode);
         hasZipcode.addComment("has a hospital location's Zipcode", "EN");
         hasZipcode.addRange(XSD.xstring);
-//        hasZipcode.addDomain(location);
         hasZipcode.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
         ObjectProperty isZipcodeOf = createPropIfAbsent(sourceURI + Prop_Name.isZipcodeOf);
         isZipcodeOf.addComment("is a hospital location's Zipcode", "EN");
@@ -403,7 +323,6 @@ public class OurModel {
         ObjectProperty hasCity = createPropIfAbsent(sourceURI + Prop_Name.hasCity);
         hasCity.addComment("has a hospital location's city", "EN");
         hasCity.addRange(XSD.xstring);
-//        hasCity.addDomain(location);
         hasCity.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
         ObjectProperty isCityOf = createPropIfAbsent(sourceURI + Prop_Name.isCityOf);
         isCityOf.addComment("is a hospital location's city", "EN");
@@ -412,7 +331,6 @@ public class OurModel {
         ObjectProperty hasCountry = createPropIfAbsent(sourceURI + Prop_Name.hasCountry);
         hasCountry.addComment("has a hospital location's country", "EN");
         hasCountry.addRange(createClassIfAbsent(sourceURI + Class_Name.Nation));
-//        hasCountry.addDomain(location);
         hasCountry.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
         ObjectProperty isCountryOf = createPropIfAbsent(sourceURI + Prop_Name.isCountryOf);
         isCountryOf.addComment("is a hospital location's country", "EN");
@@ -421,7 +339,6 @@ public class OurModel {
         ObjectProperty hasState = createPropIfAbsent(sourceURI + Prop_Name.hasState);
         hasState.addComment("has a hospital location's state", "EN");
         hasState.addRange(createClassIfAbsent(sourceURI + Class_Name.State));
-//        hasState.addDomain(location);
         hasState.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
         ObjectProperty isStateOf = createPropIfAbsent(sourceURI + Prop_Name.isStateOf);
         isStateOf.addComment("is a hospital location's state", "EN");
@@ -442,14 +359,6 @@ public class OurModel {
         ObjectProperty isOwnershipOf = createPropIfAbsent(sourceURI + Prop_Name.isOwnershipOf);
         isOwnershipOf.addComment("is a hospital's ownership", "EN");
         isOwnershipOf.addInverseOf(hasOwnership);
-
-//        ObjectProperty hasStatistics = createPropIfAbsent(sourceURI + Prop_Name.hasStatistics);
-//        hasStatistics.addComment("has MedicareMetadata's statistics", "EN");
-//        hasStatistics.addRange(createClassIfAbsent(sourceURI + Class_Name.Statistics));
-//        hasStatistics.addDomain(createClassIfAbsent(sourceURI + Class_Name.MedicareMetadata));
-//        ObjectProperty isStatisticsOf = createPropIfAbsent(sourceURI + Prop_Name.isStatisticsOf);
-//        isStatisticsOf.addComment("is MedicareMetadata's statistics", "EN");
-//        isStatisticsOf.addInverseOf(hasStatistics);
 
         //** ** State ** **//
         ObjectProperty hasStateAverageMedicareSpending = createPropIfAbsent(Prop_Name.hasStateAverageMedicareSpending.getURI());

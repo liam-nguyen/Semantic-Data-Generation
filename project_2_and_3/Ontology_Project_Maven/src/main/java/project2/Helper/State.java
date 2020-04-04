@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import project2.Util.US_States;
 
-import java.util.Optional;
-
 public class State {
     @Getter private String abbr;
     @Setter private String averageMedicareAmount;
