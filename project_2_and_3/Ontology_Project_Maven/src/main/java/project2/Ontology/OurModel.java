@@ -76,6 +76,31 @@ public class OurModel {
 
     //== Static Initialize ==//
     static {
+//        model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules
+//        model.setNsPrefix("ds", sourceURI); // set namespace prefix
+//        model.setNsPrefix("du", duURI);
+//
+//        classCache = new HashMap<>();
+//        propCache = new HashMap<>();
+//        individualCache = new HashMap<>();
+//
+//        states = CSVData.getStates();
+//        hospitals = CSVData.getHospitals();
+//        nationalAverage = CSVData.getNationalAverage();
+//
+//        addClasses();
+//        addProps();
+//
+//        try {
+////            addInstances(Hospital::isValid);
+//            addInstances(hospital -> true);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    //== Public methods ==//
+    public static void build(Predicate<Hospital> hospitalInstancePred) {
         model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules
         model.setNsPrefix("ds", sourceURI); // set namespace prefix
         model.setNsPrefix("du", duURI);
@@ -92,17 +117,16 @@ public class OurModel {
         addProps();
 
         try {
-            addInstances(Hospital::isValid);
+            addInstances(hospitalInstancePred);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    //== Public methods ==//
     public static void writeModelToFile(String fileName) throws IOException {
         Path filePath = FileSystems.getDefault().getPath("").toAbsolutePath()
                 .resolve("deliverables")
-                .resolve(owlFileName);
+                .resolve(fileName);
 
         BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
 
