@@ -18,10 +18,17 @@
 Visit data.gov to select 2-3 datasets of interest and write a program to convert these
 datasets into semantic data in .rdf or .owl format
 
-### Built With
+## Datasets
+
+- [Hospital General Information](https://data.medicare.gov/Hospital-Compare/Hospital-General-Information/xubh-q36u)
+- [Medicare Hospital Spending by Claim 2018](https://data.medicare.gov/Hospital-Compare/Medicare-Hospital-Spending-by-Claim/nrth-mfg3)
+- [Timely and Effective Care](https://healthdata.gov/dataset/timely-and-effective-care-hospital)
+
+## Technologies
 
 - [Apache Jena](https://jena.apache.org/)
 - [Apache Maven](https://maven.apache.org/)
+- [Apache Fuseki](https://jena.apache.org/documentation/fuseki2/)
 
 <!-- GETTING STARTED -->
 
@@ -30,19 +37,24 @@ datasets into semantic data in .rdf or .owl format
 ### Prerequisites
 
 - [Apache Maven 3.6.3](https://maven.apache.org/download.cgi)
+- [JDK 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
 
 ## Usage
-
-- To package jar
-
-```sh
-mvn clean package
-```
-
-- Run main by executing Jar file:
+### Project 2
+- Everything can be found in **deliverables**
+- To execute the fat jar:
 
 ```sh
-java -jar target/project2_maven-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar [jar_name].jar
 ```
+- After the execution, it will produce Hospital.owl within the **deliverables** directory. 
+### Project 3
+- To use SPARQL query with Hospital.owl ontology, run:
 
-- A copy of the jar file is in Project 2 - Submit Package
+```shell script
+java -jar apache-jena-fuseki-3.14.0/fuseki-server.jar
+```
+- It will start a server, navigate to: **localhost:3030**
+- Go to manage **dataset**
+- Create a new **dataset** and upload the owl file
+- Run query at **dataset**
