@@ -5,6 +5,7 @@ import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.XSD;
 import project2.Helper.CSVData;
@@ -12,10 +13,7 @@ import project2.Helper.Hospital;
 import project2.Helper.State;
 import project2.Util.Stopwatch;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -61,20 +59,21 @@ public class OurModel {
     @Getter
     private static final String sourceURI = "https://data.medicare.gov/d/nrth-mfg3#";
     private static final String owlFileName = "hospital.owl";
+    private static final Path ROOT_PATH = FileSystems.getDefault().getPath("").toAbsolutePath();
 
     @Getter
     private OntModel model;
 
     private Map<String, Hospital> hospitals; // String = facilityID
     private Map<String, State> states; // String = full State's name
-    private String nationalAverage; // National Average Medicare Spending
+    private double nationalAverage; // National Average Medicare Spending
 
     private Map<String, OntClass> classCache;
     private Map<String, ObjectProperty> propCache;
     private Map<String, Individual> individualCache; // Cache for faster Ontology's instance look-up time
 
-    //== Public methods ==//
-    public OurModel build(List<Predicate<Hospital>> hospitalInstancePred) throws UnsupportedEncodingException {
+    //== Constructor ==//
+    public OurModel() {
         model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules
         model.setNsPrefix("ds", sourceURI); // set namespace prefix
         model.setNsPrefix("du", duURI);
@@ -86,11 +85,15 @@ public class OurModel {
         states = CSVData.getStates();
         hospitals = CSVData.getHospitals();
         nationalAverage = CSVData.getNationalAverage();
+    }
 
+    //== Public methods ==//
+    public OurModel build(List<Predicate<Hospital>> hospitalInstancePred) throws UnsupportedEncodingException {
         addClasses();
         addProps();
         addInstances(hospitalInstancePred);
 
+        clearCache();
         return this;
     }
 
@@ -100,16 +103,14 @@ public class OurModel {
     }
 
     public void writeModelToFile(String fileName) throws IOException {
-        Path filePath = FileSystems.getDefault().getPath("").toAbsolutePath()
-                .resolve("deliverables")
-                .resolve(fileName);
+        String filePath = ROOT_PATH.resolve("deliverables").resolve(fileName).toString();
 
-        BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
-
-        System.out.println("Writing to file " + owlFileName + " ...");
-        Stopwatch timer = new Stopwatch();
-        model.write(out);
-        System.out.println("Writing to file - Complete - Time: " + timer.elapsedTime());
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath))) {
+            System.out.println("Writing to file " + fileName + " ...");
+            Stopwatch timer = new Stopwatch();
+            model.write(out);
+            System.out.println("Writing to file - Complete - Time: " + timer.elapsedTime());
+        };
     }
 
     public void writeModelToFile() throws IOException {
@@ -118,7 +119,7 @@ public class OurModel {
 
     //== Private methods ==//
     //== == Build ontology instances == ==//
-    private void addInstances(List<Predicate<Hospital>> preds) throws UnsupportedEncodingException {
+    private void addInstances(List<Predicate<Hospital>> preds) {
         Stopwatch timer;
         List<Hospital> filteredHospitals = hospitals
                 .values()
@@ -127,8 +128,7 @@ public class OurModel {
                 .collect(Collectors.toList());
 
         System.out.println("Building Ontology, please wait...It might take some time...");
-        System.out.println("Total hospitals: " + hospitals.size());
-        System.out.println("Adding filtered hospitals. Size: " + filteredHospitals.size());
+        System.out.println("Building Hospitals Size: " + filteredHospitals.size());
 
         timer = new Stopwatch();
         addHospitalToModel(filteredHospitals);
@@ -142,7 +142,6 @@ public class OurModel {
         System.out.println("Adding nation. Size: " + 1);
         addNationToModel();
     }
-
 
     private void addHospitalToModel(List<Hospital> hospitals) {
         final String STAT_YEAR = "2018";
@@ -176,7 +175,7 @@ public class OurModel {
             Individual stateInstance = createIndividualIfAbsent(state, OurModel.sourceURI + h.getStateAsURI());
             Individual usa = createIndividualIfAbsent(country, OurModel.sourceURI + h.getCountryAsURI());
 
-            model.add(hospitalInstance, hasFacilityName, h.getName());
+            model.add(hospitalInstance, hasFacilityName, h.getHospitalName());
             model.add(hospitalInstance, hasID, h.getID());
             model.add(hospitalInstance, hasEmergencyService, String.valueOf(h.getHasEmergency()));
             model.add(hospitalInstance, hasPhoneNumber, h.getPhoneNumber());
@@ -186,11 +185,11 @@ public class OurModel {
             model.add(hospitalInstance, hasCity, h.getCity());
             model.add(hospitalInstance, hasState, stateInstance);
             model.add(hospitalInstance, hasZipCode, h.getZipcode());
-            model.add(hospitalInstance, hasScore, model.createTypedLiteral(h.getScoreParsed().orElse(-1)));
-            model.add(hospitalInstance, hasRating, model.createTypedLiteral(h.getRatingParsed().orElse(-1)));
-            model.add(hospitalInstance, hasHospitalAverageMedicareSpending, model.createTypedLiteral(h.getMedicareAmountParsed().orElse(-1.0)));
+            model.add(hospitalInstance, hasScore, model.createTypedLiteral(h.getScore()));
+            model.add(hospitalInstance, hasRating, model.createTypedLiteral(h.getRating()));
+            model.add(hospitalInstance, hasHospitalAverageMedicareSpending, model.createTypedLiteral(h.getMedicareAmount()));
             model.add(hospitalInstance, hasYear, model.createTypedLiteral(STAT_YEAR));
-            model.add(hospitalInstance, hasOwnership, model.createTypedLiteral(h.getOwnership()));
+            model.add(hospitalInstance, hasOwnership, model.createTypedLiteral(h.getOwnershipName()));
             model.add(hospitalInstance, hasType, model.createTypedLiteral(h.getType()));
             System.out.println("Remained: " + (--total) + " - Added " + h.getID());
         }
@@ -219,7 +218,7 @@ public class OurModel {
         Individual nationInstance = country.createIndividual(OurModel.sourceURI + "USA");
 
         nationInstance.addLabel("United State of America", "EN");
-        model.add(nationInstance, hasNationalAverageSpending, model.createTypedLiteral(Double.parseDouble(nationalAverage)));
+        model.add(nationInstance, hasNationalAverageSpending, model.createTypedLiteral(nationalAverage));
         model.add(nationInstance, hasNationName, model.createTypedLiteral("United State of America"));
         System.out.println("Added national averaged.");
     }
@@ -419,5 +418,13 @@ public class OurModel {
 
     private Individual createIndividualIfAbsent(OntClass instanceClass, String URI) {
         return individualCache.merge(URI, instanceClass.createIndividual(URI), (prev, curr) -> prev);
+    }
+
+    private void clearCache() {
+        hospitals = null;
+        states= null;
+        classCache= null;
+        propCache= null;
+        individualCache= null;
     }
 }

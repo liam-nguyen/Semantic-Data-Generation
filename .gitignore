@@ -101,4 +101,4 @@ local.properties
 !/project_2_and_3/Ontology_Project_Maven/deliverables/apache-jena-fuseki-3.14.0/*.war
 
 #Ignore subfolders
-/project_2_and_3/Ontology_Project_Maven/deliverables/apache-jena-fuseki-3.14.0/run/
+/project_2_and_3/Ontology_Project_Maven/deliverables/apache-jena-fuseki-3.14.0/run/*.*

@@ -1,29 +1,36 @@
 package project2.Helper;
 
 import lombok.Getter;
-import lombok.Setter;
 import project2.Util.US_States;
 
 public class State {
     @Getter private String abbr;
-    @Setter private String averageMedicareAmount;
+    @Getter private double averageMedicareAmount;
 
-    public State(String abbr) {
-        this.abbr = abbr;
-    }
-
-    public String getFullStateName() { return US_States.getFullStateName(abbr); }
-
+    //== Public method ==//
     public static State create(String abbr) throws IllegalArgumentException {
         if (!US_States.states.containsKey(abbr)) throw new IllegalArgumentException("Invalid State Abbreviation");
         return new State(abbr);
     }
+    public String getFullStateName() { return US_States.getFullStateName(abbr); }
 
-    public double getAverageMedicareAmount() {
+    //== == Setters == ==//
+    public State setAverageStateMedicareAmount(double amount) {
+        this.averageMedicareAmount = amount;
+        return this;
+    }
+    public State setAverageStateMedicareAmount(String amount) {
         try {
-            return Double.parseDouble(averageMedicareAmount);
-        } catch(NumberFormatException e) {
-            return -1;
+            return  setAverageStateMedicareAmount(Double.parseDouble(amount));
         }
+        catch(NumberFormatException e) {
+            return setAverageStateMedicareAmount(-1);
+        }
+    }
+
+    //== Private ==//
+    //== == Constructor == ==//
+    private State(String abbr) {
+        this.abbr = abbr;
     }
 }

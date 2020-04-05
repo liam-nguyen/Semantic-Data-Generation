@@ -14,7 +14,7 @@ import java.util.Objects;
 public class CSVData {
     public static Map<String, Hospital> hospitals = new HashMap<>(); // String = facilityID
     public static Map<String, State> states = new HashMap<>(); // String = full State's name
-    public static String nationalAverage = "-1"; // National Average Medicare Spending
+    public static double nationalAverage = -1; // National Average Medicare Spending
 
     static {
         try {
@@ -33,7 +33,7 @@ public class CSVData {
     public static Map<String, State> getStates() {
         return states;
     }
-    public static String getNationalAverage() {
+    public static double getNationalAverage() {
         return nationalAverage;
     }
 
@@ -106,17 +106,19 @@ public class CSVData {
             String averageSpendingPerEpisodeNation = URI_Helper.stripLeadingZeros(data[7]);
 
             //Check if the facilityId already exists in the map, modify the object by adding averageSpending
-            Hospital hospital = getHospital(facilityID);
-            hospital.hasMedicareSpending(averageSpendingPerEpisodeHospital);
+            Hospital hospital = getHospital(facilityID).hasMedicareSpending(averageSpendingPerEpisodeHospital);
             hospitals.put(facilityID, hospital);
 
             //Adding average spending to the state
-            State stateInstance = getState(state);
-            stateInstance.setAverageMedicareAmount(averageSpendingPerEpisodeState);
+            State stateInstance = getState(state).setAverageStateMedicareAmount(averageSpendingPerEpisodeState);
             states.put(stateInstance.getAbbr(), stateInstance);
 
             //Adding average spending to the nation
-            nationalAverage = nationalAverage.equals("-1") ? averageSpendingPerEpisodeNation : nationalAverage;
+            try {
+                CSVData.nationalAverage = Double.parseDouble(averageSpendingPerEpisodeNation);
+            } catch(NumberFormatException e) {
+                CSVData.nationalAverage = -1;
+            }
         }
     }
 
@@ -138,8 +140,7 @@ public class CSVData {
             String facilityID = URI_Helper.stripLeadingZeros(data[0]);
             String totalScore = (data[8]);
 
-            hospital = getHospital(facilityID);
-            hospital.hasScore(totalScore);
+            hospital = getHospital(facilityID).hasScore(totalScore);
             hospitals.put(facilityID, hospital);
         }
     }

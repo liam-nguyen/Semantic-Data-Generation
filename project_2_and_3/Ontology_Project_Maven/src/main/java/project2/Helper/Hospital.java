@@ -5,25 +5,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+
+import lombok.Getter;
 import project2.Util.URI_Helper;
 
 public class Hospital {
     //== Instance fields ==//
-    private String ID,
+    @Getter private String
+            ID,
             hospitalName = "",
-            score = "-1",
-            rating = "-1",
             ownershipName = "",
-            type = "";
-    private String zipcode = "",
+            type = "",
+            hasEmergency = "",
+            zipcode = "",
             address = "",
             country = "USA",
             county = "",
             city = "",
             phoneNumber = "";
+    @Getter private int score, rating;
+    @Getter private double medicareAmount;
     private State state;
-    private String medicareAmount = "-1";
-    private String hasEmergency = "";
 
     //== Constructor ==//
     private Hospital(String ID) {
@@ -36,147 +38,17 @@ public class Hospital {
         return new Hospital(ID);
     }
 
-    //== == Getters == ==//
-    public String getID() {
-        return ID;
-    }
-
-    public String getName() {
-        return hospitalName;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public String getRating() {
-       return rating;
-    }
-
-    public String getOwnership() {
-        return ownershipName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getState() {
-        return state.getAbbr();
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getMedicareAmount() {
-        return medicareAmount;
-    }
-
-    public String getHasEmergency() {
-        return hasEmergency;
-    }
-
     //== == Getters for URI == ==//
     public String getIDAsURI() {
         return URI_Helper.escapeURI(ID);
     }
-
-    public String getNameAsURI() {
-        return URI_Helper.escapeURI(hospitalName);
-    }
-
-    public String getScoreAsURI() {
-        return URI_Helper.escapeURI(score);
-    }
-
-    public String getRatingAsURI() {
-        return URI_Helper.escapeURI(rating);
-    }
-
-    public String getOwnershipAsURI() {
-        return URI_Helper.escapeURI(ownershipName);
-    }
-
-    public String getTypeAsURI() {
-        return URI_Helper.escapeURI(type);
-    }
-
-    public String getZipcodeAsURI() {
-        return URI_Helper.escapeURI(zipcode);
-    }
-
-    public String getAddressAsURI() {
-        return URI_Helper.escapeURI(address);
-    }
-
     public String getStateAsURI() {
         return URI_Helper.escapeURI(state.getAbbr());
     }
-
     public String getCountryAsURI() {
         return URI_Helper.escapeURI(country);
     }
-
-    public String getCityAsURI() {
-        return URI_Helper.escapeURI(city);
-    }
-
-    public String getPhoneNumberAsURI() {
-        return URI_Helper.escapeURI(phoneNumber);
-    }
-
-    public String getMedicareAmountAsURI() {
-        return URI_Helper.escapeURI(medicareAmount);
-    }
-
-    public String getHasEmergencyAsURI() {
-        return URI_Helper.escapeURI(hasEmergency);
-    }
-
     public String getCountyAsURI() {return URI_Helper.escapeURI(county);}
-
-    //== == Parsed getter == ==//
-    public Optional<Integer> getScoreParsed() {
-        try {
-            return Optional.of(Integer.parseInt(score));
-        } catch(NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<Integer> getRatingParsed() {
-        try {
-            return Optional.of(Integer.parseInt(rating));
-        } catch(NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<Double> getMedicareAmountParsed() {
-        try {
-            return Optional.of(Double.parseDouble(medicareAmount));
-        } catch(NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
 
     //== == Method to build a hospital object == ==//
     public Hospital hasName(String n) {
@@ -215,17 +87,32 @@ public class Hospital {
     }
 
     public Hospital hasMedicareSpending(String amount) {
-        this.medicareAmount = amount;
+        try {
+            this.medicareAmount = Double.parseDouble(amount);
+        } catch (NumberFormatException e) {
+//            System.out.println("Unknown medicare spending value: " + amount);
+            this.medicareAmount = -1;
+        }
         return this;
     }
 
     public Hospital hasScore(String score) {
-        this.score = score;
+        try {
+            this.score = Integer.parseInt(score);
+        } catch (NumberFormatException e) {
+//            System.out.println("Unknown score: " + score);
+            this.score = -1;
+        }
         return this;
     }
 
     public Hospital hasRating(String rating) {
-        this.rating = rating;
+        try {
+            this.rating = Integer.parseInt(rating);
+        } catch (NumberFormatException e) {
+//            System.out.println("Unknown rating: " + rating);
+            this.rating = -1;
+        }
         return this;
     }
 
@@ -249,7 +136,20 @@ public class Hospital {
         return this;
     }
 
-    //== == Other public methods == ==//
+    //== == Predicates == ==//
+    public static Predicate<Hospital> isWithMedicareSpending() {
+        return hospital -> hospital.getMedicareAmount() != -1;
+    }
+
+    public static Predicate<Hospital> isWithName() {
+        return hospital -> !hospital.getHospitalName().equals("") || hospital.getHospitalName() != null;
+    }
+
+    public static Predicate<Hospital> isWithScore() {
+        return hospital -> hospital.getScore() != -1;
+    }
+
+    //== == Overrides == ==//
     @Override
     public String toString() {
         return "Hospital{" +
@@ -267,18 +167,6 @@ public class Hospital {
                 ", medicareAmount='" + medicareAmount + '\'' +
                 ", hasEmergency=" + hasEmergency +
                 '}';
-    }
-
-    public static Predicate<Hospital> isWithMedicareSpending() {
-        return hospital -> !hospital.getMedicareAmount().equals("-1");
-    }
-
-    public static Predicate<Hospital> isWithName() {
-        return hospital -> !hospital.getName().equals("") || hospital.getName() != null;
-    }
-
-    public static Predicate<Hospital> isWithScore() {
-        return hospital -> !hospital.getScore().equals("-1");
     }
 
 
