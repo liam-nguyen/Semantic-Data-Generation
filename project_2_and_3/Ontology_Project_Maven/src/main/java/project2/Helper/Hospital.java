@@ -1,7 +1,7 @@
 package project2.Helper;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -18,6 +18,7 @@ public class Hospital {
     private String zipcode = "",
             address = "",
             country = "USA",
+            county = "",
             city = "",
             phoneNumber = "";
     private State state;
@@ -149,6 +150,8 @@ public class Hospital {
         return URI_Helper.escapeURI(hasEmergency);
     }
 
+    public String getCountyAsURI() {return URI_Helper.escapeURI(county);}
+
     //== == Parsed getter == ==//
     public Optional<Integer> getScoreParsed() {
         try {
@@ -241,6 +244,11 @@ public class Hospital {
         return this;
     }
 
+    public Hospital hasCounty(String countyName) {
+        this.county = countyName;
+        return this;
+    }
+
     //== == Other public methods == ==//
     @Override
     public String toString() {
@@ -261,27 +269,17 @@ public class Hospital {
                 '}';
     }
 
-    /**
-     * Check if a hospital object is valid against a list of validators
-     * @param validators a list of predicates
-     * @return true if hospital is valid, else false
-     */
-    public boolean isValid(List<Predicate<Hospital>> validators) {
-        return validators.stream().reduce(x->true, Predicate::and).test(this);
+    public static Predicate<Hospital> isWithMedicareSpending() {
+        return hospital -> !hospital.getMedicareAmount().equals("-1");
     }
 
-    /**
-     * heck if a hospital object is valid against a default list of validators
-     * @return true if hospital is valid, else false
-     */
-    public boolean isValid() {
-        List<Predicate<Hospital>> validators = new ArrayList<>();
-
-        // List of validators
-        validators.add(hospital -> !hospital.getName().equals("") || hospital.getName() != null);
-        validators.add(hospital -> !hospital.getScore().equals("-1"));
-        validators.add(hospital -> !hospital.getMedicareAmount().equals("-1"));
-
-        return isValid(validators);
+    public static Predicate<Hospital> isWithName() {
+        return hospital -> !hospital.getName().equals("") || hospital.getName() != null;
     }
+
+    public static Predicate<Hospital> isWithScore() {
+        return hospital -> !hospital.getScore().equals("-1");
+    }
+
+
 }

@@ -60,7 +60,7 @@ public class CSVData {
             String city = data[3];
             String state = data[4];
             String zipCode = data[5];
-            String countryName = data[6];
+            String countyName = data[6];
             String phoneNumber = data[7];
             String hospitalType = data[8];
             String ownership = data[9];
@@ -74,7 +74,7 @@ public class CSVData {
                     .hasCity(city)
                     .hasState(state)
                     .hasZipCode(zipCode)
-                    .hasCountry(countryName)
+                    .hasCounty(countyName)
                     .hasPhoneNumber(phoneNumber)
                     .hasType(hospitalType)
                     .hasOwnership(ownership)
