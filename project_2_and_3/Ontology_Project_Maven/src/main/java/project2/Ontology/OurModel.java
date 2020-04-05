@@ -75,29 +75,29 @@ public class OurModel {
     private static Map<String, Individual> individualCache; // Cache for faster Ontology's instance look-up time
 
     //== Static Initialize ==//
-    static {
-//        model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules
-//        model.setNsPrefix("ds", sourceURI); // set namespace prefix
-//        model.setNsPrefix("du", duURI);
-//
-//        classCache = new HashMap<>();
-//        propCache = new HashMap<>();
-//        individualCache = new HashMap<>();
-//
-//        states = CSVData.getStates();
-//        hospitals = CSVData.getHospitals();
-//        nationalAverage = CSVData.getNationalAverage();
-//
-//        addClasses();
-//        addProps();
-//
-//        try {
-////            addInstances(Hospital::isValid);
-//            addInstances(hospital -> true);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-    }
+//    static {
+////        model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF); //rule-based reasoner with OWL rules
+////        model.setNsPrefix("ds", sourceURI); // set namespace prefix
+////        model.setNsPrefix("du", duURI);
+////
+////        classCache = new HashMap<>();
+////        propCache = new HashMap<>();
+////        individualCache = new HashMap<>();
+////
+////        states = CSVData.getStates();
+////        hospitals = CSVData.getHospitals();
+////        nationalAverage = CSVData.getNationalAverage();
+////
+////        addClasses();
+////        addProps();
+////
+////        try {
+//////            addInstances(Hospital::isValid);
+////            addInstances(hospital -> true);
+////        } catch (UnsupportedEncodingException e) {
+////            e.printStackTrace();
+////        }
+//    }
 
     //== Public methods ==//
     public static void build(Predicate<Hospital> hospitalInstancePred) {
