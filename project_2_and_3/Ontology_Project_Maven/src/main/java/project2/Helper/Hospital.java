@@ -1,24 +1,10 @@
 package project2.Helper;
 
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-import java.io.UnsupportedEncodingException;
->>>>>>> liam
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
-import lombok.Getter;
-import project2.Util.URI_Helper;
-=======
 import java.util.function.Predicate;
 
 import lombok.Getter;
 import Util.URI_Helper;
->>>>>>> Stashed changes
 
 public class Hospital {
     //== Instance fields ==//
