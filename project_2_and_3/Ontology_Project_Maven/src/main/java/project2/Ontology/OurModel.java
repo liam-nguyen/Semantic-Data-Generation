@@ -11,7 +11,7 @@ import org.apache.jena.vocabulary.XSD;
 import project2.Helper.CSVData;
 import project2.Helper.Hospital;
 import project2.Helper.State;
-import project2.Util.Stopwatch;
+import Util.Stopwatch;
 
 import java.io.*;
 import java.nio.file.FileSystems;

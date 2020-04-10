@@ -1,4 +1,4 @@
-package project2.Util;
+package Util;
 
 import com.google.common.net.UrlEscapers;
 
