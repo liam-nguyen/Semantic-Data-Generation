@@ -1,4 +1,4 @@
-package project2.Util;
+package Util;
 
 /******************************************************************************
  *  Compilation:  javac Stopwatch.java

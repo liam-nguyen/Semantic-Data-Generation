@@ -1,8 +1,12 @@
 package project2.Helper;
 
 import lombok.Getter;
+<<<<<<< Updated upstream
 import lombok.Setter;
 import project2.Util.US_States;
+=======
+import Util.US_States;
+>>>>>>> Stashed changes
 
 public class State {
     @Getter private String abbr;

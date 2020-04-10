@@ -9,7 +9,7 @@ import org.apache.jena.vocabulary.XSD;
 import project2.Helper.CSVData;
 import project2.Helper.Hospital;
 import project2.Helper.State;
-import project2.Util.Stopwatch;
+import Util.Stopwatch;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -104,7 +104,14 @@ public class OurModel {
                 .resolve("deliverables")
                 .resolve(owlFileName);
 
+<<<<<<< Updated upstream
         BufferedWriter out = new BufferedWriter(new FileWriter(filePath.toString()));
+=======
+    public OntModel getModel() {return model;}
+
+    public void writeModelToFile(String fileName) throws IOException {
+        String filePath = ROOT_PATH.resolve("deliverables").resolve(fileName).toString();
+>>>>>>> Stashed changes
 
         System.out.println("Writing to file " + owlFileName + " ...");
         Stopwatch timer = new Stopwatch();
