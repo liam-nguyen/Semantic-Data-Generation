@@ -28,7 +28,7 @@ public class QueryHandler {
         }
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         try (RepositoryConnection conn = repo.getConnection()) {
             /**
              * Example:
@@ -41,7 +41,7 @@ public class QueryHandler {
              * GROUP BY ?stateName
              * ORDER BY ?stateName
              */
-            Query myQuery = Query.newQuery()
+            QueryBuilder myQuery = QueryBuilder.newQuery()
                     .select()
                         .ofVar("?stateName") // ofVar automatically add variables into the internal variables's list
                         .freeStmt("(ROUND(AVG(?score)) AS ?avg)") // best use freeStmt for complex statement
