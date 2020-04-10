@@ -3,24 +3,25 @@ package project3;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handle query building
+ */
 public class Query {
     private static final String allNamespace = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
             "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
             "PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>\n";
-    enum clause {
-        SELECT, WHERE, FILTER, AVG
-    }
 
     private String query = "";
-    private List<String> variables;
+    private List<String> variables; // store all variables in our query
 
-    private Query() {
+    private Query() { // Setup
         query += allNamespace;
         variables = new ArrayList<>();
     }
 
+    /** Building **/
     public static Query newQuery() {
         return new Query();
     }
@@ -37,7 +38,7 @@ public class Query {
     }
 
     public Query freeStmt(String statement) {
-        query += statement;
+        query += " " + statement + " ";
         return this;
     }
 
@@ -108,11 +109,9 @@ public class Query {
         return this;
     }
 
+    /** Getters **/
     public String build() {
         return query;
     }
-
-
-
     public List<String> getVars() {return variables;}
 }
