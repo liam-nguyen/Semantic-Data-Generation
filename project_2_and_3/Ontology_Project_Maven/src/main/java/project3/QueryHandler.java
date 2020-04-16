@@ -8,13 +8,19 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.sail.memory.MemoryStore;
 
 import java.io.*;
-import java.util.List;
 
 import static Util.Misc.getFileInDeliverables;
 
+/**
+ * This class handles database connection and evaluate the query
+ */
 public class QueryHandler {
     private static File hospitalOwlFile = new File(getFileInDeliverables("Filtered_Hospital.owl"));
-
+    private static final String allNamespace = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+            "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>\n";
 
     // Load owl file when this class is loaded
     private static Repository repo;
@@ -28,46 +34,32 @@ public class QueryHandler {
         }
     }
 
-    public static void main(String[] args) {
+    /**
+     * Evaluate the actual query. Note query is submitted as is. No namespace included.
+     * @param queryStr the SPARQL query
+     * @return QueryResult instance since TupleQueryResult is null when the connection is closed.
+     */
+    public static QueryResult evaluateQuery(String queryStr) {
         try (RepositoryConnection conn = repo.getConnection()) {
-            /**
-             * Example:
-             * SELECT ?stateName (ROUND(AVG(?score)) AS ?avg)
-             * WHERE {
-             * 	?hospital ds:hasState ?state.
-             *   	?state ds:hasStateName ?stateName.
-             *   	?hospital ds:hasScore ?score.
-             * }
-             * GROUP BY ?stateName
-             * ORDER BY ?stateName
-             */
-            QueryBuilder myQuery = QueryBuilder.newQuery()
-                    .select()
-                        .ofVar("?stateName") // ofVar automatically add variables into the internal variables's list
-                        .freeStmt("(ROUND(AVG(?score)) AS ?avg)") // best use freeStmt for complex statement
-                        .addVar("?avg") // Since complex statement won't aware of variables, use addVar to add variable
-                    .endSelect()
-                    .where()
-                        .whereStmt("?hospital ds:hasState ?state") // Each whereStmt will automatically add . at the end
-                        .whereStmt("?state ds:hasStateName ?stateName")
-                        .whereStmt("?hospital ds:hasScore ?score")
-                    .endWhere()
-                    .groupBy("?stateName");
-
-            System.out.println(myQuery.build()); // Use build() to get the final query in String
-            TupleQuery query = conn.prepareTupleQuery(myQuery.build());
-            List<String> vars = myQuery.getVars(); // Retrieve all variables in the query, this is needed to extract info for each var
-
-            // A QueryResult is also an AutoCloseable resource, so make sure it gets
-            // closed when done.
-            try (TupleQueryResult result = query.evaluate()) {
-                // we just iterate over all solutions in the result...
-                while (result.hasNext()) {
-                    BindingSet st = result.next();
-                    vars.forEach(v -> System.out.println(v + ": " + st.getValue(v))); // Extract result for each variable
-                }
+            TupleQuery output = conn.prepareTupleQuery(queryStr);
+            try (TupleQueryResult tqr = output.evaluate()){
+                return new QueryResult(tqr);
             }
         }
+    }
 
+    /**
+     * Evaluate query with namespace
+     * @param queryStr the SPARQL query
+     * @return QueryResult instance since TupleQueryResult is null when the connection is closed.
+     */
+    public static QueryResult evaluateQueryWithNS(String queryStr) {
+        StringBuilder sb = new StringBuilder(allNamespace);
+        try (RepositoryConnection conn = repo.getConnection()) {
+            TupleQuery output = conn.prepareTupleQuery(sb.append(queryStr).toString());
+            try (TupleQueryResult tqr = output.evaluate()){
+                return new QueryResult(tqr);
+            }
+        }
     }
 }

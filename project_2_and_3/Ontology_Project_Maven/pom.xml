@@ -43,6 +43,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.8.3</version>
+                <configuration>
+                    <mainClass>your.package.with.Launcher</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -101,6 +109,13 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>15-ea+2</version>
+        </dependency>
+
     </dependencies>
 
 </project>
