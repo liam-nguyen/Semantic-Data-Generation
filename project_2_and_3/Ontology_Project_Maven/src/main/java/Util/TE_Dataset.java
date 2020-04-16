@@ -174,16 +174,25 @@ public class TE_Dataset {
         fw.append("Total Sample");
         fw.append("\n");
         Iterator<String> keySet = groupbyMap.keySet().iterator();
-        int totalScore = 0;
+        float average_score = 0.0f;
+        int totalScore = 0; // total score = sum up score * samples
         int totalSample = 0;
+        int _score = 0;
         TE_Dataset ex = new TE_Dataset();
         while(keySet.hasNext()){
             String key = keySet.next();
             Iterator<TE_Dataset> iter = groupbyMap.get(key).iterator();
             while(iter.hasNext()) {
                 ex = iter.next();
-                totalScore += Integer.valueOf(ex.getScore());
-                totalSample += Integer.valueOf(ex.getSample());
+                _score = Integer.valueOf(ex.getScore());
+                if(_score > 0) { //when score = 0 and sample != 0, detominator (for average) increase unreasonably. Coversely, sample = 0 and score != 0 not cause the problem 
+                    totalScore  = totalScore + (_score * Integer.valueOf(ex.getSample()));
+                    totalSample += Integer.valueOf(ex.getSample());
+                }
+            }
+            if(totalSample > 0) {
+                average_score = (float) totalScore/totalSample;
+                average_score = Math.round(average_score * 100.0f) / 100.0f; 
             }
             fw.append(ex.getFacilityID());
             fw.append(",");
@@ -201,12 +210,13 @@ public class TE_Dataset {
             fw.append(",");
             fw.append(ex.getPhoneNumber());
             fw.append(",");
-            fw.append(totalScore == 0 ? "-1" : String.valueOf(totalScore));
+            fw.append(average_score == 0 ? "-1" : String.valueOf(average_score));
             fw.append(",");
             fw.append(totalSample == 0 ? "-1" : String.valueOf(totalSample));
             fw.append("\n");
             totalScore = 0;
             totalSample = 0;
+            average_score = 0.0f;
         }
         fw.flush();
         fw.close();
