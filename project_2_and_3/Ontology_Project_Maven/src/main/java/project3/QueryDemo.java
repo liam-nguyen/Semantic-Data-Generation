@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.Getter;
+import org.eclipse.rdf4j.query.BindingSet;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,14 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
  * This class stores our demo queries
  */
 public class QueryDemo {
-    private static Map<Integer, Question> demoList = new HashMap<>();
-    enum TeamMember {
+    @Getter private static Map<Integer, Question> demoList = new HashMap<>();
+    private enum TeamMember {
         LOC("Loc"), VARUN("Varun"), SUCHITRA("Suchitra"), PHUC("Phuc"), LIAM("Liam");
 
         String name;
@@ -67,7 +69,7 @@ public class QueryDemo {
         while((data = openCsvReader.readNext()) != null) {
             Question q = new Question(data[0], data[1], data[2], QueryHandler.evaluateQuery(data[2]));
             demoList.put(q.hashCode(), q);
-            System.out.println("Added question: " + data[1]);
+            System.out.println("Added question by " + data[0] + ": " + data[1]);
         }
         System.out.println("=================================");
     }
@@ -84,8 +86,8 @@ public class QueryDemo {
     }
 
     public static void main(String[] args) {
-        demoList.forEach((key, value) -> {
-            System.out.println(value.inEnglish);
+        demoList.forEach(($, value) -> {
+            System.out.println("****" + value.inEnglish + "****");
             value.getQueryResult().getAllBindings().forEach(System.out::println);
         });
     }
