@@ -20,7 +20,8 @@ public class Hospital {
             county = "",
             city = "",
             phoneNumber = "";
-    @Getter private int score, rating;
+    @Getter private int rating;
+    @Getter private double score;
     @Getter private double medicareAmount;
     private State state;
 
@@ -87,7 +88,6 @@ public class Hospital {
         try {
             this.medicareAmount = Double.parseDouble(amount);
         } catch (NumberFormatException e) {
-//            System.out.println("Unknown medicare spending value: " + amount);
             this.medicareAmount = -1;
         }
         return this;
@@ -95,9 +95,8 @@ public class Hospital {
 
     public Hospital hasScore(String score) {
         try {
-            this.score = Integer.parseInt(score);
+            this.score = Double.parseDouble(score);
         } catch (NumberFormatException e) {
-//            System.out.println("Unknown score: " + score);
             this.score = -1;
         }
         return this;
@@ -107,7 +106,6 @@ public class Hospital {
         try {
             this.rating = Integer.parseInt(rating);
         } catch (NumberFormatException e) {
-//            System.out.println("Unknown rating: " + rating);
             this.rating = -1;
         }
         return this;

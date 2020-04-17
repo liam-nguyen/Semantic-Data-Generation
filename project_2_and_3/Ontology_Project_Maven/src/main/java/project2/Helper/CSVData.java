@@ -122,7 +122,7 @@ public class CSVData {
 
     //Reading file timely effective grouped by id
     private static void parseCareCSV() throws IOException, CsvValidationException {
-        final String hospitalCareFileName = "Timely_Effective_groupedByID.csv";
+        final String hospitalCareFileName = "Timely_Effective_groupByID_Average.csv";
         Hospital hospital;
 
         CSVReader openCsvReader = new CSVReaderBuilder(
@@ -136,7 +136,7 @@ public class CSVData {
         String[] data;
         while ((data = openCsvReader.readNext()) != null) {
             String facilityID = URI_Helper.stripLeadingZeros(data[0]);
-            String totalScore = (data[8]);
+            String totalScore = data[8];
 
             hospital = getHospital(facilityID).hasScore(totalScore);
             hospitals.put(facilityID, hospital);

@@ -27,13 +27,13 @@ public class Main {
         });
 
         // Full hospital
-        pool.execute(() -> {
-            System.out.println("Build a full (non-filtered) hospital list");
-            try {
-                new OurModel().build().writeModelToFile("Full_Hospital.owl");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }});
+//        pool.execute(() -> {
+//            System.out.println("Build a full (non-filtered) hospital list");
+//            try {
+//                new OurModel().build().writeModelToFile("Full_Hospital.owl");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }});
 
         // Clean up
         System.out.println("Jobs completed");
