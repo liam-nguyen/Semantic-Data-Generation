@@ -1,17 +1,14 @@
 package project3;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.Getter;
-import org.eclipse.rdf4j.query.BindingSet;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -19,25 +16,6 @@ import java.util.*;
  * This class stores our demo queries
  */
 public class QueryDemo {
-//    private enum TeamMember {
-//        LOC("Loc"), VARUN("Varun"), SUCHITRA("Suchitra"), PHUC("Phuc"), LIAM("Liam");
-//
-//        String name;
-//        TeamMember(String name) {
-//            this.name = name;
-//        }
-//    }
-
-    @Getter private static Map<String, List<Question>> demoList = new HashMap<>();
-
-    static {
-        try {
-            parseDemoCSV();
-        } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Inner class is just to store data about a question
      */
@@ -55,6 +33,32 @@ public class QueryDemo {
         }
     }
 
+    @Getter private static Map<String, List<Question>> demoList = new HashMap<>();
+    static {
+        try {
+            parseDemoCSV();
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Helper method to get questions by a team member
+     * @param personName person's name
+     * @return a list of questions of that person
+     */
+    public static List<Question> getQuestionBy(String personName) {
+        return demoList.get(personName);
+    }
+    public static void main(String[] args) throws IOException {
+        QueryResult example = demoList.get("Suchitra").get(0).getQueryResult();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        File sampleJson = new File(Paths.get(
+                System.getProperty("user.dir")).resolve("deliverables").resolve("sample_query.json").toString());
+        objectMapper.writeValue(sampleJson, example);
+    }
+
     /**
      * Parse the queries list in queries.csv in resources folder
      */
@@ -65,8 +69,8 @@ public class QueryDemo {
                         Objects.requireNonNull(QueryDemo.class
                                 .getClassLoader()
                                 .getResourceAsStream("queries.csv"))))
-                                .withSkipLines(1)
-                                .build();
+                .withSkipLines(1)
+                .build();
 
         String[] data;
         while((data = openCsvReader.readNext()) != null) {
@@ -83,31 +87,5 @@ public class QueryDemo {
             System.out.println("Added question by " + data[0] + ": " + data[1]);
         }
         System.out.println("=================================");
-    }
-
-    /**
-     * Helper method to get questions by a team member
-     * @param personName person's name
-     * @return a list of questions of that person
-     */
-    public static List<Question> getQuestionBy(String personName) {
-        return demoList.get(personName);
-    }
-
-    public static void main(String[] args) throws IOException {
-//        demoList.forEach(($, value) -> {
-//            System.out.println("****" + value.inEnglish + "****");
-//            value.getQueryResult().getAllBindings().forEach(System.out::println);
-//        });
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        File jsonFile = new File(Paths.get(
-                System.getProperty("user.dir"))
-                .resolve("deliverables")
-                .resolve("sample_query.json")
-                .toString());
-
-        mapper.writeValue(jsonFile, demoList.get("Liam").get(0).queryResult);
     }
 }

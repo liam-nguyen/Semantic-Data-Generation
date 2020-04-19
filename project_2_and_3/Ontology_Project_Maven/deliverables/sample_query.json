@@ -1,394 +1,124 @@
 {
   "variables": [
     "stateName",
-    "percent",
-    "efficient_count",
-    "total"
+    "averageMedicareSpending",
+    "NationAverageMedicareSpending"
   ],
   "allBindings": [
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Illinois",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21780.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "California",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22304.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Nebraska",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22071.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Florida",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21985.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Indiana",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21785.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Tennessee",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21954.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "North Dakota",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21448.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Ohio",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21942.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "South Dakota",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21448.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Texas",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "23343.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Louisiana",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22493.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "New York",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21433.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Colorado",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22382.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Pennsylvania",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21471.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Kansas",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21466.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Oklahoma",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21650.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Arizona",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21904.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Delaware",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22708.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Utah",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22940.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Nevada",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "23002.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "New Jersey",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22666.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "Connecticut",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21690.0"
     },
     {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
-    },
-    {
-      "bindingNames": [
-        "total",
-        "stateName",
-        "efficient_count",
-        "percent"
-      ]
+      "stateName": "District Of Columbia",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22708.0"
     }
   ]
 }
