@@ -27,4 +27,5 @@ public class QueryResult {
     public List<BindingSet> getBindingsOf(String varName) {
         return this.allBindings.stream().filter(bindingSet -> bindingSet.hasBinding(varName)).collect(Collectors.toList());
     }
+
 }

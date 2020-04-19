@@ -1,0 +1,394 @@
+{
+  "variables": [
+    "stateName",
+    "percent",
+    "efficient_count",
+    "total"
+  ],
+  "allBindings": [
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    },
+    {
+      "bindingNames": [
+        "total",
+        "stateName",
+        "efficient_count",
+        "percent"
+      ]
+    }
+  ]
+}
