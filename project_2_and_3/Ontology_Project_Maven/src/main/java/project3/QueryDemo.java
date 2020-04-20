@@ -1,40 +1,21 @@
 package project3;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.Getter;
-import org.eclipse.rdf4j.query.BindingSet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
  * This class stores our demo queries
  */
 public class QueryDemo {
-    @Getter private static Map<Integer, Question> demoList = new HashMap<>();
-    private enum TeamMember {
-        LOC("Loc"), VARUN("Varun"), SUCHITRA("Suchitra"), PHUC("Phuc"), LIAM("Liam");
-
-        String name;
-        TeamMember(String name) {
-            this.name = name;
-        }
-    }
-    static {
-        try {
-            parseDemoCSV();
-        } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
-        }
-    }
     /**
      * Inner class is just to store data about a question
      */
@@ -52,6 +33,32 @@ public class QueryDemo {
         }
     }
 
+    @Getter private static Map<String, List<Question>> demoList = new HashMap<>();
+    static {
+        try {
+            parseDemoCSV();
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Helper method to get questions by a team member
+     * @param personName person's name
+     * @return a list of questions of that person
+     */
+    public static List<Question> getQuestionBy(String personName) {
+        return demoList.get(personName);
+    }
+    public static void main(String[] args) throws IOException {
+        QueryResult example = demoList.get("Suchitra").get(0).getQueryResult();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        File sampleJson = new File(Paths.get(
+                System.getProperty("user.dir")).resolve("deliverables").resolve("sample_query.json").toString());
+        objectMapper.writeValue(sampleJson, example);
+    }
+
     /**
      * Parse the queries list in queries.csv in resources folder
      */
@@ -62,33 +69,23 @@ public class QueryDemo {
                         Objects.requireNonNull(QueryDemo.class
                                 .getClassLoader()
                                 .getResourceAsStream("queries.csv"))))
-                                .withSkipLines(1)
-                                .build();
+                .withSkipLines(1)
+                .build();
 
         String[] data;
         while((data = openCsvReader.readNext()) != null) {
-            Question q = new Question(data[0], data[1], data[2], QueryHandler.evaluateQuery(data[2]));
-            demoList.put(q.hashCode(), q);
+            String person = data[0];
+            String question = data[1];
+            String query = data[2];
+
+            Question q = new Question(person, question, query, QueryHandler.evaluateQuery(data[2]));
+            demoList.merge(person, new ArrayList<>() {{ add(q);}}, (o, n) -> {
+                o.addAll(n);
+                return o;
+            });
+
             System.out.println("Added question by " + data[0] + ": " + data[1]);
         }
         System.out.println("=================================");
-    }
-
-    /**
-     * Helper method to get questions by a team member
-     * @param person enum instance of TeamMember
-     * @return a list of questions
-     */
-    public static List<Question> getQuestionBy(TeamMember person) {
-        return demoList.values().stream()
-                .filter(q -> q.getAuthor().equals(person.name()))
-                .collect(Collectors.toList());
-    }
-
-    public static void main(String[] args) {
-        demoList.forEach(($, value) -> {
-            System.out.println("****" + value.inEnglish + "****");
-            value.getQueryResult().getAllBindings().forEach(System.out::println);
-        });
     }
 }
