@@ -1,4 +1,4 @@
-package team.three.storage;
+package p3.web.util.storage;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

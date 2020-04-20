@@ -1,4 +1,4 @@
-package team.three.storage;
+package p3.web.util.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

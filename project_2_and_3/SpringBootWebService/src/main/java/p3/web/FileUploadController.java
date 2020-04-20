@@ -1,4 +1,4 @@
-package team.three;
+package p3.web;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import team.three.storage.StorageFileNotFoundException;
-import team.three.storage.StorageService;
+import p3.web.util.storage.StorageFileNotFoundException;
+import p3.web.util.storage.StorageService;
 
 @Controller
 public class FileUploadController {
@@ -32,7 +32,8 @@ public class FileUploadController {
 		this.storageService = storageService;
 	}
 
-	@GetMapping("/upload")
+	//This is for the upload form on GET
+	@GetMapping("/upload") 
 	public String listUploadedFiles(Model model) throws IOException {
 
 		model.addAttribute("files", storageService.loadAll().map(
@@ -51,8 +52,9 @@ public class FileUploadController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
-
-	@PostMapping("/upload")
+	
+	//This is for form submission to backend
+	@PostMapping("/upload") 
 	public String handleFileUpload(@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 
@@ -60,12 +62,11 @@ public class FileUploadController {
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
-		return "redirect:/";
+		return "redirect:/upload";
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();
 	}
-
 }
