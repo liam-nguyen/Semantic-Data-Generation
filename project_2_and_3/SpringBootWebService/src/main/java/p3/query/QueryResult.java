@@ -29,4 +29,12 @@ public class QueryResult {
             this.allBindings.add(binding);
         }
     }
+    
+    @Override
+    public String toString() {
+        return "QueryResult{" +
+                "variables=" + variables +
+                ", allBindings=" + allBindings +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package p3.query;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
@@ -20,10 +21,14 @@ public class QueryDemo {
      * Inner class is just to store data about a question
      */
     static class Question {
-        @Getter private String author = ""; // Who writes the question
-        @Getter private String inEnglish = ""; // The actual question
-        @Getter private String inSPARQL = ""; // Query in SPARQL language
-        @Getter private QueryResult queryResult; // The actual output the query
+        //@Getter 
+        private String author = ""; // Who writes the question
+        //@Getter 
+        private String inEnglish = ""; // The actual question
+        //@Getter 
+        private String inSPARQL = ""; // Query in SPARQL language
+        //@Getter 
+        private QueryResult queryResult; // The actual output the query
 
         public Question(String author, String engLang, String SPARQLLanguage, QueryResult queryResult) {
             this.author = author;
@@ -31,7 +36,22 @@ public class QueryDemo {
             this.inSPARQL = SPARQLLanguage;
             this.queryResult = queryResult;
         }
+        
+        public QueryResult getQueryResult() {
+        	return this.queryResult;
+        }
+        
+        public String getAuthor() {
+        	return this.author;
+        }
+        public String getInEnglish() {
+        	return this.inEnglish;
+        }
+        public String getInSPARQL() {
+        	return this.inSPARQL;
+        }
     }
+    
 
     @Getter private static Map<String, List<Question>> demoList = new HashMap<>();
     static {
@@ -52,11 +72,14 @@ public class QueryDemo {
     }
     public static void main(String[] args) throws IOException {
         QueryResult example = demoList.get("Suchitra").get(0).getQueryResult();
+//        System.out.println(example.toString());
         ObjectMapper objectMapper = new ObjectMapper();
 
         File sampleJson = new File(Paths.get(
                 System.getProperty("user.dir")).resolve("deliverables").resolve("sample_query.json").toString());
-        objectMapper.writeValue(sampleJson, example);
+//        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        System.out.println(objectMapper.writeValueAsString(example));
+//        objectMapper.writeValue(sampleJson, example);
     }
 
     /**
