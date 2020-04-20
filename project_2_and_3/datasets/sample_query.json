@@ -1,0 +1,124 @@
+{
+  "variables": [
+    "stateName",
+    "averageMedicareSpending",
+    "NationAverageMedicareSpending"
+  ],
+  "allBindings": [
+    {
+      "stateName": "Illinois",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21780.0"
+    },
+    {
+      "stateName": "California",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22304.0"
+    },
+    {
+      "stateName": "Nebraska",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22071.0"
+    },
+    {
+      "stateName": "Florida",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21985.0"
+    },
+    {
+      "stateName": "Indiana",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21785.0"
+    },
+    {
+      "stateName": "Tennessee",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21954.0"
+    },
+    {
+      "stateName": "North Dakota",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21448.0"
+    },
+    {
+      "stateName": "Ohio",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21942.0"
+    },
+    {
+      "stateName": "South Dakota",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21448.0"
+    },
+    {
+      "stateName": "Texas",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "23343.0"
+    },
+    {
+      "stateName": "Louisiana",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22493.0"
+    },
+    {
+      "stateName": "New York",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21433.0"
+    },
+    {
+      "stateName": "Colorado",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22382.0"
+    },
+    {
+      "stateName": "Pennsylvania",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21471.0"
+    },
+    {
+      "stateName": "Kansas",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21466.0"
+    },
+    {
+      "stateName": "Oklahoma",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21650.0"
+    },
+    {
+      "stateName": "Arizona",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21904.0"
+    },
+    {
+      "stateName": "Delaware",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22708.0"
+    },
+    {
+      "stateName": "Utah",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22940.0"
+    },
+    {
+      "stateName": "Nevada",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "23002.0"
+    },
+    {
+      "stateName": "New Jersey",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22666.0"
+    },
+    {
+      "stateName": "Connecticut",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "21690.0"
+    },
+    {
+      "stateName": "District Of Columbia",
+      "NationAverageMedicareSpending": "21389.94",
+      "averageMedicareSpending": "22708.0"
+    }
+  ]
+}
