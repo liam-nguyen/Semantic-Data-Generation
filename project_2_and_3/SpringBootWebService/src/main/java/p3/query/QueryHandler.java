@@ -1,21 +1,22 @@
 package p3.query;
 
-import org.eclipse.rdf4j.query.*;
+import org.eclipse.rdf4j.query.TupleQuery;
+import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sail.SailRepository;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.sail.memory.MemoryStore;
+import p3.query.util.Misc;
 
-import java.io.*;
-
-import static Util.Misc.getFileInDeliverables;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * This class handles database connection and evaluate the query
  */
 public class QueryHandler {
-    private static File hospitalOwlFile = new File(getFileInDeliverables("Filtered_Hospital.owl"));
+    private static File hospitalOwlFile = new File(Misc.getFileInDeliverables("Filtered_Hospital.owl"));
     private static final String allNamespace = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
             "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +

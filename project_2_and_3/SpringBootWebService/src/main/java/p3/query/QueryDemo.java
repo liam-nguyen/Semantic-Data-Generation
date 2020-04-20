@@ -79,7 +79,7 @@ public class QueryDemo {
             String query = data[2];
 
             Question q = new Question(person, question, query, QueryHandler.evaluateQuery(data[2]));
-            demoList.merge(person, new ArrayList<>() {{ add(q);}}, (o, n) -> {
+            demoList.merge(person, new ArrayList<Question>() {{ add(q);}}, (o, n) -> {
                 o.addAll(n);
                 return o;
             });
