@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class QueryResult {
 
     private @Getter List<String> variables;
-//    private @Getter List<BindingSet> allBindings;
     private @Getter List<Map<String, String>> allBindings;
 
     public QueryResult(TupleQueryResult tupleResult) {
@@ -30,9 +29,4 @@ public class QueryResult {
             this.allBindings.add(binding);
         }
     }
-
-//    public List<BindingSet> getBindingsOf(String varName) {
-//        return this.allBindings.stream().filter(bindingSet -> bindingSet.hasBinding(varName)).collect(Collectors.toList());
-//    }
-
 }
