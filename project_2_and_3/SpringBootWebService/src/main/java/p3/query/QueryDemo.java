@@ -72,14 +72,12 @@ public class QueryDemo {
     }
     public static void main(String[] args) throws IOException {
         QueryResult example = demoList.get("Suchitra").get(0).getQueryResult();
-//        System.out.println(example.toString());
         ObjectMapper objectMapper = new ObjectMapper();
 
         File sampleJson = new File(Paths.get(
                 System.getProperty("user.dir")).resolve("deliverables").resolve("sample_query.json").toString());
 //        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        System.out.println(objectMapper.writeValueAsString(example));
-//        objectMapper.writeValue(sampleJson, example);
+        objectMapper.writeValue(sampleJson, example);
     }
 
     /**

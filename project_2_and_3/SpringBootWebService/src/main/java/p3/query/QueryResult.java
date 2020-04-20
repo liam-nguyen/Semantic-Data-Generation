@@ -1,10 +1,13 @@
 package p3.query;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +17,10 @@ import java.util.stream.Collectors;
 /**
  * This class collects all the output from TupleQueryResult
  */
-public class QueryResult {
+public class QueryResult implements Serializable {
 
-    private @Getter List<String> variables;
-    private @Getter List<Map<String, String>> allBindings;
+    private @JsonProperty @Getter List<String> variables;
+    private @JsonProperty @Getter List<Map<String, String>> allBindings;
 
     public QueryResult(TupleQueryResult tupleResult) {
         variables = tupleResult.getBindingNames();
