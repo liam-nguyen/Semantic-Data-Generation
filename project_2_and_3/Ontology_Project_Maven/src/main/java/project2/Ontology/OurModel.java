@@ -64,7 +64,7 @@ public class OurModel {
     @Getter
     private OntModel model;
 
-    private Map<String, Hospital> hospitals; // String = facilityID
+    @Getter private Map<String, Hospital> hospitals; // String = facilityID
     private Map<String, State> states; // String = full State's name
     private double nationalAverage; // National Average Medicare Spending
 
@@ -88,18 +88,14 @@ public class OurModel {
     }
 
     //== Public methods ==//
-    public OurModel build(List<Predicate<Hospital>> hospitalInstancePred) throws UnsupportedEncodingException {
+    public void build(List<Predicate<Hospital>> hospitalInstancePred) {
         addClasses();
         addProps();
         addInstances(hospitalInstancePred);
-
-        clearCache();
-        return this;
     }
 
-    public OurModel build() throws UnsupportedEncodingException {
-        build(new ArrayList<>());
-        return this;
+    public void build() {
+        this.build(new ArrayList<>());
     }
 
     public void writeModelToFile(String fileName) throws IOException {

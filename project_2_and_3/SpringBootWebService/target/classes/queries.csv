@@ -1,0 +1,206 @@
+author,question,query
+Suchitra,"In 2018, which states have a score above the national average?","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?stateName ?averageMedicareSpending ?NationAverageMedicareSpending
+WHERE
+{
+    ?state ds:hasStateName ?stateName.
+    ?state ds:hasStateAverageMedicareSpending ?averageMedicareSpending.
+{
+    SELECT (AVG(?medicareSpending) AS ?NationAverageMedicareSpending)
+    WHERE
+    {
+        ?state ds:hasStateAverageMedicareSpending ?medicareSpending.
+        FILTER(?medicareSpending!=0)
+    }
+}
+    FILTER(?averageMedicareSpending > ?NationAverageMedicareSpending)
+}"
+Suchitra,"Average score of nation","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (AVG(?score) AS ?NationAverageScore)
+WHERE{
+    ?hospital ds:hasScore ?score.
+    ?hospital ds:hasCountry ds:USA
+FILTER(?score!=0)
+}"
+Liam,"Which state has the highest percentage of efficient hospitals where efficient hospital = higher score than state's average score and lower spending that state's spending?","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?stateName (ROUND(?efficient_count * 100 / ?total) AS ?percent) ?efficient_count ?total
+WHERE {
+  {
+    SELECT ?stateName (COUNT(?efficient) AS ?efficient_count)
+    WHERE {
+      ?efficient ds:hasHospitalAverageMedicareSpending ?hSpending.
+      ?efficient ds:hasScore ?hScore.
+      ?efficient ds:hasState ?state.
+      ?state ds:hasStateName ?stateName.
+      ?state ds:hasStateAverageMedicareSpending ?sSpending.
+  	  {
+        SELECT (AVG(?innerScore) AS ?stateAvgScore)
+        WHERE {
+            ?hospital ds:hasState ?state.
+          	?state ds:hasStateName ?stateName.
+            ?hospital ds:hasScore ?innerScore.
+         }
+  	  }
+  		FILTER(?hSpending < ?sSpending && ?hScore > ?stateAvgScore)
+    }
+      GROUP BY ?stateName
+      ORDER BY DESC(?numEfficientHospital)
+    }
+  {
+    SELECT ?stateName (COUNT(?hospital) AS ?total)
+    WHERE {
+        ?hospital ds:hasState ?state.
+      	?state ds:hasStateName ?stateName.
+    }
+    GROUP BY (?stateName)
+  }
+}
+ORDER BY DESC(?percent)"
+Liam,"Average score per state","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stateName (ROUND(AVG(?score)) AS ?avg)
+WHERE {
+    ?hospital ds:hasState ?state.
+    ?state ds:hasStateName ?stateName.
+    ?hospital ds:hasScore ?score.
+}
+GROUP BY ?stateName
+ORDER BY ?stateName"
+Varun,"Given a state name and of all the hospitals that have higher spending than the state's average, what's the percent of those that have higher score than state's average score?","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?obj2 (COUNT(?obj2) AS ?FilterTotal) (MAX(?total) AS ?totalHospitals) ((?FilterTotal*100/?totalHospitals) AS ?percentage) WHERE{
+?stateName rdf:type ds:State.
+?hospitalName rdf:type ds:Hospital.
+?stateName ?property4 ?stateAverage.
+?hospitalName ?property5 ?obj2.
+?hospitalName ?property6 ?hospital_average.
+?hospitalName ?property7 ?hospital_score.
+?hospitalName ?property8 ?name.
+filter(?stateName=?obj2 && ?property4=ds:hasStateAverageMedicareSpending && ?property5=ds:hasState && ?obj2=?obj && ?property6=ds:hasHospitalAverageMedicareSpending && ?property8=ds:hasFacilityName && ?hospital_average> ?stateAverage && ?property7=ds:hasScore && ?hospital_score > ?stateScore){
+SELECT ?obj (AVG(?scoreValue) AS ?stateScore) (COUNT(?obj) AS ?total) WHERE{
+?hospitalName rdf:type ds:Hospital.
+?hospitalName ?property2 ?obj.
+?hospitalName ?property3 ?scoreValue.
+filter(?property2=ds:hasState && ?obj=ds:TX && ?property3=ds:hasScore ) }
+group by ?obj
+}
+}group by ?obj2"
+Varun, "Highest spending hospital","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ SELECT ?name ?property ?average
+ WHERE {
+ ?name rdf:type ds:Hospital.
+ ?name ?property ?average.
+ filter(?property=ds:hasHospitalAverageMedicareSpending)
+ }
+ ORDER BY DESC ((?average)) Limit 1"
+Loc,"Which proprietary hospital provides emergency psychiatric services?","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?subject ?facility_name ?facility_address ?emergency_service ?service_type ?ownership
+WHERE {
+   ?subject ds:hasFacilityName ?facility_name .
+   ?subject ds:hasAddress ?facility_address .
+   ?subject ds:hasEmergencyService "true" .
+   ?subject ds:hasEmergencyService ?emergency_service .
+   ?subject ds:hasType "Psychiatric" .
+   ?subject ds:hasType ?service_type .
+   ?subject ds:hasOwnership "Proprietary" .
+   ?subject ds:hasOwnership ?ownership .
+ }"
+Phuc,"Of all the hospitals that have higher spending that the nation's average, what's the percentage of those that have higher score than nation's average score?","
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ SELECT ?percentage_nation
+ WHERE {
+     {
+     	SELECT (COUNT(?_id) AS ?req_hopitals)
+         WHERE {
+         ?subject ds:hasFacilityID ?_id .
+         ?subject ds:hasHospitalAverageMedicareSpending ?hospital_spending .
+         ?subject ds:hasCountry ?country .
+         ?country ds:hasNationalAverageSpending ?nation_spending .
+         ?subject ds:hasScore ?score .
+       	{
+         SELECT (ROUND(AVG(?score)) AS ?avg)
+             WHERE { ?hospital ds:hasScore ?score. }
+       	}
+         FILTER(?hospital_spending > ?nation_spending && ?score > ?avg) .
+   	  }
+     }
+
+     {
+       SELECT (COUNT(?id) as ?total_hospital)
+       WHERE {
+         ?subject ds:hasFacilityID ?id .
+         ?subject ds:hasHospitalAverageMedicareSpending ?hospital_spending .
+         ?subject ds:hasCountry ?country .
+         ?country ds:hasNationalAverageSpending ?nation_spending .
+         FILTER(?hospital_spending > ?nation_spending)
+       }
+   	}
+
+   BIND(?req_hopitals/?total_hospital*100 AS ?percentage_nation)
+ }"
+ Phuc,"Highest rating hospital","
+ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+ PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+ PREFIX owl: <http://www.w3.org/2002/07/owl#>
+ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ SELECT ?ID ?Hospital ?Phone ?City ?Address ?Zipcode ?State ?Ownership ?Type (STR(?rate) as ?Rating) ?Year
+ WHERE {
+   ?subject ds:hasFacilityID ?ID .
+   ?subject ds:hasFacilityName ?Hospital .
+   ?subject ds:hasPhoneNumber ?Phone .
+   ?subject ds:hasCity ?City .
+   ?subject ds:hasAddress ?Address .
+   ?subject ds:hasZipcode ?Zipcode .
+   ?subject ds:hasState ?_State .
+   ?_State ds:hasName ?State .
+   ?subject ds:hasOwnership ?Ownership .
+   ?subject ds:hasType ?Type .
+   ?subject ds:hasRating ?rate .
+   ?subject ds:hasYear ?Year .
+   FILTER (?rate = 5)
+ }
+ ORDER BY DESC (?rate)"
