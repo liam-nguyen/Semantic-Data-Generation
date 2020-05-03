@@ -12,18 +12,6 @@ WHERE {
   ?hospital ds:hasHospitalAverageMedicareSpending ?spending.
   ?hospital ds:hasScore ?score.
   ?state ds:hasStateAverageMedicareSpending ?stateSpending.
-	# This is to find out the state average score
-      {
-        SELECT (AVG(?innerScore) AS ?stateAvgScore)
-        WHERE {
-            ?hospital ds:hasState ?state.
-          	?state ds:hasStateName ?stateName.
-            ?hospital ds:hasScore ?innerScore.
-            FILTER(?innerScore != 0 && ?innerScore != -1) # ignore score == 0 or score == -1
-         }
-  	  }
-      # Filter out: hospital with spending == -1 or 0, then run comparison
-      FILTER(?spending != 0 && ?spending != -1)
 }
 ORDER BY DESC(?ratio)
-LIMIT 1
+LIMIT 10
