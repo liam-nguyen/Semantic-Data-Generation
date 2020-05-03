@@ -6,6 +6,7 @@ import project2.Helper.Hospital;
 import project2.Ontology.OurModel;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -24,6 +25,17 @@ public class Main {
                                 Hospital.isWithScore(),
                                 Hospital.isWithMedicareSpending()));
                 model.writeModelToFile("Filtered_Hospital.owl");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        pool.execute(() -> {
+            System.out.println("Build a filtered hospital list by name, score and medicare ");
+            try {
+                OurModel model = new OurModel();
+                model.build(new ArrayList<>());
+                model.writeModelToFile("Full_Hospital.owl");
             } catch (IOException e) {
                 e.printStackTrace();
             }
