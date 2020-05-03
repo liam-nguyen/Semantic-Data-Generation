@@ -7,6 +7,7 @@ PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
 SELECT ?stateName (ROUND(?efficient_count * 100 / ?total) AS ?percent) ?efficient_count ?total
 WHERE {
   {
+    # This is to find # efficent hospitals in each state
     SELECT ?stateName (COUNT(?efficient) AS ?efficient_count)
     WHERE {
       ?efficient ds:hasHospitalAverageMedicareSpending ?hSpending.
@@ -22,15 +23,16 @@ WHERE {
             ?hospital ds:hasState ?state.
           	?state ds:hasStateName ?stateName.
             ?hospital ds:hasScore ?innerScore.
-            FILTER(?innerScore != 0 && ?innerScore != -1) # ignore score == 0 or score == -1
          }
   	  }
-      # Filter out: hospital with spending == -1 or 0, then run comparison
-      FILTER(?hSpending != 0 && ?hSpending != -1 && ?hSpending < ?sSpending && ?hScore > ?stateAvgScore)
+      
+      # Filter out by comparison
+      FILTER(?hSpending < ?sSpending && ?hScore > ?stateAvgScore)
     }
-      GROUP BY ?stateName
-    }
-  # This block is to find the total hospital in each state for percentage calculation
+    GROUP BY ?stateName
+  }
+  
+  # This block is to find the total # hospitals in each state
   {
     SELECT ?stateName (COUNT(?hospital) AS ?total)
     WHERE {

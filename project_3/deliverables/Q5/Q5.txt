@@ -1,1 +1,5 @@
-Which state has the highest percentage of efficient hospitals where efficient hospital = higher score than state's average score and lower spending that state's spending?
+What is the most efficient state? (Liam)​
+
+Most efficient state = state that has the highest percentage of efficient hospitals of all hospitals.​
+
+Efficient hospital = hospital that has higher score than state's average score and lower spending than state's spending?
