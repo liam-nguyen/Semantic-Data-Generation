@@ -1,6 +1,7 @@
 package project2.Ontology;
 
 import lombok.Getter;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -9,6 +10,7 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import project2.Helper.CSVData;
 import project2.Helper.Hospital;
 import project2.Helper.State;
@@ -65,8 +67,11 @@ public class OurModel {
     @Getter
     private OntModel model;
 
-    @Getter private Map<String, Hospital> hospitals; // String = facilityID
+    @Getter
+    private Map<String, Hospital> hospitals; // String = facilityID
+    @Getter
     private Map<String, State> states; // String = full State's name
+    @Getter
     private double nationalAverage; // National Average Medicare Spending
 
     private Map<String, OntClass> classCache;
@@ -188,6 +193,7 @@ public class OurModel {
             model.add(hospitalInstance, hasYear, model.createTypedLiteral(STAT_YEAR));
             model.add(hospitalInstance, hasOwnership, model.createTypedLiteral(h.getOwnershipName()));
             model.add(hospitalInstance, hasType, model.createTypedLiteral(h.getType()));
+
             System.out.println("Remained: " + (--total) + " - Added " + h.getID());
         }
     }
@@ -221,11 +227,13 @@ public class OurModel {
     }
 
     private void addClasses() {
-        OntClass state = createClassIfAbsent(sourceURI + Class_Name.State);
-        OntClass country = createClassIfAbsent(sourceURI + Class_Name.Nation);
+        OntClass state = createClassIfAbsent(Class_Name.State.getURI());
+        OntClass country = createClassIfAbsent(Class_Name.Nation.getURI());
+        OntClass hospital = createClassIfAbsent(Class_Name.Hospital.getURI());
 
         state.addComment("One of 50 states in US", "EN");
         country.addComment("A large body of people united by common descent, history, culture, or language, inhabiting a particular country or territory.", "EN");
+        hospital.addComment("A health care facility that accepts medicares", "EN");
     }
 
     private void addProps() {
@@ -233,27 +241,25 @@ public class OurModel {
         //** ** Hospital ** **//
         ObjectProperty hasFacilityID = createPropIfAbsent(sourceURI + Prop_Name.hasFacilityID);
         hasFacilityID.addComment("has a particular facility ID", "EN");
-        hasFacilityID.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasFacilityID.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         hasFacilityID.setRDFType(OWL.FunctionalProperty);
         hasFacilityID.addRange(XSD.positiveInteger);
         ObjectProperty isFacilityIDOf = createPropIfAbsent(sourceURI + Prop_Name.isFacilityIDOf);
         isFacilityIDOf.addInverseOf(hasFacilityID);
         isFacilityIDOf.addComment("is facility ID of", "EN");
-        isFacilityIDOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasFacilityName = createPropIfAbsent(sourceURI + Prop_Name.hasFacilityName);
         hasFacilityName.addComment("has the facility's name", "EN");
-        hasFacilityName.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasFacilityName.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         hasFacilityName.addRange(XSD.xstring);
         hasFacilityName.setRDFType(OWL.FunctionalProperty);
         ObjectProperty isFacilityNameOf = createPropIfAbsent(sourceURI + Prop_Name.isFacilityNameOf);
         isFacilityNameOf.addInverseOf(hasFacilityName);
         isFacilityNameOf.addComment("is facility's name of", "EN");
-        isFacilityNameOf.setRDFType(OWL.InverseFunctionalProperty);
 
-        ObjectProperty hasEmergencyService = createPropIfAbsent(sourceURI + Prop_Name.hasEmergencyService);
+        ObjectProperty hasEmergencyService = createPropIfAbsent(Prop_Name.hasEmergencyService.getURI());
         hasEmergencyService.addComment("A boolean whether a facility has emergency service", "EN");
-        hasEmergencyService.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasEmergencyService.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         hasEmergencyService.addRange(XSD.xboolean);
         hasEmergencyService.setRDFType(OWL.FunctionalProperty);
         ObjectProperty isEmergencyServiceOf = createPropIfAbsent(sourceURI + Prop_Name.isEmergencyServiceOf);
@@ -262,18 +268,17 @@ public class OurModel {
 
         ObjectProperty hasPhoneNumber = createPropIfAbsent(sourceURI + Prop_Name.hasPhoneNumber);
         hasPhoneNumber.addComment("A phone number of a facility", "EN");
-        hasPhoneNumber.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasPhoneNumber.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         hasPhoneNumber.addRange(XSD.xstring);
         hasPhoneNumber.setRDFType(OWL.FunctionalProperty);
         ObjectProperty isPhoneNumberOf = createPropIfAbsent(sourceURI + Prop_Name.isFacilityNameOf);
         isPhoneNumberOf.addInverseOf(hasPhoneNumber);
         isPhoneNumberOf.addComment("is a boolean whether a facility has emergency service", "EN");
-        isPhoneNumberOf.setRDFType(OWL.InverseFunctionalProperty);
 
         ObjectProperty hasHospitalAverageMedicareSpending = createPropIfAbsent(sourceURI + Prop_Name.hasHospitalAverageMedicareSpending);
         hasHospitalAverageMedicareSpending.addComment("has a hospital's average spending per Beneficiary (MSPB) episodes in USD", "EN");
         hasHospitalAverageMedicareSpending.addRange(XSD.xdouble);
-        hasHospitalAverageMedicareSpending.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
+        hasHospitalAverageMedicareSpending.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isHospitalAverageSpendingOf = createPropIfAbsent(sourceURI + Prop_Name.isAverageMedicareSpendingOf);
         isHospitalAverageSpendingOf.addComment("is a hospital's average spending per Beneficiary (MSPB) episodes in USD of", "EN");
         isHospitalAverageSpendingOf.addInverseOf(hasHospitalAverageMedicareSpending);
@@ -281,7 +286,7 @@ public class OurModel {
         ObjectProperty hasScore = createPropIfAbsent(sourceURI + Prop_Name.hasScore);
         hasScore.addComment("has a hospital's score", "EN");
         hasScore.addRange(XSD.integer);
-        hasScore.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
+        hasScore.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isScoreOf = createPropIfAbsent(sourceURI + Prop_Name.isScoreOf);
         isScoreOf.addComment("is a hospital's score", "EN");
         isScoreOf.addInverseOf(hasScore);
@@ -292,7 +297,7 @@ public class OurModel {
         Literal ratingHigh = model.createTypedLiteral(5);
         DataRange ratingRange = model.createDataRange(model.createList(ratingLow, ratingHigh));
         hasRating.addRange(ratingRange);
-        hasRating.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
+        hasRating.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isRatingOf = createPropIfAbsent(sourceURI + Prop_Name.isRatingOf);
         isRatingOf.addComment("is a hospital's rating from 1-5", "EN");
         isRatingOf.addInverseOf(hasRating);
@@ -300,7 +305,7 @@ public class OurModel {
         ObjectProperty hasYear = createPropIfAbsent(sourceURI + Prop_Name.hasYear);
         hasYear.addComment("has a statistic's year", "EN");
         hasYear.addRange(XSD.xstring);
-        hasYear.addDomain(createClassIfAbsent(sourceURI + Class_Name.Statistics));
+        hasYear.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isYearOf = createPropIfAbsent(sourceURI + Prop_Name.isYearOf);
         isYearOf.addComment("is a statistic's year", "EN");
         isYearOf.addInverseOf(hasYear);
@@ -308,7 +313,7 @@ public class OurModel {
         ObjectProperty hasAddress = createPropIfAbsent(sourceURI + Prop_Name.hasAddress);
         hasAddress.addComment("has a hospital location's address", "EN");
         hasAddress.addRange(XSD.xstring);
-        hasAddress.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasAddress.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isAddressOf = createPropIfAbsent(sourceURI + Prop_Name.isAddressOf);
         isAddressOf.addComment("is a hospital location's address", "EN");
         isAddressOf.addInverseOf(hasAddress);
@@ -316,7 +321,7 @@ public class OurModel {
         ObjectProperty hasZipcode = createPropIfAbsent(sourceURI + Prop_Name.hasZipcode);
         hasZipcode.addComment("has a hospital location's Zipcode", "EN");
         hasZipcode.addRange(XSD.xstring);
-        hasZipcode.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasZipcode.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isZipcodeOf = createPropIfAbsent(sourceURI + Prop_Name.isZipcodeOf);
         isZipcodeOf.addComment("is a hospital location's Zipcode", "EN");
         isZipcodeOf.addInverseOf(hasZipcode);
@@ -324,23 +329,23 @@ public class OurModel {
         ObjectProperty hasCity = createPropIfAbsent(sourceURI + Prop_Name.hasCity);
         hasCity.addComment("has a hospital location's city", "EN");
         hasCity.addRange(XSD.xstring);
-        hasCity.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasCity.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isCityOf = createPropIfAbsent(sourceURI + Prop_Name.isCityOf);
         isCityOf.addComment("is a hospital location's city", "EN");
         isCityOf.addInverseOf(hasCity);
 
         ObjectProperty hasCountry = createPropIfAbsent(sourceURI + Prop_Name.hasCountry);
         hasCountry.addComment("has a hospital location's country", "EN");
-        hasCountry.addRange(createClassIfAbsent(sourceURI + Class_Name.Nation));
-        hasCountry.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasCountry.addRange(createClassIfAbsent(Class_Name.Nation.getURI()));
+        hasCountry.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isCountryOf = createPropIfAbsent(sourceURI + Prop_Name.isCountryOf);
         isCountryOf.addComment("is a hospital location's country", "EN");
         isCountryOf.addInverseOf(hasCountry);
 
         ObjectProperty hasState = createPropIfAbsent(sourceURI + Prop_Name.hasState);
         hasState.addComment("has a hospital location's state", "EN");
-        hasState.addRange(createClassIfAbsent(sourceURI + Class_Name.State));
-        hasState.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasState.addRange(createClassIfAbsent(Class_Name.State.getURI()));
+        hasState.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isStateOf = createPropIfAbsent(sourceURI + Prop_Name.isStateOf);
         isStateOf.addComment("is a hospital location's state", "EN");
         isStateOf.addInverseOf(hasState);
@@ -348,7 +353,7 @@ public class OurModel {
         ObjectProperty hasType = createPropIfAbsent(sourceURI + Prop_Name.hasType);
         hasType.addComment("has a hospital's type", "EN");
         hasType.addRange(XSD.xstring);
-        hasType.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasType.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isTypeOf = createPropIfAbsent(sourceURI + Prop_Name.isTypeOf);
         isTypeOf.addComment("is a hospital's type", "EN");
         isTypeOf.addInverseOf(hasType);
@@ -356,7 +361,7 @@ public class OurModel {
         ObjectProperty hasOwnership = createPropIfAbsent(sourceURI + Prop_Name.hasOwnership);
         hasOwnership.addComment("has a hospital's ownership", "EN");
         hasOwnership.addRange(XSD.xstring);
-        hasOwnership.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasOwnership.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isOwnershipOf = createPropIfAbsent(sourceURI + Prop_Name.isOwnershipOf);
         isOwnershipOf.addComment("is a hospital's ownership", "EN");
         isOwnershipOf.addInverseOf(hasOwnership);
@@ -364,7 +369,7 @@ public class OurModel {
         ObjectProperty hasCounty = createPropIfAbsent(sourceURI + Prop_Name.hasCounty);
         hasCounty.addComment("has a hospital's county", "EN");
         hasCounty.addRange(XSD.xstring);
-        hasCounty.addDomain(createClassIfAbsent(sourceURI + Class_Name.Hospital));
+        hasCounty.addDomain(createClassIfAbsent(Class_Name.Hospital.getURI()));
         ObjectProperty isCountyOf = createPropIfAbsent(sourceURI + Prop_Name.isCountyOf);
         isCountyOf.addComment("is a hospital's county of", "EN");
         isCountyOf.addInverseOf(hasCounty);
@@ -406,22 +411,17 @@ public class OurModel {
 
     //== == Utilities methods == ==//
     private OntClass createClassIfAbsent(String URI) {
-        return classCache.merge(URI, model.createClass(URI), (prev, curr) -> prev);
+        classCache.putIfAbsent(URI, model.createClass(URI));
+        return classCache.get(URI);
     }
 
     private ObjectProperty createPropIfAbsent(String URI) {
-        return propCache.merge(URI, model.createObjectProperty(URI), (prev, curr) -> prev);
+        propCache.putIfAbsent(URI, model.createObjectProperty(URI));
+        return propCache.get(URI);
     }
 
     private Individual createIndividualIfAbsent(OntClass instanceClass, String URI) {
-        return individualCache.merge(URI, instanceClass.createIndividual(URI), (prev, curr) -> prev);
-    }
-
-    private void clearCache() {
-        hospitals = null;
-        states= null;
-        classCache= null;
-        propCache= null;
-        individualCache= null;
+        individualCache.putIfAbsent(URI, instanceClass.createIndividual(URI));
+        return individualCache.get(URI);
     }
 }
