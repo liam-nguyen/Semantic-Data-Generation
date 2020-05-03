@@ -11,7 +11,7 @@ Spring 2020
 ### Running the Webserver (Apache Fuseki 3.14)
 
 ```bash
-./fuseki-server
+./apache-jena-fuseki-3.14.0/fuseki-server
 ```
 
 This will run a small webserver at localhost:3030/
