@@ -20,9 +20,9 @@ public class Hospital {
             county = "",
             city = "",
             phoneNumber = "";
-    @Getter private int rating;
-    @Getter private double score;
-    @Getter private double medicareAmount;
+    @Getter private int rating = -1;
+    @Getter private double score = -1;
+    @Getter private double medicareAmount = -1;
     private State state;
 
     //== Constructor ==//

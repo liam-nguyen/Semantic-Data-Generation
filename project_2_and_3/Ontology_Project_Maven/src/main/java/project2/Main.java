@@ -12,49 +12,25 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    public static void main(String[] args) throws UnsupportedEncodingException {
-//        ExecutorService pool = Executors.newCachedThreadPool();
+    public static void main(String[] args) {
+        ExecutorService pool = Executors.newCachedThreadPool();
 
-        // Filtered hospital
-//        pool.execute(() -> {
-//            System.out.println("Build a filtered hospital list by name, score and medicare ");
-//            try {
-//                new OurModel()
-//                        .build(List.of(
-//                                Hospital.isWithName(),
-//                                Hospital.isWithScore(),
-//                                Hospital.isWithMedicareSpending()))
-//                        .writeModelToFile("Filtered_Hospital.owl");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-
-        Map<String, Hospital> hospitals = CSVData.getHospitals();
-        System.out.println("Count of hospital with medicare spending == 0: " + hospitals
-                .values()
-                .stream()
-                .filter(hospital -> hospital.getMedicareAmount() == 0)
-                .count());
-        System.out.println("Count of hospital with medicare spending == -1: " + hospitals
-                .values()
-                .stream()
-                .filter(hospital -> hospital.getMedicareAmount() == -1)
-                .count());
-        System.out.println("Count of hospital with score == 0: " + hospitals
-                .values()
-                .stream()
-                .filter(hospital -> hospital.getScore() == -1)
-                .count());
-        System.out.println("Count of hospital with score == -1: " + hospitals
-                .values()
-                .stream()
-                .filter(hospital -> hospital.getScore() == -1)
-                .count());
-
+        pool.execute(() -> {
+            System.out.println("Build a filtered hospital list by name, score and medicare ");
+            try {
+                OurModel model = new OurModel();
+                model.build(List.of(
+                                Hospital.isWithName(),
+                                Hospital.isWithScore(),
+                                Hospital.isWithMedicareSpending()));
+                model.writeModelToFile("Filtered_Hospital.owl");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Clean up
-//        System.out.println("Jobs completed");
-//        pool.shutdown();
+        System.out.println("Jobs completed");
+        pool.shutdown();
     }
 }
