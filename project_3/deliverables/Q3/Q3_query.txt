@@ -1,0 +1,37 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ SELECT ?percentage_nation
+ WHERE {
+     {
+     	SELECT (COUNT(?_id) AS ?req_hopitals)
+         WHERE {
+         ?subject ds:hasFacilityID ?_id .
+         ?subject ds:hasHospitalAverageMedicareSpending ?hospital_spending .
+         ?subject ds:hasCountry ?country .
+         ?country ds:hasNationalAverageSpending ?nation_spending .
+         ?subject ds:hasScore ?score .
+       	{
+         SELECT (ROUND(AVG(?score)) AS ?avg)
+             WHERE { ?hospital ds:hasScore ?score. }
+       	}
+         FILTER(?hospital_spending > ?nation_spending && ?score > ?avg) .
+   	  }
+     }
+
+     {
+       SELECT (COUNT(?id) as ?total_hospital)
+       WHERE {
+         ?subject ds:hasFacilityID ?id .
+         ?subject ds:hasHospitalAverageMedicareSpending ?hospital_spending .
+         ?subject ds:hasCountry ?country .
+         ?country ds:hasNationalAverageSpending ?nation_spending .
+         FILTER(?hospital_spending > ?nation_spending)
+       }
+   	}
+
+   BIND(?req_hopitals/?total_hospital*100 AS ?percentage_nation)
+ }

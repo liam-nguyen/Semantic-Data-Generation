@@ -1,0 +1,17 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?subject ?facility_name ?facility_address ?emergency_service ?service_type ?ownership
+WHERE {
+   ?subject ds:hasFacilityName ?facility_name .
+   ?subject ds:hasAddress ?facility_address .
+   ?subject ds:hasEmergencyService "true" .
+   ?subject ds:hasEmergencyService ?emergency_service .
+   ?subject ds:hasType "Psychiatric" .
+   ?subject ds:hasType ?service_type .
+   ?subject ds:hasOwnership "Proprietary" .
+   ?subject ds:hasOwnership ?ownership .
+ }
