@@ -1,0 +1,21 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stateName ?averageMedicareSpending ?NationAverageMedicareSpending
+WHERE
+{
+    ?state ds:hasStateName ?stateName.
+    ?state ds:hasStateAverageMedicareSpending ?averageMedicareSpending.
+{
+    SELECT (AVG(?medicareSpending) AS ?NationAverageMedicareSpending)
+    WHERE
+    {
+        ?state ds:hasStateAverageMedicareSpending ?medicareSpending.
+        FILTER(?medicareSpending!=0)
+    }
+}
+    FILTER(?averageMedicareSpending > ?NationAverageMedicareSpending)
+}

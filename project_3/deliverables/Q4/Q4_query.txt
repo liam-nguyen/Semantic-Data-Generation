@@ -1,0 +1,29 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
+
+SELECT ?name ?score ?spending ?stateAvgScore ?stateSpending (?spending / ?score as ?ratio)
+WHERE {
+  ?hospital ds:hasState ?state.
+  ?state ds:hasStateName ?stateName.
+  ?hospital ds:hasFacilityName ?name.
+  ?hospital ds:hasHospitalAverageMedicareSpending ?spending.
+  ?hospital ds:hasScore ?score.
+  ?state ds:hasStateAverageMedicareSpending ?stateSpending.
+	# This is to find out the state average score
+      {
+        SELECT (AVG(?innerScore) AS ?stateAvgScore)
+        WHERE {
+            ?hospital ds:hasState ?state.
+          	?state ds:hasStateName ?stateName.
+            ?hospital ds:hasScore ?innerScore.
+            FILTER(?innerScore != 0 && ?innerScore != -1) # ignore score == 0 or score == -1
+         }
+  	  }
+      # Filter out: hospital with spending == -1 or 0, then run comparison
+      FILTER(?spending != 0 && ?spending != -1)
+}
+ORDER BY DESC(?ratio)
+LIMIT 1
