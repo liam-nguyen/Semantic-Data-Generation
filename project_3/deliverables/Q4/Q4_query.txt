@@ -4,7 +4,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX ds: <https://data.medicare.gov/d/nrth-mfg3#>
 
-SELECT ?name ?score ?spending ?stateAvgScore ?stateSpending (?spending / ?score as ?ratio)
+SELECT ?name ?score ?spending ?stateSpending (?spending / ?score as ?ratio)
 WHERE {
   ?hospital ds:hasState ?state.
   ?state ds:hasStateName ?stateName.
@@ -14,4 +14,4 @@ WHERE {
   ?state ds:hasStateAverageMedicareSpending ?stateSpending.
 }
 ORDER BY DESC(?ratio)
-LIMIT 10
+LIMIT 1
